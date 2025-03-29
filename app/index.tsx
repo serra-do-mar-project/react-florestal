@@ -1,17 +1,15 @@
 import { Text, View } from "react-native";
+import MainLayout from "./layout/mainLayout";
+
 
 
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text >olá mundo</Text>
-    </View>
+    <MainLayout>
+       <Text className="text-blue-400 text-xl">olá mundo</Text>
+    </MainLayout>
+      
+
   );
 }
