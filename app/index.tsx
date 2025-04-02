@@ -1,15 +1,12 @@
-import { Text, View } from "react-native";
-import MainLayout from "./layout/mainLayout";
-
-
+import { Text, View, Image} from "react-native";
+import image from "../constants/images";
 
 
 export default function Index() {
   return (
-    <MainLayout>
-       <Text className="text-blue-400 text-xl">olá mundo</Text>
-    </MainLayout>
-      
-
+    
+      <View className="flex-1">
+        <Text>Boa</Text>
+      </View>
   );
 }
