@@ -1,5 +1,5 @@
 // Arquivo para importar as imagens de assets que serão usadas e exportar, para facilitar o uso em outros arquivos
 
-import logoParqueOnca from "../assets/images/logoParqueOnca.png";
+import logoOnca from "../assets/images/logo-onca.svg";
 
-export default { logoOnca : logoParqueOnca };
+export default { logoOnca };
