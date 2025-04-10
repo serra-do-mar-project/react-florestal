@@ -27,6 +27,13 @@ module.exports = {
           900: "#666666",
         },
       },
+      screens: {
+        xs: "320px",   // celulares pequenos
+        sm: "360px",   // celulares regulares
+        md: "414px",   // celulares grandes (iPhone Plus)
+        lg: "768px",   // tablets
+        xl: "1024px",  // tablets grandes
+      },
     },
   },
   plugins: [],
