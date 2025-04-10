@@ -7,21 +7,21 @@ import { FullWindowOverlay } from "react-native-screens";
 import { Logininput } from "../components/Logininput";
 import { SubmitButton } from "../components/Button";
 import { useState } from "react";
-import { Checkbox } from "../components/CheckBox";
+import { Checkbox } from "../components/Checkbox";
 
 export default function Index() {
 
   const [isChecked, setIsChecked] = useState(false);
   return (
-      <View className="w-screen h-screen flex-1 bg-white">
+      <View className="w-screen h-screen flex bg-white">
 
-          <View className="flex items-center w-full h-20 mt-20">
+          <View className="flex items-center w-full h-20 sm:mt-20 xs:mt-10">
                   <Title>
-                    Seja Bem-Vindo(a) ao 
+                    Seja Bem-Vindo(a)
                   </Title>
 
                   <Title>
-                      EcoGuarda!
+                  ao EcoGuarda!
                   </Title>
 
           </View>
@@ -31,7 +31,7 @@ export default function Index() {
                  />
           </View>
 
-          <View className="flex items-center mx-4 mt-12">
+          <View className="flex lg:px-96 items-center mx-4 mt-12">
 
               <Logininput textHolder="CPF">
 
@@ -48,7 +48,7 @@ export default function Index() {
                 onPress={() => setIsChecked(!isChecked)} check={isChecked}/>
 
                 <Text 
-                 className="ml-2 text-black text-base font-semibold"
+                 className="w-full ml-1.5 text-black text-base font-semibold"
                  onPress={() => setIsChecked(!isChecked)}>
                   Lembrar de mim
                   </Text>
@@ -61,7 +61,7 @@ export default function Index() {
                 <SubmitButton title="Entrar"/>
           </View>
 
-          <View className="absolute bottom-2 flex flex-row-reverse items-end pr-1 w-full">
+          <View className="flex flex-1 justify-end items-end flex-row mt-8">
             <Image
               source={images.brasao}
               style={{ width: 55, height: 55 }}
@@ -69,13 +69,11 @@ export default function Index() {
             />
             <Image
               source={images.logoArvore}
-              style={{ width: 55, height: 55 }}
+              style={{ width: 55, height: 55, marginRight: 4 }} // Espaçamento entre as imagens
               resizeMode="contain"
             />
-            
           </View>
-
-
+         
       </View>
        
       
