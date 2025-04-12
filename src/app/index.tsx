@@ -1,17 +1,19 @@
 'use client'
 
-import { View, Text, Image} from "react-native";
+import { View, Text, Image, } from "react-native";
 import images from '../constants/images'
 import Title from "../components/Title";
 import { FullWindowOverlay } from "react-native-screens";
 import { Logininput } from "../components/Logininput";
 import { SubmitButton } from "../components/Button";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Checkbox } from "../components/Checkbox";
+import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
+
 
 export default function Index() {
 
-  const [isChecked, setIsChecked] = useState(false);
+  const [checked, setChecked] = useState(false);
   return (
       <View className="w-screen h-screen flex bg-white">
 
@@ -43,16 +45,12 @@ export default function Index() {
                 <images.lock width="24px" height="24px"/>
               </Logininput>
               
-              <View className="flex flex-row items-center w-full pl-10">
-                <Checkbox
-                onPress={() => setIsChecked(!isChecked)} check={isChecked}/>
-
-                <Text 
-                 className="w-full ml-1.5 text-black text-base font-semibold"
-                 onPress={() => setIsChecked(!isChecked)}>
-                  Lembrar de mim
-                  </Text>
-
+              <View className="items-center w-full pl-11">
+                <CheckboxWithLabel
+                  checked={checked}
+                  onCheckedChange={setChecked}
+                  label="Lembrar de mim" 
+                />
               </View>
 
           </View>

@@ -1,11 +1,21 @@
+const { hairlineWidth } = require('nativewind/theme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
+    './src/**/*.{js,jsx,ts,tsx}',
+    './components/**/*.{ts,tsx}',
   ],
-  presets: [require("nativewind/preset")],
+  presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      screens: {
+        xs: "320px",   // celulares pequenos
+        sm: "360px",   // celulares regulares
+        md: "414px",   // celulares grandes (iPhone Plus)
+        lg: "768px",   // tablets
+        xl: "1024px",  // tablets grandes
+      },
       colors: {
         gray: {
           100: "#F7FAF6",
@@ -15,26 +25,58 @@ module.exports = {
           400: "#6CC36F",
           600: "#1B5E20",
         },
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
         secondary: {
-          100: "#f8f8f8",
-          200: "#f1f1f1",
-          300: "#ebebeb",
-          400: "#dcdcdc",
-          500: "#cccccc",
-          600: "#b2b2b2",
-          700: "#999999",
-          800: "#7f7f7f",
-          900: "#666666",
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
         },
       },
-      screens: {
-        xs: "320px",   // celulares pequenos
-        sm: "360px",   // celulares regulares
-        md: "414px",   // celulares grandes (iPhone Plus)
-        lg: "768px",   // tablets
-        xl: "1024px",  // tablets grandes
+      borderWidth: {
+        hairline: hairlineWidth(),
+      },
+      keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },
-  plugins: [],
-}
+  plugins: [require('tailwindcss-animate')],
+};
