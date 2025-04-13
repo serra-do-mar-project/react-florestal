@@ -5,6 +5,9 @@ import lock from "../assets/images/lock.svg";
 import user from "../assets/images/user.svg";
 import logoArvore from "../assets/images/logo-arvore.png"
 import brasao from "../assets/images/brasao.png"
+import search from "@/src/assets/images/search.svg"
+import note from "@/src/assets/images/note.svg"
+import settings from "@/src/assets/images/settings.svg"
 
 const images = {
   logoOnca,
@@ -12,6 +15,9 @@ const images = {
   user,
   logoArvore,
   brasao,
+  search,
+  note,
+  settings,
 };
 
 export default images;

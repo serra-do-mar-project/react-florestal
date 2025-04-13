@@ -18,10 +18,12 @@ module.exports = {
       },
       colors: {
         gray: {
-          100: "#F7FAF6",
-          200: "#F6F5F5",
+          100: "#F7FAF6", // background de input
+          200 : "#F6F5F5", // background
+          300: "#D9D9D9", // hover de Tab
         },
         green: {
+          100: "#B4C8A8", // borda
           400: "#6CC36F",
           600: "#1B5E20",
         },

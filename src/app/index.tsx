@@ -5,15 +5,17 @@ import images from '../constants/images'
 import Title from "../components/Title";
 import { FullWindowOverlay } from "react-native-screens";
 import { Logininput } from "../components/Logininput";
-import { SubmitButton } from "../components/Button";
+import { SubmitButton } from "../components/LoginButton";
 import React, { useState } from "react";
-import { Checkbox } from "../components/Checkbox";
 import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
+import { useRouter } from "expo-router";
 
 
 export default function Index() {
 
   const [checked, setChecked] = useState(false);
+  const router = useRouter();
+
   return (
       <View className="w-screen h-screen flex bg-white">
 
@@ -56,7 +58,9 @@ export default function Index() {
           </View>
 
           <View className="flex items-center w-full mt-12">
-                <SubmitButton title="Entrar"/>
+                <SubmitButton title="Entrar" 
+                  onPress={() => router.push("/auth/searchPage")}
+                  />
           </View>
 
           <View className="flex flex-1 justify-end items-end flex-row mt-8">
