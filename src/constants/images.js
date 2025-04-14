@@ -9,6 +9,10 @@ import search from "@/src/assets/images/search.svg"
 import note from "@/src/assets/images/note.svg"
 import settings from "@/src/assets/images/settings.svg"
 import fauna from "@/src/assets/images/fauna-img.png"
+import flora from "@/src/assets/images/flora-img.png"
+import construcao from "@/src/assets/images/construcao-img.png"
+import usoPublico from "@/src/assets/images/uso-publico-img.png"
+import mineracao from "@/src/assets/images/mineracao-img.png"
 
 const images = {
   logoOnca,
@@ -20,6 +24,10 @@ const images = {
   note,
   settings,
   fauna,
+  flora,
+  construcao,
+  mineracao,
+  usoPublico
 };
 
 export default images;

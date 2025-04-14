@@ -1,79 +1,65 @@
-import React from "react";
-
-
-
-import { View, Text, Image } from "react-native";
+import { View, ScrollView } from "react-native";
 import images from "@/src/constants/images";
 import Title from "@/src/components/Title";
 import SearchBar from "@/src/components/SearchBar";
+import { Card } from "@/src/components/Card";
+import { useRouter } from "expo-router";
 
 export default function SearchPage() {
+  const router = useRouter(); // Hook para redirecionamento
+
   return (
-    <View className="w-full h-full">
+    <View className="flex items-center w-full h-full">
       <View className="w-full h-fit mt-11 pt-8 pl-10">
         <Title>Buscar Infração</Title>
       </View>
 
       <SearchBar />
 
-      {/* Contêiner dos cards */}
-      <View className="flex-row flex-wrap justify-center gap-4 w-full px-5 mt-5">
-        {/* Card 1 */}
-        <View className="h-44 w-[45%] rounded-lg overflow-hidden bg-white border border-green-100 shadow-md">
-          <View className="h-32">
-            <Image
-              source={images.fauna}
-              style={{ width: "100%", height: "100%" }}
-              resizeMode="cover"
+      <ScrollView
+        className="w-full"
+        contentContainerStyle={{ alignItems: "center", justifyContent: "center" }} // Centraliza o conteúdo
+        showsVerticalScrollIndicator={false} // Oculta a barra de rolagem vertical
+      >
+        <View className="w-fit mx-4 my-2">
+          <View className="flex-1 flex-row flex-wrap gap-4 w-full px-5 mt-7 justify-start">
+           
+            <Card
+              text="Fauna"
+              src={images.fauna}
+              onPress={() => router.push("/auth/searchPage")}
             />
-          </View>
-          <View className="flex items-center pb-2.5">
-            <Text className="text-xl font-medium">Fauna</Text>
-          </View>
-        </View>
 
-        {/* Card 2 */}
-        <View className="h-44 w-[45%] rounded-lg overflow-hidden bg-white border border-green-100 shadow-md">
-          <View className="h-32">
-            <Image
-              source={images.fauna}
-              style={{ width: "100%", height: "100%" }}
-              resizeMode="cover"
+           
+            <Card
+              text="Flora"
+              src={images.flora}
+              onPress={() => router.push("/auth/searchPage")}
             />
-          </View>
-          <View className="flex items-center pb-2.5">
-            <Text className="text-xl font-medium">Fauna</Text>
-          </View>
-        </View>
 
-        {/* Card 3 */}
-        <View className="h-44 w-[45%] rounded-lg overflow-hidden bg-white border border-green-100 shadow-md">
-          <View className="h-32">
-            <Image
-              source={images.fauna}
-              style={{ width: "100%", height: "100%" }}
-              resizeMode="cover"
+          
+            <Card
+              text="Construção"
+              src={images.construcao}
+              onPress={() => router.push("/auth/searchPage")}
             />
-          </View>
-          <View className="flex items-center pb-2.5">
-            <Text className="text-xl font-medium">Fauna</Text>
-          </View>
-        </View>
 
-        {/* Card 4 */}
-        <View className="h-44 w-[45%] rounded-lg overflow-hidden bg-white border border-green-100 shadow-md">
-          <View className="h-32">
-            <Image
-              source={images.fauna}
-              style={{ width: "100%", height: "100%" }}
-              resizeMode="cover"
+           
+            <Card
+              text="Uso Público"
+              src={images.usoPublico}
+              onPress={() => router.push("/auth/searchPage")}
+            />
+
+            
+            <Card
+              text="Mineração"
+              src={images.mineracao}
+              onPress={() => router.push("/auth/searchPage")}
             />
           </View>
-          <View className="flex items-center pb-2.5">
-            <Text className="text-xl font-medium">Fauna</Text>
-          </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
