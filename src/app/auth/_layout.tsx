@@ -4,12 +4,12 @@ import Tab from "@/src/components/Tab";
 
 export default function AuthLayout() {
   return (
-    <View className="w-screen h-screen bg-gray-200">
+    <View className="w-screen h-screen ">
         <Stack
           screenOptions={{
             headerShown: false, // Oculta o cabeçalho padrão
             contentStyle: {
-              backgroundColor: "white", // Garante que o fundo do Stack seja branco
+              backgroundColor: "#F6F5F5",
             },
           }}
         />

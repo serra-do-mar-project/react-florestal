@@ -8,6 +8,7 @@ import brasao from "../assets/images/brasao.png"
 import search from "@/src/assets/images/search.svg"
 import note from "@/src/assets/images/note.svg"
 import settings from "@/src/assets/images/settings.svg"
+import fauna from "@/src/assets/images/fauna-img.png"
 
 const images = {
   logoOnca,
@@ -18,6 +19,7 @@ const images = {
   search,
   note,
   settings,
+  fauna,
 };
 
 export default images;

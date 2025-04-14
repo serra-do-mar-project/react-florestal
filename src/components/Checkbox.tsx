@@ -19,9 +19,9 @@ const Checkbox = forwardRef<
       {...props}
     >
       <CheckboxPrimitive.Indicator
-        className={cn("items-center justify-center h-full w-full")}
+        className={cn("items-center justify-center h-full w-full bg-[#420AB9]")}
       >
-        <MaterialIcons name="check" size={14} color={"black"}/>
+        <MaterialIcons name="check" size={14} color={"white"}/>
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   );
