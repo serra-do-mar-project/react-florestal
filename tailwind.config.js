@@ -11,7 +11,7 @@ module.exports = {
     extend: {
       screens: {
         xs: "320px",   // celulares pequenos
-        sm: "360px",   // celulares regulares
+        sm: "400px",   // celulares regulares
         md: "414px",   // celulares grandes (iPhone Plus)
         lg: "768px",   // tablets
         xl: "1024px",  // tablets grandes

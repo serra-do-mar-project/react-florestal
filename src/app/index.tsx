@@ -17,7 +17,7 @@ export default function Index() {
   const router = useRouter();
 
   return (
-      <View className="w-screen h-screen flex bg-white">
+      <View className="w-full h-full flex bg-white">
 
           <View className="flex items-center w-full h-20 sm:mt-20 xs:mt-10">
                   <Title>
@@ -30,12 +30,12 @@ export default function Index() {
 
           </View>
 
-          <View className="flex w-full h-fit mt-10 justify-center items-center"> 
+          <View className="flex w-full h-fit sm:mt-12 xs:mt-8 justify-center items-center"> 
                 <images.logoOnca width={FullWindowOverlay} height={220}
                  />
           </View>
 
-          <View className="flex lg:px-96 items-center mx-4 mt-12">
+          <View className="flex lg:px-96 items-center mx-4 sm:mt-16 mt-12">
 
               <Logininput textHolder="CPF">
 
