@@ -9,7 +9,7 @@ interface NavButtonProps {
 const NavButton: React.FC<NavButtonProps> = ({ title, onPress }) => {
   return (
     <TouchableOpacity
-      className="bg-green-200 py-3 px-4 rounded-xl w-full"
+      className="bg-green-400 py-3 px-4 rounded-xl w-full"
       onPress={onPress}
     >
       <Text className="text-center text-black font-medium">{title}</Text>

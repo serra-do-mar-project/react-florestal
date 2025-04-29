@@ -10,10 +10,11 @@ export default function FaunaGuide() {
 
   return (
     <View className="flex-1 bg-white items-center w-full">
-      <Image source={images.fauna} className="w-full h-40" resizeMode="cover" />
+      <Image source={images.fauna} className="w-full h-1/5" resizeMode="stretch"/>
 
-      <View className="flex-1 items-center w-full px-6 pt-5">
-        <Title>Guia - Fauna</Title>
+      <View className="flex-1 w-full px-6 pt-5">
+        <Title>Fauna</Title>
+        
         <SearchBar />
       </View>
 
