@@ -27,7 +27,7 @@ export default function SearchPage() {
             <Card
               text="Fauna"
               src={images.fauna}
-              onPress={() => router.push("/auth/searchPage")}
+              onPress={() => router.push("/auth/fauna")}
             />
 
            
