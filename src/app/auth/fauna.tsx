@@ -3,7 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Image, ScrollView } from "react-native";
 import Title from "@/src/components/Title";
 import SearchBar from "@/src/components/SearchBar";
-import NavButton from "@/src/components/NavButton";
+import Dropdown from "@/src/components/Dropdown";
 import { useRouter } from "expo-router";
 import images from "@/src/constants/images";
 
@@ -32,23 +32,23 @@ export default function AuthLayout() {
     ]
 
     return (
-      <View className="flex-1 bg-white items-center w-full">
+      <View className="flex-1 bg-F6F5F5 items-center w-full">
         <Image source={images.fauna} className="w-full h-60" resizeMode="cover" />
-        <View className="pt-6">
+        <View className="pt-2">
           <Title>Guia - Fauna</Title>
         </View>
-        <SearchBar />
 
         <ScrollView
-          className="w-full mt-4"
+          className="w-full mt-1"
           contentContainerStyle={{ alignItems: "center", paddingBottom: 20 }}
           showsVerticalScrollIndicator={true}
         >
           <View className="w-full px-8 gap-3">
             {data.map((item, index) => (
-              <NavButton
+              <Dropdown
                 key={index}
                 title={item.title}
+                tag="hi,hello"
                 onPress={() => router.push("/auth/fauna")}
               />
             ))}
