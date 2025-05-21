@@ -13,6 +13,15 @@ import flora from "@/src/assets/images/flora-img.png"
 import construcao from "@/src/assets/images/construcao-img.png"
 import usoPublico from "@/src/assets/images/uso-publico-img.png"
 import mineracao from "@/src/assets/images/mineracao-img.png"
+import splashbg from "@/src/assets/images/splashbg.png"
+import logoparque from "@/src/assets/images/logo-parque.svg"
+import fundacaoFlorestalBranca from "@/src/assets/images/fundacaoflorestal-branca.svg"
+import ifsplogo from "@/src/assets/images/ifsplogo.svg"
+import splogoBranca from "@/src/assets/images/logoSP-branca.svg"
+
+
+
+
 
 const images = {
   logoOnca,
@@ -27,7 +36,12 @@ const images = {
   flora,
   construcao,
   mineracao,
-  usoPublico
+  usoPublico,
+  splashbg,
+  logoparque,
+  fundacaoFlorestalBranca,
+  ifsplogo,
+  splogoBranca
 };
 
 export default images;
