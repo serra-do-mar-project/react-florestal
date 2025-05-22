@@ -15,6 +15,10 @@ import usoPublico from "@/src/assets/images/uso-publico-img.png"
 import mineracao from "@/src/assets/images/mineracao-img.png"
 import bird from "@/src/assets/images/bird.svg"
 import leftArrow from "@/src/assets/images/left-arrow.svg"
+import ifspLogo from "@/src/assets/images/ifsp-logo.png"
+import ffLogo from "@/src/assets/images/ff-logo.png"
+import semilLogo from "@/src/assets/images/semil-logo.png"
+import logoParque from "@/src/assets/images/logo-parque.svg"
 
 const images = {
   logoOnca,
@@ -31,7 +35,11 @@ const images = {
   mineracao,
   usoPublico,
   bird,
-  leftArrow
+  leftArrow,
+  ifspLogo,
+  ffLogo,
+  semilLogo,
+  logoParque
 };
 
 export default images;

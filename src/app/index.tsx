@@ -25,13 +25,13 @@ export default function Index() {
                   </Title>
 
                   <Title>
-                  ao EcoGuarda!
+                  ao MPOA!
                   </Title>
 
           </View>
 
           <View className="flex w-full h-fit mt-10 justify-center items-center"> 
-                <images.logoOnca width={FullWindowOverlay} height={220}
+                <images.logoParque width={FullWindowOverlay} height={180}
                  />
           </View>
 
@@ -47,7 +47,7 @@ export default function Index() {
                 <images.lock width="24px" height="24px"/>
               </Logininput>
               
-              <View className="items-center w-full pl-11">
+              <View className="w-full pl-11">
                 <CheckboxWithLabel
                   checked={checked}
                   onCheckedChange={setChecked}
@@ -58,20 +58,25 @@ export default function Index() {
           </View>
 
           <View className="flex items-center w-full mt-12">
-                <SubmitButton title="Entrar" 
+                <SubmitButton title="Login" 
                   onPress={() => router.push("/auth/searchPage")}
                   />
           </View>
 
-          <View className="flex flex-1 justify-end items-end flex-row mt-8">
+          <View className="flex flex-1 justify-around items-end flex-row mt-8">
             <Image
-              source={images.brasao}
-              style={{ width: 55, height: 55 }}
+              source={images.ifspLogo}
+              style={{ width: 95, height: 95 }}
               resizeMode="contain"
             />
             <Image
-              source={images.logoArvore}
-              style={{ width: 55, height: 55, marginRight: 4 }} // Espaçamento entre as imagens
+              source={images.ffLogo}
+              style={{ width: 120, height: 120, marginLeft: 15 }} // Espaçamento entre as imagens
+              resizeMode="contain"
+            />
+            <Image
+              source={images.semilLogo}
+              style={{ width: 110, height: 110}} // Espaçamento entre as imagens
               resizeMode="contain"
             />
           </View>
