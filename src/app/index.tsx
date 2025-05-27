@@ -1,6 +1,6 @@
 'use client'
 
-import { View, Text, Image, } from "react-native";
+import { View, Text, Image, TouchableOpacity, } from "react-native";
 import images from '../constants/images'
 import Title from "../components/Title";
 import { FullWindowOverlay } from "react-native-screens";
@@ -15,9 +15,12 @@ export default function Index() {
 
   const [checked, setChecked] = useState(false);
   const router = useRouter();
+  const [CPF, setCPF] = useState("");
+  const [password, setPassword] = useState("");
+  const [visible, setVisible] = useState(true);
 
   return (
-      <View className="w-screen h-screen flex bg-white">
+      <View className="w-full h-full flex bg-white">
 
           <View className="flex items-center w-full h-20 sm:mt-20 xs:mt-10">
                   <Title>
@@ -37,14 +40,18 @@ export default function Index() {
 
           <View className="flex lg:px-96 items-center mx-4 mt-12">
 
-              <Logininput textHolder="CPF">
+              <Logininput textHolder="CPF" value={CPF} onChangeText={setCPF}>
 
               <images.user width="24px" height="24px"/>
 
               </Logininput>
 
-              <Logininput textHolder="Senha">
+              <Logininput visible={visible} textHolder="Senha" value={password} onChangeText={setPassword}>
+                <TouchableOpacity
+                  onPress={() => setVisible(!visible)}
+                >
                 <images.lock width="24px" height="24px"/>
+                </TouchableOpacity>
               </Logininput>
               
               <View className="w-full pl-11">

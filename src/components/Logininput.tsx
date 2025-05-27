@@ -1,15 +1,22 @@
+import React = require("react");
 import { View, TextInput } from "react-native";
 
 interface props {
   children?: React.ReactNode,
   textHolder?: string;
+  visible?: boolean;
+  value: string;
+  onChangeText: (text: string) => void;
 }
 
-export function Logininput({children, textHolder}: props){
+export function Logininput({children, textHolder, visible, value, onChangeText}: props){
   return (
   
     <View className="flex items-center justify-between flex-row w-full h-16 mx-5 mb-5 px-5 bg-gray-100 border border-green-600 rounded-full shadow-lg">
     <TextInput 
+      value={value}
+      onChangeText={onChangeText}
+      secureTextEntry={visible}
       className=" flex-1 w-full text-black placeholder: text-xl font-semibold"
       placeholder = {textHolder}
     />
