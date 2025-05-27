@@ -13,6 +13,9 @@ import flora from "@/src/assets/images/flora-img.png"
 import construcao from "@/src/assets/images/construcao-img.png"
 import usoPublico from "@/src/assets/images/uso-publico-img.png"
 import mineracao from "@/src/assets/images/mineracao-img.png"
+import arrow from "@/src/assets/images/arrow.png"
+import pin from "@/src/assets/images/pin.png"
+
 
 const images = {
   logoOnca,
@@ -27,7 +30,9 @@ const images = {
   flora,
   construcao,
   mineracao,
-  usoPublico
+  usoPublico,
+  arrow,
+  pin,
 };
 
 export default images;
