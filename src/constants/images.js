@@ -13,6 +13,12 @@ import flora from "@/src/assets/images/flora-img.png"
 import construcao from "@/src/assets/images/construcao-img.png"
 import usoPublico from "@/src/assets/images/uso-publico-img.png"
 import mineracao from "@/src/assets/images/mineracao-img.png"
+import bird from "@/src/assets/images/bird.svg"
+import leftArrow from "@/src/assets/images/left-arrow.svg"
+import ifspLogo from "@/src/assets/images/ifsp-logo.png"
+import ffLogo from "@/src/assets/images/ff-logo.png"
+import semilLogo from "@/src/assets/images/semil-logo.png"
+import logoParque from "@/src/assets/images/logo-parque.svg"
 import arrow from "@/src/assets/images/arrow.png"
 import pin from "@/src/assets/images/pin.png"
 
@@ -31,6 +37,12 @@ const images = {
   construcao,
   mineracao,
   usoPublico,
+  bird,
+  leftArrow,
+  ifspLogo,
+  ffLogo,
+  semilLogo,
+  logoParque
   arrow,
   pin,
 };

@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { View, Image, Text } from "react-native";
 import Tab from "@/src/components/Tab";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 

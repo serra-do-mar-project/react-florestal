@@ -11,7 +11,7 @@ module.exports = {
     extend: {
       screens: {
         xs: "320px",   // celulares pequenos
-        sm: "400px",   // celulares regulares
+        sm: "360px",   // celulares regulares
         md: "414px",   // celulares grandes (iPhone Plus)
         lg: "768px",   // tablets
         xl: "1024px",  // tablets grandes
@@ -26,6 +26,7 @@ module.exports = {
           100: "#B4C8A8", // borda
           400: "#6CC36F",
           600: "#1B5E20",
+          800: "#496A37"
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
