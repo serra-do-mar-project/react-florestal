@@ -1,4 +1,3 @@
-import React = require("react");
 import { View, TextInput } from "react-native";
 
 interface props {

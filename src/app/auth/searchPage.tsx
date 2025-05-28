@@ -10,24 +10,24 @@ export default function SearchPage() {
 
   return (
     <View className="flex items-center w-full h-full">
-      <View className="w-full h-fit mt-11 pt-8 pl-10">
+      <View className="w-full h-fit mt-11 pt-3 pl-10">
         <Title>Buscar Infração</Title>
       </View>
 
       <SearchBar />
 
       <ScrollView
-        className="w-full"
+        className="w-full  mx-4 my-5"
         contentContainerStyle={{ alignItems: "center", justifyContent: "center" }} // Centraliza o conteúdo
         showsVerticalScrollIndicator={false} // Oculta a barra de rolagem vertical
       >
-        <View className="w-fit mx-4 my-2">
+        <View className="w-fit">
           <View className="flex-1 flex-row flex-wrap gap-4 w-full px-5 mt-7 justify-start">
            
             <Card
               text="Fauna"
               src={images.fauna}
-              onPress={() => router.push("/auth/faunaGuide")}
+              onPress={() => router.push("/auth/fauna")}
             />
 
            

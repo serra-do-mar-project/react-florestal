@@ -19,6 +19,9 @@ import ifspLogo from "@/src/assets/images/ifsp-logo.png"
 import ffLogo from "@/src/assets/images/ff-logo.png"
 import semilLogo from "@/src/assets/images/semil-logo.png"
 import logoParque from "@/src/assets/images/logo-parque.svg"
+import arrow from "@/src/assets/images/arrow.png"
+import pin from "@/src/assets/images/pin.png"
+
 
 const images = {
   logoOnca,
@@ -40,6 +43,8 @@ const images = {
   ffLogo,
   semilLogo,
   logoParque
+  arrow,
+  pin,
 };
 
 export default images;

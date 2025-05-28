@@ -1,6 +1,7 @@
 'use client'
 
 import { View, Text, Image, TouchableOpacity, } from "react-native";
+
 import images from '../constants/images'
 import Title from "../components/Title";
 import { FullWindowOverlay } from "react-native-screens";
@@ -89,8 +90,5 @@ export default function Index() {
           </View>
          
       </View>
-       
-      
-
   );
 }
