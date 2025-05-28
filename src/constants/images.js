@@ -18,9 +18,14 @@ import logoparque from "@/src/assets/images/logo-parque.svg"
 import fundacaoFlorestalBranca from "@/src/assets/images/fundacaoflorestal-branca.svg"
 import ifsplogo from "@/src/assets/images/ifsplogo.svg"
 import splogoBranca from "@/src/assets/images/logoSP-branca.svg"
-
-
-
+import bird from "@/src/assets/images/bird.svg"
+import leftArrow from "@/src/assets/images/left-arrow.svg"
+import ifspLogo from "@/src/assets/images/ifsp-logo.png"
+import ffLogo from "@/src/assets/images/ff-logo.png"
+import semilLogo from "@/src/assets/images/semil-logo.png"
+import logoParque from "@/src/assets/images/logo-parque.svg"
+import arrow from "@/src/assets/images/arrow.png"
+import pin from "@/src/assets/images/pin.png"
 
 
 const images = {
@@ -42,6 +47,14 @@ const images = {
   fundacaoFlorestalBranca,
   ifsplogo,
   splogoBranca
+  bird,
+  leftArrow,
+  ifspLogo,
+  ffLogo,
+  semilLogo,
+  logoParque
+  arrow,
+  pin,
 };
 
 export default images;

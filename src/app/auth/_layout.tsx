@@ -8,10 +8,10 @@ export default function AuthLayout() {
   return (
     <>
       <Stack>
-        <Stack.Screen name="searchPage" options={{ headerShown: false }} />
-        <Stack.Screen name="fauna" options={{ headerShown: false }} />
+        <Stack.Screen name="searchPage" options={{headerShown: false}}/>
+        <Stack.Screen name="fauna" options={{headerShown: false}}/>
       </Stack>
-      <Tab />
+      <Tab/>
     </>
   );
 }

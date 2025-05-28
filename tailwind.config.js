@@ -26,6 +26,7 @@ module.exports = {
           100: "#B4C8A8", // borda
           400: "#6CC36F",
           600: "#1B5E20",
+          800: "#496A37"
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

@@ -1,79 +1,94 @@
-import { View, Text, Image, } from "react-native";
+'use client'
+
+import { View, Text, Image, TouchableOpacity, } from "react-native";
+
 import images from '../constants/images'
 import Title from "../components/Title";
 import { FullWindowOverlay } from "react-native-screens";
 import { Logininput } from "../components/Logininput";
-import { SubmitButton } from "../components/SubmitButton";
+import { SubmitButton } from "../components/LoginButton";
 import React, { useState } from "react";
 import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 
-export default function index() {
-    
-     const [checked, setChecked] = useState(false);
-    return (
-        <View className="w-full h-full flex bg-white">
 
-        <View className="flex items-center w-full h-20 sm:mt-20 xs:mt-10">
-                <Title>
-                  Seja Bem-Vindo(a)
-                </Title>
+export default function Index() {
 
-                <Title>
-                ao EcoGuarda!
-                </Title>
+  const [checked, setChecked] = useState(false);
+  const router = useRouter();
+  const [CPF, setCPF] = useState("");
+  const [password, setPassword] = useState("");
+  const [visible, setVisible] = useState(true);
 
-        </View>
+  return (
+      <View className="w-full h-full flex bg-white">
 
-        <View className="flex w-full h-fit sm:mt-12 xs:mt-8 justify-center items-center"> 
-              <images.logoOnca width={FullWindowOverlay} height={220}
-               />
-        </View>
+          <View className="flex items-center w-full h-20 sm:mt-20 xs:mt-10">
+                  <Title>
+                    Seja Bem-Vindo(a)
+                  </Title>
 
-        <View className="flex lg:px-96 items-center mx-4 sm:mt-16 mt-12">
+                  <Title>
+                  ao MPOA!
+                  </Title>
 
-            <Logininput textHolder="CPF">
+          </View>
 
-            <images.user width="24px" height="24px"/>
+          <View className="flex w-full h-fit mt-10 justify-center items-center"> 
+                <images.logoParque width={FullWindowOverlay} height={180}
+                 />
+          </View>
 
-            </Logininput>
+          <View className="flex lg:px-96 items-center mx-4 mt-12">
 
-            <Logininput textHolder="Senha">
-              <images.lock width="24px" height="24px"/>
-            </Logininput>
-            
-            <View className="items-center w-full pl-11">
-              <CheckboxWithLabel
-                checked={checked}
-                onCheckedChange={setChecked}
-                label="Lembrar de mim" 
-              />
-            </View>
+              <Logininput textHolder="CPF" value={CPF} onChangeText={setCPF}>
 
-        </View>
+              <images.user width="24px" height="24px"/>
 
-        <View className="flex items-center w-full mt-12">
-              <SubmitButton title="Entrar" 
-                onPress={() => router.push("/auth/searchPage")}
+              </Logininput>
+
+              <Logininput visible={visible} textHolder="Senha" value={password} onChangeText={setPassword}>
+                <TouchableOpacity
+                  onPress={() => setVisible(!visible)}
+                >
+                <images.lock width="24px" height="24px"/>
+                </TouchableOpacity>
+              </Logininput>
+              
+              <View className="w-full pl-11">
+                <CheckboxWithLabel
+                  checked={checked}
+                  onCheckedChange={setChecked}
+                  label="Lembrar de mim" 
                 />
-        </View>
+              </View>
 
-        <View className="flex flex-1 justify-end items-end flex-row mt-8">
-          <Image
-            source={images.brasao}
-            style={{ width: 55, height: 55 }}
-            resizeMode="contain"
-          />
-          <Image
-            source={images.logoArvore}
-            style={{ width: 55, height: 55, marginRight: 4 }} // Espaçamento entre as imagens
-            resizeMode="contain"
-          />
-        </View>
-       
-    </View>
-     
-    
+          </View>
 
-    );
+          <View className="flex items-center w-full mt-12">
+                <SubmitButton title="Login" 
+                  onPress={() => router.push("/auth/searchPage")}
+                  />
+          </View>
+
+          <View className="flex flex-1 justify-around items-end flex-row mt-8">
+            <Image
+              source={images.ifspLogo}
+              style={{ width: 95, height: 95 }}
+              resizeMode="contain"
+            />
+            <Image
+              source={images.ffLogo}
+              style={{ width: 120, height: 120, marginLeft: 15 }} // Espaçamento entre as imagens
+              resizeMode="contain"
+            />
+            <Image
+              source={images.semilLogo}
+              style={{ width: 110, height: 110}} // Espaçamento entre as imagens
+              resizeMode="contain"
+            />
+          </View>
+         
+      </View>
+  );
 }
