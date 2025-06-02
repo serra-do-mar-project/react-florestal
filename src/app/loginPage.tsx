@@ -1,20 +1,35 @@
 'use client'
 
-import { View, Text, Image, } from "react-native";
+import { View, Image, TouchableOpacity, Dimensions, Keyboard, Text } from "react-native";
 import images from '../constants/images'
 import Title from "../components/Title";
 import { FullWindowOverlay } from "react-native-screens";
 import { Logininput } from "../components/Logininput";
 import { SubmitButton } from "../components/SubmitButton";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
 import { useRouter } from "expo-router";
 
 
-export default function loginPage() {
 
+export default function loginPage() {
   const [checked, setChecked] = useState(false);
   const router = useRouter();
+  const [CPF, setCPF] = useState("");
+  const [password, setPassword] = useState("");
+  const [visible, setVisible] = useState(true);
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
+  const screenHeight = Dimensions.get('window').height;
+  const inputAreaHeight = screenHeight * (2 / 3);
+
+  useEffect(() => {
+    const showSub = Keyboard.addListener("keyboardDidShow", () => setKeyboardOpen(true));
+    const hideSub = Keyboard.addListener("keyboardDidHide", () => setKeyboardOpen(false));
+    return () => {
+      showSub.remove();
+      hideSub.remove();
+    };
+  }, []);
 
   return (
       <View className="w-full h-full flex bg-white">
@@ -25,29 +40,31 @@ export default function loginPage() {
                   </Title>
 
                   <Title>
-                  ao EcoGuarda!
+                  ao MPOA!
                   </Title>
 
           </View>
 
-          <View className="flex w-full h-fit sm:mt-12 xs:mt-8 justify-center items-center"> 
-                <images.logoOnca width={FullWindowOverlay} height={220}
-                 />
+          <View className={`flex w-full h-fit ${keyboardOpen ? "mt-4 mb-1 " : "mt-16 mb-6 "} justify-center items-center`}> 
+                <images.logoparque width={keyboardOpen ? FullWindowOverlay : 340} height={140} />
           </View>
 
-          <View className="flex lg:px-96 items-center mx-4 sm:mt-16 mt-12">
+          <View className="flex lg:px-96 items-center mx-4 mt-5" style={{ maxHeight: inputAreaHeight }}>
 
-              <Logininput textHolder="CPF">
+              <Logininput textHolder="CPF" value={CPF} onChangeText={setCPF}>
 
               <images.user width="24px" height="24px"/>
 
               </Logininput>
 
-              <Logininput textHolder="Senha">
+              <Logininput visible={visible} textHolder="Senha" value={password} onChangeText={setPassword}>
+                <TouchableOpacity
+                  onPress={() => setVisible(!visible)}
+                >
                 <images.lock width="24px" height="24px"/>
+                </TouchableOpacity>
               </Logininput>
-              
-              <View className="items-center w-full pl-11">
+              <View className="w-full pl-6">
                 <CheckboxWithLabel
                   checked={checked}
                   onCheckedChange={setChecked}
@@ -58,26 +75,33 @@ export default function loginPage() {
           </View>
 
           <View className="flex items-center w-full mt-12">
-                <SubmitButton title="Entrar" 
+                <SubmitButton title="Login" 
                   onPress={() => router.push("/auth/searchPage")}
                   />
           </View>
 
-          <View className="flex flex-1 justify-end items-end flex-row mt-8">
-            <Image
-              source={images.brasao}
-              style={{ width: 55, height: 55 }}
-              resizeMode="contain"
-            />
-            <Image
-              source={images.logoArvore}
-              style={{ width: 55, height: 55, marginRight: 4 }} // Espaçamento entre as imagens
-              resizeMode="contain"
-            />
+          <View className="flex flex-1 justify-around items-end flex-row mt-8">
+            <View className="items-center justify-center w-24 h-24 bg-transparent">
+              <Image
+                source={images.ifspLogo}
+                style={{ width: 100, height: 60, resizeMode: "contain" }}
+              />
+            </View>
+            <View className="items-center justify-center w-24 h-24 bg-transparent">
+              <Image
+                source={images.ffLogo}
+                style={{ width: 100, height:100, resizeMode: "contain" }}
+              />
+            </View>
+            <View className="items-center justify-center w-24 h-24 bg-transparent">
+              <Image
+                source={images.semilLogo}
+                style={{ width: 100, height: 95, resizeMode: "contain" }}
+              />
+            </View>
           </View>
-         
+ 
       </View>
-       
       
 
   );

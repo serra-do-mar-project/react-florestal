@@ -13,12 +13,12 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, ...props }) =>
   const tags = tag?.split(",") || [];
 
   return (
-    <View {...props} className="bg-[#496A37] rounded-md w-full flex flex-col items-center">
-      <Pressable className="py-3 px-4 flex flex-col" onPress={() => {
+    <View {...props} className="bg-[#57714A] rounded-sm w-full flex flex-col items-center">
+      <Pressable className="pt-3 pb-5 px-3 flex flex-col" onPress={() => {
         setIsSelected(!isSelected);
       }}>
         <View className="flex flex-row items-center justify-between w-full gap-1">
-          <Text numberOfLines={1} className="text-white font-medium text-xl flex-1">{title}</Text>
+          <Text numberOfLines={1} className="text-white font-semibold text-xl flex-1">{title}</Text>
           <Image
             source={images.arrow}
             className={`w-6 h-6 ${isSelected ? "rotate-180" : ""}`}
@@ -26,7 +26,7 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, ...props }) =>
           />
         </View>
         {tags && (
-          <View className="bg-[#DFDFDF] rounded-md px-2 py-1 mt-2 flex flex-col">
+          <View className="bg-[#DFDFDF] rounded-md px-2 py-1 mt-4 mx-1 flex flex-col shadow-2xl shadow-black/30">
             {tags.map((tag, index) => (
               <View className="flex flex-row items-center gap-1" key={index}>
                 <Image
@@ -41,13 +41,13 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, ...props }) =>
         )}
       </Pressable>
       {isSelected && (
-        <View className="flex flex-col p-4 pt-2 items-center">
-          <Text className="text-white font-medium text-xl">Natureza do Dano (Infração/Crime)</Text>
-          <View className="bg-[#DFDFDF] rounded-md p-3 mt-4 flex flex-col">
+        <View className="flex flex-col p-4 pt-2">
+          <Text className="text-white font-semibold text-lg">Natureza do Dano (Infração/Crime)</Text>
+          <View className="bg-[#DFDFDF] rounded-md p-3 mt-4 flex flex-col shadow-2xl shadow-black/30">
             <Text className="text-black text-lg">Art. 25 da Resolução SIMA 05/2021 MATAR, PERSEGUIR, CAÇAR, APANHAR, COLETAR OU UTILIZAR ESPÉCIMES DA FAUNA SILVESTRE, NATIVOS OU EM ROTA MIGRATÓRIA, SEM A DEVIDA PERMISSÃO, LICENÇA OU AUTORIZAÇÃO DA AUTORIDADE COMPETENTE, OU EM DESACORDO COM A OBTIDA</Text>
           </View>
-          <TouchableOpacity className="bg-[#DFDFDF] rounded-xl p-1 mt-6 flex flex-row">
-            <Text className="text-black font-medium text-2xl w-[90%] text-center">Selecionar</Text>
+          <TouchableOpacity className="bg-[#DFDFDF] rounded-xl p-1 mt-6 flex flex-row justify-center shadow-2xl shadow-black/30">
+            <Text className="text-black font-medium text-2xl text-center">Selecionar</Text>
           </TouchableOpacity>
         </View>
       )}

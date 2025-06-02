@@ -1,94 +1,74 @@
 'use client'
 
-import { View, Text, Image, TouchableOpacity, } from "react-native";
-
-import images from '../constants/images'
-import Title from "../components/Title";
-import { FullWindowOverlay } from "react-native-screens";
-import { Logininput } from "../components/Logininput";
-import { SubmitButton } from "../components/LoginButton";
-import React, { useState } from "react";
-import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
+import { View, Image, Text, SafeAreaView } from "react-native";
+import images from "../constants/images";
+import { SubmitButton } from "../components/SubmitButton";
 import { useRouter } from "expo-router";
-
 
 export default function Index() {
 
-  const [checked, setChecked] = useState(false);
-  const router = useRouter();
-  const [CPF, setCPF] = useState("");
-  const [password, setPassword] = useState("");
-  const [visible, setVisible] = useState(true);
+    const router = useRouter();
+ 
 
   return (
-      <View className="w-full h-full flex bg-white">
-
-          <View className="flex items-center w-full h-20 sm:mt-20 xs:mt-10">
-                  <Title>
-                    Seja Bem-Vindo(a)
-                  </Title>
-
-                  <Title>
-                  ao MPOA!
-                  </Title>
-
+    <SafeAreaView className="flex-1">
+      <Image
+          source={images.splashbg}
+          className="absolute w-full h-full"
+          resizeMode="cover"
+      />
+      <View className="z-10 flex-1 items-center">
+          <View className="mt-7">
+            <images.logoparque width={300} height={120} />
+          </View>
+          <View className="w-full flex-1 mt-28 justify-center items-center">
+            <View className="items-center justify-center relative ml-2">
+              <Text
+                className="text-5xl font-bold text-[#45503F] opacity-50 absolute left-1 top-1"
+                style={{
+                  letterSpacing: 1,
+                  lineHeight: 52,
+                }}
+              >
+                Manual de{"\n"}
+                Procedimentos{"\n"}
+                Operacionais e{"\n"}
+                Administrativos
+              </Text>
+              <Text
+                className="text-5xl font-bold text-white"
+                style={{
+                  letterSpacing: 1,
+                  lineHeight: 52,
+                }}
+              >
+                Manual de{"\n"}
+                Procedimentos{"\n"}
+                Operacionais e{"\n"}
+                Administrativos
+              </Text>
+            </View>
+          </View>
+          <View className="mt-20" >
+              <SubmitButton title="Entrar" onPress={() => router.push("/loginPage")}/>
           </View>
 
-          <View className="flex w-full h-fit mt-10 justify-center items-center"> 
-                <images.logoParque width={FullWindowOverlay} height={180}
-                 />
-          </View>
-
-          <View className="flex lg:px-96 items-center mx-4 mt-12">
-
-              <Logininput textHolder="CPF" value={CPF} onChangeText={setCPF}>
-
-              <images.user width="24px" height="24px"/>
-
-              </Logininput>
-
-              <Logininput visible={visible} textHolder="Senha" value={password} onChangeText={setPassword}>
-                <TouchableOpacity
-                  onPress={() => setVisible(!visible)}
-                >
-                <images.lock width="24px" height="24px"/>
-                </TouchableOpacity>
-              </Logininput>
-              
-              <View className="w-full pl-11">
-                <CheckboxWithLabel
-                  checked={checked}
-                  onCheckedChange={setChecked}
-                  label="Lembrar de mim" 
-                />
+          <View className="flex-1 w-full flex-row items-end mx-5 justify-center">
+            <View className="flex-1 flex-row items-end justify-around pb-2">
+              <View className="items-center justify-center w-24 h-24 bg-transparent">
+                <images.ifsplogoBranca width={80} height={50} style={{ resizeMode: "contain" }} />
               </View>
-
+              <View className="items-center justify-center w-24 h-24 bg-transparent">
+                <images.fundacaoFlorestalBranca width={100} height={100} style={{ resizeMode: "contain" }} />
+              </View>
+              <View className="items-center justify-center w-24 h-24 bg-transparent">
+                <images.splogoBranca alt="imagem da logo de são paulo não ofcial" width={70
+                } height={80} style={{ resizeMode: "contain" }} />
+              </View>
+            </View>
           </View>
 
-          <View className="flex items-center w-full mt-12">
-                <SubmitButton title="Login" 
-                  onPress={() => router.push("/auth/searchPage")}
-                  />
-          </View>
-
-          <View className="flex flex-1 justify-around items-end flex-row mt-8">
-            <Image
-              source={images.ifspLogo}
-              style={{ width: 95, height: 95 }}
-              resizeMode="contain"
-            />
-            <Image
-              source={images.ffLogo}
-              style={{ width: 120, height: 120, marginLeft: 15 }} // Espaçamento entre as imagens
-              resizeMode="contain"
-            />
-            <Image
-              source={images.semilLogo}
-              style={{ width: 110, height: 110}} // Espaçamento entre as imagens
-              resizeMode="contain"
-            />
-          </View>
-         
       </View>
+    </SafeAreaView>
   );
 }

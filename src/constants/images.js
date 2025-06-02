@@ -1,24 +1,19 @@
 // Arquivo para importar as imagens de assets que serão usadas e exportar, para facilitar o uso em outros arquivos
-
-import logoOnca from "../assets/images/logo-onca.svg";
 import lock from "../assets/images/lock.svg";
 import user from "../assets/images/user.svg";
-import logoArvore from "../assets/images/logo-arvore.png"
-import brasao from "../assets/images/brasao.png"
 import search from "@/src/assets/images/search.svg"
 import note from "@/src/assets/images/note.svg"
 import settings from "@/src/assets/images/settings.svg"
-import fauna from "@/src/assets/images/fauna-img.png"
-import flora from "@/src/assets/images/flora-img.png"
-import construcao from "@/src/assets/images/construcao-img.png"
-import usoPublico from "@/src/assets/images/uso-publico-img.png"
-import mineracao from "@/src/assets/images/mineracao-img.png"
+import fauna from "@/src/assets/images/fauna.png"
+import flora from "@/src/assets/images/flora.png"
+import construcao from "@/src/assets/images/construcao.png"
+import usoPublico from "@/src/assets/images/uso-publico.png"
+import mineracao from "@/src/assets/images/mineracao.png"
 import splashbg from "@/src/assets/images/splashbg.png"
 import logoparque from "@/src/assets/images/logo-parque.svg"
 import fundacaoFlorestalBranca from "@/src/assets/images/fundacaoflorestal-branca.svg"
-import ifsplogo from "@/src/assets/images/ifsplogo.svg"
+import ifsplogoBranca from "@/src/assets/images/ifsplogoBranca.svg"
 import splogoBranca from "@/src/assets/images/logoSP-branca.svg"
-import bird from "@/src/assets/images/bird.svg"
 import leftArrow from "@/src/assets/images/left-arrow.svg"
 import ifspLogo from "@/src/assets/images/ifsp-logo.png"
 import ffLogo from "@/src/assets/images/ff-logo.png"
@@ -29,11 +24,8 @@ import pin from "@/src/assets/images/pin.png"
 
 
 const images = {
-  logoOnca,
   lock,
   user,
-  logoArvore,
-  brasao,
   search,
   note,
   settings,
@@ -45,14 +37,13 @@ const images = {
   splashbg,
   logoparque,
   fundacaoFlorestalBranca,
-  ifsplogo,
-  splogoBranca
-  bird,
+  ifsplogoBranca,
+  splogoBranca,
   leftArrow,
   ifspLogo,
   ffLogo,
   semilLogo,
-  logoParque
+  logoParque,
   arrow,
   pin,
 };
