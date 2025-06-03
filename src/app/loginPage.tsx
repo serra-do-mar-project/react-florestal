@@ -19,8 +19,6 @@ export default function loginPage() {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(true);
   const [keyboardOpen, setKeyboardOpen] = useState(false);
-  const screenHeight = Dimensions.get('window').height;
-  const inputAreaHeight = screenHeight * (2 / 3);
 
   useEffect(() => {
     const showSub = Keyboard.addListener("keyboardDidShow", () => setKeyboardOpen(true));
@@ -49,7 +47,7 @@ export default function loginPage() {
                 <images.logoparque width={keyboardOpen ? FullWindowOverlay : 340} height={140} />
           </View>
 
-          <View className="flex lg:px-96 items-center mx-4 mt-5" style={{ maxHeight: inputAreaHeight }}>
+          <View className="flex lg:px-96 items-center mx-4 mt-5" >
 
               <Logininput textHolder="CPF" value={CPF} onChangeText={setCPF}>
 
