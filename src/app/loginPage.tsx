@@ -30,20 +30,20 @@ export default function loginPage() {
   }, []);
 
   return (
-      <View className="w-full h-full flex bg-white">
+      <View className="flex-1 bg-white">
 
-          <View className="flex items-center w-full h-20 sm:mt-20 xs:mt-10">
+          <View className={`flex items-center w-full h-20 ${keyboardOpen ? "mt-10" : "mt-10 xs:mt-20"}`} >
                   <Title>
-                    Seja Bem-Vindo(a)
+                    <Text >Seja Bem-Vindo(a)</Text>
                   </Title>
 
                   <Title>
-                  ao MPOA!
+                    <Text >ao MPOA!</Text>
                   </Title>
 
           </View>
 
-          <View className={`flex w-full h-fit ${keyboardOpen ? "mt-4 mb-1 " : "mt-16 mb-6 "} justify-center items-center`}> 
+          <View className={`flex w-full h-fit ${keyboardOpen ? "mt-2 mb-1 " : "mt-10 mb-8"} items-center`}> 
                 <images.logoparque width={keyboardOpen ? FullWindowOverlay : 340} height={140} />
           </View>
 
@@ -72,7 +72,7 @@ export default function loginPage() {
 
           </View>
 
-          <View className="flex items-center w-full mt-12">
+          <View className="flex items-center w-full mt-14">
                 <SubmitButton title="Login" 
                   onPress={() => router.push("/auth/searchPage")}
                   />
