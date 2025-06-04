@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, TouchableOpacity, Text } from "react-native";
 import Animated,
   {
@@ -13,6 +13,9 @@ import { useRouter } from "expo-router";
 import Title from "@/src/components/Title";
 import Dropdown from "@/src/components/Dropdown";
 import images from "@/src/constants/images";
+import db from '../../db/connection';
+import { Infracao, infracoesTable } from "@/src/db/schema";
+import { eq } from "drizzle-orm";
 
 const IMAGE_HEIGHT = 270;
 const MIN_IMAGE_HEIGHT = 80;
@@ -22,6 +25,28 @@ export default function AuthLayout() {
   const router = useRouter();
   const dragY = useSharedValue(0);
   const [isOpen, setIsOpen] = useState(false);
+
+  const [data, setData] = useState<Infracao[] | undefined>()
+  const [pBottom, setPBottom] = useState(350)
+
+  useEffect(() => {
+    if(isOpen) setPBottom(200)
+    else setPBottom(350)
+  }, [isOpen])
+
+  // animação do conteudo
+  const contentAnimatedStyle = useAnimatedStyle(() => {
+    const paddingTop = interpolate(
+      dragY.value,
+      [0, 150],
+      [IMAGE_HEIGHT + 40, 150],
+      Extrapolation.CLAMP
+    );
+
+    return {
+      paddingTop
+    };
+  })
 
   // Atualiza dragY animado quando o estado muda
   React.useEffect(() => {
@@ -56,7 +81,7 @@ export default function AuthLayout() {
     const paddingTop = interpolate(
       dragY.value,
       [0, 150],
-      [20, 75],
+      [20, 50],
       Extrapolation.CLAMP
     );
     
@@ -74,23 +99,19 @@ export default function AuthLayout() {
     };
   });
 
-  const data = [
-    { title: "Captura de Animais Silvestres" },
-    { title: "Comércio ilegal de fauna" },
-    { title: "Introdução de espécies exóticas" },
-    { title: "Maus-tratos a animais" },
-    { title: "Poluição de ambientes naturais" },
-    { title: "Abate Ilegal de Animais Silvestres" },
-    { title: "Captura de Animais Silvestres" },
-    { title: "Comércio ilegal de fauna" },
-    { title: "Introdução de espécies exóticas" },
-    { title: "Maus-tratos a animais" },
-    { title: "Poluição de ambientes naturais" },
-    { title: "Abate Ilegal de Animais Silvestres" },
-  ];
+  const getData = async () => {
+    const infracoesData = await db.select()
+    .from(infracoesTable)
+    .where(eq(infracoesTable.categoria, "fauna"))
+    setData(infracoesData as Infracao[])
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   return (
-    <View className="flex-1 bg-gray-200">
+    <View className="flex-1 bg-gray-200 relative">
       {/* Imagem animada */}
       <Animated.View
         style={imageAnimatedStyle}
@@ -121,55 +142,53 @@ export default function AuthLayout() {
       {/* Painel animado com clique para alternar */}
       <Animated.View
         style={panelAnimatedStyle}
-        className="w-full absolute left-0 right-0 rounded-t-3xl pb-7 -mt-10 z-20"
+        className="w-full absolute left-0 right-0 rounded-t-3xl pb-3 z-20 bg-black"
         onTouchEnd={() => setIsOpen((prev) => !prev)}
       >
-        
-         {isOpen ? 
-          
-          <View className="w-full flex-row items-center justify-between mb-3 px-8">
+        {isOpen ? 
+          <View className="w-full flex-row items-center justify-between mb-3 px-8 ">
             <TouchableOpacity
-            className="flex justify-center items-center rounded-br-lg rounded-tr-lg"
-            onPress={() => router.push("/auth/searchPage")}
-          >
-            <images.leftArrow width={30} height={30} style={{ resizeMode: "contain", opacity: 0.9  }} />
-          </TouchableOpacity>
+              className="flex justify-center items-center rounded-br-lg rounded-tr-lg"
+              onPress={() => router.push("/auth/searchPage")}
+            >
+              <images.leftArrow width={30} height={30} style={{ resizeMode: "contain", opacity: 0.9  }} />
+            </TouchableOpacity>
 
-           <View
-            className=" bg-green-500/30 h-12 flex justify-center items-center rounded-full m- px-4 py-2 z-20"
-          >
-            <Text className="text-gray-900/100 text-xl font-bold">Fauna</Text>
+            <View
+              className=" bg-green-500/30 h-12 flex justify-center items-center rounded-full px-4 py-2 z-20"
+            >
+              <Text className="text-gray-900/100 text-xl font-bold">Fauna</Text>
+            </View>
           </View>
-          
-          </View>
-
           :
           <></>
-      }
+        }
       
-      <View className="ml-9"><Title>Exemplos de casos</Title></View>
+        {!isOpen && <View className="h-2 w-12 bg-gray-400 rounded-full mx-auto mb-3"/>}
+        <View className="ml-9"><Title>Exemplos de casos</Title></View>
       </Animated.View>
 
       {/* Lista de Dropdowns */}
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
+        style={contentAnimatedStyle}
         contentContainerStyle={{
-          paddingTop: IMAGE_HEIGHT + 20,
-          paddingBottom: 40,
+          paddingBottom: pBottom,
           alignItems: "center",
         }}
         className="bg-gray-200"
       >
-        <View className="w-full px-8 gap-4">
-          {data.map((item, index) => (
+        <Animated.View className="w-full px-8 gap-4">
+          {data && data.map((item, index) => (
             <Dropdown
               key={index}
-              title={item.title}
-              tag="hi,hello"
+              title={item.nome_resumo}
+              tag={item.tags}
+              tipoOcorrencia={item.tipo_ocorrencia}
               onPress={() => router.push("/auth/fauna")}
             />
           ))}
-        </View>
+        </Animated.View>
       </Animated.ScrollView>
     </View>
   );
