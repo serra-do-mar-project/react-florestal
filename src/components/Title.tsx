@@ -1,5 +1,4 @@
-import { Children } from "react";
-import { View, Text} from "react-native";
+import {Text} from "react-native";
 
 interface props{
   children : any
@@ -9,7 +8,7 @@ interface props{
 const Title = ({children}: props) => {
   return (
     
-        <Text className="font-semibold text-3xl">
+        <Text className="text-gray-900 font-semibold text-3xl">
           {children}
         </Text>
   );
