@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "b10d2b94-dbe7-4b9a-84e7-93d5d211c3f0",
-  "prevId": "85938d64-6b5e-49bb-ba80-adedd2026580",
+  "id": "b3399a52-7e88-4bbb-85b2-174872e1267b",
+  "prevId": "b10d2b94-dbe7-4b9a-84e7-93d5d211c3f0",
   "tables": {
     "infracoes_table": {
       "name": "infracoes_table",
@@ -47,20 +47,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
-        },
-        "exemplo": {
-          "name": "exemplo",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "definição": {
-          "name": "definição",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
           "autoincrement": false
         },
         "proc_OP": {
@@ -124,14 +110,8 @@
   "enums": {},
   "_meta": {
     "schemas": {},
-    "tables": {
-      "\"users_table\"": "\"infracoes_table\""
-    },
-    "columns": {
-      "\"infracoes_table\".\"name\"": "\"infracoes_table\".\"nome_resumo\"",
-      "\"infracoes_table\".\"age\"": "\"infracoes_table\".\"nome_compelto\"",
-      "\"infracoes_table\".\"email\"": "\"infracoes_table\".\"palavra_chave\""
-    }
+    "tables": {},
+    "columns": {}
   },
   "internal": {
     "indexes": {}

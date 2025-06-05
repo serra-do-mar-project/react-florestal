@@ -13,9 +13,10 @@ import { useRouter } from "expo-router";
 import Title from "@/src/components/Title";
 import Dropdown from "@/src/components/Dropdown";
 import images from "@/src/constants/images";
-import db from '../../db/connection';
+import db from '../../../db/connection';
 import { Infracao, infracoesTable } from "@/src/db/schema";
 import { eq } from "drizzle-orm";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const IMAGE_HEIGHT = 270;
 const MIN_IMAGE_HEIGHT = 80;
@@ -106,12 +107,8 @@ export default function AuthLayout() {
     setData(infracoesData as Infracao[])
   }
 
-  useEffect(() => {
-    getData()
-  }, [])
-
   return (
-    <View className="flex-1 bg-gray-200 relative">
+    <SafeAreaView className="flex-1 bg-gray-200 relative">
       {/* Imagem animada */}
       <Animated.View
         style={imageAnimatedStyle}
@@ -123,16 +120,16 @@ export default function AuthLayout() {
           resizeMode="cover"
         />
 
-        <View className="absolute top-9 w-full flex-row items-center justify-between z-20"> 
+        <View className="absolute top-0 w-full flex-row items-center justify-between z-20"> 
              <TouchableOpacity
-            className="bg-white/60 w-12 h-12 flex justify-center items-center rounded-br-lg rounded-tr-lg p-2"
-            onPress={() => router.push("/auth/searchPage")}
+            className="bg-white/60 w-16 h-14 flex justify-center items-center rounded-br-lg rounded-tr-lg p-2"
+            onPress={() => router.push("/auth/search")}
           >
             <images.leftArrow width={30} height={30} style={{ resizeMode: "contain", opacity: 0.8  }} />
           </TouchableOpacity>
           
            <View
-            className=" bg-white/60 h-12 flex justify-center items-center rounded-bl-lg rounded-tl-lg px-4 py-2 z-20"
+            className=" bg-white/60 h-14 flex justify-center items-center rounded-bl-lg rounded-tl-lg px-4 py-2 z-20"
           >
             <Text className="text-gray-900/100 text-2xl font-bold">Fauna</Text>
           </View>
@@ -149,7 +146,7 @@ export default function AuthLayout() {
           <View className="w-full flex-row items-center justify-between mb-3 px-8 ">
             <TouchableOpacity
               className="flex justify-center items-center rounded-br-lg rounded-tr-lg"
-              onPress={() => router.push("/auth/searchPage")}
+              onPress={() => router.push("/auth/search")}
             >
               <images.leftArrow width={30} height={30} style={{ resizeMode: "contain", opacity: 0.9  }} />
             </TouchableOpacity>
@@ -185,11 +182,11 @@ export default function AuthLayout() {
               title={item.nome_resumo}
               tag={item.tags}
               tipoOcorrencia={item.tipo_ocorrencia}
-              onPress={() => router.push("/auth/fauna")}
+              onPress={() => router.push("/auth/search")}
             />
           ))}
         </Animated.View>
       </Animated.ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

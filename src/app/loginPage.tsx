@@ -74,8 +74,8 @@ export default function loginPage() {
 
           <View className="flex items-center w-full mt-14">
                 <SubmitButton title="Login" 
-                  onPress={() => router.push("/auth/searchPage")}
-                  />
+                  onPress={() => router.push("/auth/search")}
+                />
           </View>
 
           <View className="flex flex-1 justify-around items-end flex-row mt-8">

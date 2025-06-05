@@ -7,8 +7,6 @@ export interface Infracao {
   palavra_chave: string;
   categoria: string;
   tags?: string;
-  exemplo: string;
-  definição: string;
   proc_OP: string;
   proc_ADM: string;
   enquad_PEN: string;
@@ -25,8 +23,6 @@ export const infracoesTable = sqliteTable("infracoes_table", {
   palavra_chave: text().notNull(),
   categoria: text().notNull(),
   tags: text(),
-  exemplo: text().notNull(),
-  definição: text().notNull(),
   proc_OP: text().notNull(),
   proc_ADM: text().notNull(),
   enquad_PEN: text().notNull(),

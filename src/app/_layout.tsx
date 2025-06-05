@@ -1,15 +1,28 @@
 import './global.css'
-import { Stack } from 'expo-router';
+import { Stack, useSegments } from 'expo-router';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { StatusBar as HiddenBar } from 'react-native';
 import db from '../db/connection';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import migrations from '../../drizzle/migrations';
 import { useEffect } from 'react';
 import { infracoesTable } from '../db/schema';
 
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+
 export default function MainLayout() {
   const { success, error } = useMigrations(db, migrations);
+  const segment = useSegments()
+
+  useEffect(() => {
+    if (segment[1] == 'search' && segment[2]) {
+      HiddenBar.setHidden(true)
+    } else {
+      HiddenBar.setHidden(false)
+    }
+  }, [segment])
 
   useEffect(() => {
     if (!success) return;
@@ -22,8 +35,6 @@ export default function MainLayout() {
           palavra_chave: "Matar animal",
           categoria: "fauna",
           tags: "",
-          exemplo: "nada",
-          definição: "nada",
           proc_OP: `
             1- Verificar se é possível uma abordagem segura;
             2- Fazer a abordagem do indíviduo;
@@ -49,8 +60,6 @@ export default function MainLayout() {
           palavra_chave: "Perseguir animal",
           categoria: "fauna",
           tags: "",
-          exemplo: "nada",
-          definição: "nada",
           proc_OP: `
             1- Verificar se é possível uma abordagem segura;
             2- Fazer a abordagem do indíviduo;
@@ -75,8 +84,6 @@ export default function MainLayout() {
           palavra_chave: "Aves",
           categoria: "fauna",
           tags: "Com a presença do infrator",
-          exemplo: "nada",
-          definição: "nada",
           proc_OP: `
             AÇÃO PRIMÁRIA:
             1-Fazer a abordagem do indíviduo;
@@ -102,8 +109,10 @@ export default function MainLayout() {
 
   return (
     <>
-      <Stack screenOptions={{ headerShown: false}}/>
-      <StatusBar translucent style="dark" />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Stack screenOptions={{ headerShown: false}}/>
+        <StatusBar translucent style="dark" />
+      </GestureHandlerRootView>
     </>
   );
 }
