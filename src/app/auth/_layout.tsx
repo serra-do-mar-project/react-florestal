@@ -11,7 +11,7 @@ const TabIcon = ({focused, icon, iconActive, name}: any) => {
       {focused ? (
         <>
           {iconActive}
-          <Text className={`${focused ? 'font-semibold' : 'font-regular'} text-green-600 text-sm h-[20px] w-full`}>{name}</Text>
+          <Text className={`${focused ? 'font-semibold' : 'font-regular'} text-green-600 text-sm h-[20px] w-full px-2 rounded-full bg-green-500/20`}>{name}</Text>
         </>
       ) : (
         <>  
@@ -41,7 +41,7 @@ const TabsLayout = () => {
     <>
       <Tabs
         safeAreaInsets={{
-          bottom: hidden ? 105 : 0
+          bottom: hidden ? 110 : 0
         }}
         screenOptions={{
           tabBarShowLabel: false,
@@ -60,8 +60,8 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({focused}) => (
               <TabIcon 
-                icon={<images.search width={24} height={24} stroke="black" strokeWidth={0.5} />}
-                iconActive={<images.search width={24} height={24} stroke="green" strokeWidth={1} />}
+                icon={<images.search width={24} height={24} />}
+                iconActive={<images.search width={24} height={24} stroke="green" strokeWidth={0.5} />}
                 name="Pesquisar"
                 focused={focused}
               />
@@ -75,8 +75,8 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({focused}) => (
               <TabIcon 
-                icon={<images.note width={24} height={24} stroke="black" strokeWidth={0.5} />}
-                iconActive={<images.note width={24} height={24} stroke="white" strokeWidth={1} />}
+                icon={<images.note width={24} height={24}/>}
+                iconActive={<images.note width={24} height={24} stroke="green" strokeWidth={0.5} />}
                 name="Relatório"
                 focused={focused}
               />
@@ -90,8 +90,8 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({focused}) => (
               <TabIcon 
-                icon={<images.settings width={24} height={24} stroke="black" strokeWidth={0.5} />}
-                iconActive={<images.settings width={24} height={24} stroke="green" strokeWidth={1} />}
+                icon={<images.settings width={24} height={24} />}
+                iconActive={<images.settings width={24} height={24} stroke="green" strokeWidth={0.5} />}
                 name="Configurações"
                 focused={focused}
               />

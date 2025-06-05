@@ -107,6 +107,10 @@ export default function AuthLayout() {
     setData(infracoesData as Infracao[])
   }
 
+  useEffect(() => {
+    getData()
+  }, [])
+
   return (
     <SafeAreaView className="flex-1 bg-gray-200 relative">
       {/* Imagem animada */}

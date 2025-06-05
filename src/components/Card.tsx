@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Pressable, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
 interface CardProps {
   text: string;
@@ -9,7 +9,7 @@ interface CardProps {
 
 export function Card({ text, onPress, src }: CardProps) {
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={onPress}
       className="h-44 w-[45%] rounded-lg overflow-hidden bg-white border border-green-100 shadow-md"
     >
@@ -25,6 +25,6 @@ export function Card({ text, onPress, src }: CardProps) {
       <View className="flex items-center pt-2">
         <Text className="text-xl font-medium">{text}</Text>
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 }
