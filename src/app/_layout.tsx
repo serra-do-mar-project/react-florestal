@@ -1,13 +1,14 @@
 import './global.css'
 import { Stack } from 'expo-router';
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'react-native';
 
 export default function MainLayout() {
   return (
+    
     <>
       <Stack screenOptions={{ headerShown: false}}/>
-      <StatusBar translucent style="dark" />
+      <StatusBar hidden={true}/>
     </>
   );
 }

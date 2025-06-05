@@ -102,20 +102,23 @@ export default function AuthLayout() {
           resizeMode="cover"
         />
 
-        <View className="absolute top-9 w-full flex-row items-center justify-between z-20"> 
+        {isOpen ? <></> :
+        
+        <View className="absolute top-0 w-full flex-row items-center justify-between z-20"> 
              <TouchableOpacity
-            className="bg-white/60 w-12 h-12 flex justify-center items-center rounded-br-lg rounded-tr-lg p-2"
+            className="bg-white/70 h-14 flex justify-center items-center rounded-br-lg pl-6 pr-4"
             onPress={() => router.push("/auth/searchPage")}
           >
             <images.leftArrow width={30} height={30} style={{ resizeMode: "contain", opacity: 0.8  }} />
           </TouchableOpacity>
           
            <View
-            className=" bg-white/60 h-12 flex justify-center items-center rounded-bl-lg rounded-tl-lg px-4 py-2 z-20"
+            className=" bg-white/70 h-14 flex justify-center items-center rounded-bl-lg pl-5 pr-5 py-2 z-20"
           >
-            <Text className="text-gray-900/100 text-2xl font-bold">Fauna</Text>
+            <Text className="text-gray-900/80 text-2xl font-bold">Uso Publico</Text>
           </View>
         </View>
+        }
       </Animated.View>
 
       {/* Painel animado com clique para alternar */}
@@ -154,7 +157,7 @@ export default function AuthLayout() {
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingTop: IMAGE_HEIGHT + 20,
+          paddingTop: IMAGE_HEIGHT + 10,
           paddingBottom: 40,
           alignItems: "center",
         }}
