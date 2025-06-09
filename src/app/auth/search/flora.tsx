@@ -103,7 +103,7 @@ export default function AuthLayout() {
   const getData = async () => {
     const infracoesData = await db.select()
     .from(infracoesTable)
-    .where(eq(infracoesTable.categoria, "fauna"))
+    .where(eq(infracoesTable.categoria, "flora"))
     setData(infracoesData as Infracao[])
   }
 
@@ -120,7 +120,7 @@ export default function AuthLayout() {
         className="w-full absolute top-0 left-0 z-10"
       >
         <Image
-          source={images.fauna}
+          source={images.flora}
           style={{ position: "absolute", width: "100%", height: "100%" }}
           resizeMode="cover"
         />
@@ -136,7 +136,7 @@ export default function AuthLayout() {
            <View
             className=" bg-white/70 h-12 flex justify-center items-center rounded-bl-lg pl-4 pr-5 z-20"
           >
-            <Text className="text-gray-900/80 text-2xl font-bold">Fauna</Text>
+            <Text className="text-gray-900/80 text-2xl font-bold">Flora</Text>
           </View>
         </View>
         
@@ -161,7 +161,7 @@ export default function AuthLayout() {
             <View
               className=" bg-green-500/30 flex justify-center items-center rounded-full px-3.5 py-1.5 z-20"
             >
-              <Text className="text-gray-900/100 text-xl font-bold">Fauna</Text>
+              <Text className="text-gray-900/100 text-xl font-bold">Flora</Text>
             </View>
           </View>
             <View className="ml-7"><Title>Exemplos de casos</Title></View>
