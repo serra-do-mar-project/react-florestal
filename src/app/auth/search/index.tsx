@@ -31,7 +31,7 @@ export default function SearchPage() {
             <Card
               text="Flora"
               src={images.flora}
-              onPress={() => router.push("/auth/search/procedimentos")}
+              onPress={() => router.push("/auth/search/flora")}
             />
             <Card
               text="Construção"

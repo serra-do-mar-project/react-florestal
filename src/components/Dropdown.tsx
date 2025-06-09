@@ -47,7 +47,10 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia
           <View className="bg-[#DFDFDF] rounded-md p-3 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
             <Text className="text-black text-md">{tipoOcorrencia}</Text>
           </View>
-          <TouchableOpacity className="bg-[#DFDFDF] rounded-xl p-1 mt-6 mx-7 flex flex-row justify-center border-x-hairline border-b-2 border-gray-900/30">
+          <TouchableOpacity
+            className="bg-[#DFDFDF] rounded-xl p-1 mt-6 mx-7 flex flex-row justify-center border-x-hairline border-b-2 border-gray-900/30"
+            onPress={onPress}
+          >
             <Text className="text-black font-medium text-xl text-center">Selecionar</Text>
           </TouchableOpacity>
         </View>

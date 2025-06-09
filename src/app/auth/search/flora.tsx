@@ -188,13 +188,21 @@ export default function AuthLayout() {
         className="bg-gray-200"
       >
         <Animated.View className="w-full px-8 gap-4">
-          {data && data.map((item, index) => (
+          {[mockFloraItem].map((item, index) => (
             <Dropdown
               key={index}
               title={item.nome_resumo}
               tag={item.tags}
               tipoOcorrencia={item.tipo_ocorrencia}
-              onPress={() => router.push("/auth/search/procedimentos")}
+              onPress={() => router.push({
+                pathname: "/auth/search/procedimentos",
+                params:
+                {
+                  id: item.id,
+                  nome: item.nome_resumo,
+                  procedimento: item.proc_OP
+                }
+              })}
             />
           ))}
         </Animated.View>
@@ -202,3 +210,19 @@ export default function AuthLayout() {
     </SafeAreaView>
   );
 }
+
+// Exemplo de mock para uso em flora e procedimentos
+export const mockFloraItem = {
+  id: 1,
+  nome_resumo: "Desmatamento de vegetação nativa",
+  tags: "vegetação, desmatamento",
+  tipo_ocorrencia: "Art. 48 da Lei 9.605/98",
+  proc_OP: `
+    1- Verificar se há autorização para supressão;
+    2- Registrar a área com fotos e coordenadas;
+    3- Notificar o responsável;
+    4- Comunicar o órgão ambiental;
+    5- Elaborar relatório de fiscalização;
+    6- Encaminhar documentação para providências legais;
+  `,
+};

@@ -188,13 +188,21 @@ export default function AuthLayout() {
         className="bg-gray-200"
       >
         <Animated.View className="w-full px-8 gap-4">
-          {data && data.map((item, index) => (
+           {data && data.map((item, index) => (
             <Dropdown
               key={index}
               title={item.nome_resumo}
               tag={item.tags}
               tipoOcorrencia={item.tipo_ocorrencia}
-              onPress={() => router.push("/auth/search/procedimentos")}
+              onPress={() => router.push({
+                pathname: "/auth/search/procedimentos",
+                params:
+                {
+                  id: item.id,
+                  nome: item.nome_resumo,
+                  procedimento: item.proc_OP
+                }
+              })}
             />
           ))}
         </Animated.View>
