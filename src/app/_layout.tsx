@@ -108,6 +108,7 @@ export default function MainLayout() {
   }, [success]);
 
   return (
+    
     <>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Stack screenOptions={{ headerShown: false}}/>
