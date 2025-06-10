@@ -26,30 +26,27 @@ const TabIcon = ({focused, icon, iconActive, name}: any) => {
 
 const TabsLayout = () => {
 
-  const segment = useSegments()
-  const [hidden, setHidden] = useState(false)
+  // const segment = useSegments()
+  // const [hidden, setHidden] = useState(false)
   
-  useEffect(() => {
-    if (segment[1] == 'search' && segment[2]) {
-      setHidden(true)
-    } else {
-      setHidden(false)
-    }
-  }, [segment])
+  // useEffect(() => {
+  //   if (segment[1] == 'search' && segment[2]) {
+  //     setHidden(true)
+  //   } else {
+  //     setHidden(false)
+  //   }
+  // }, [segment])
 
   return (
     <>
       <Tabs
-        safeAreaInsets={{
-          bottom: hidden ? 110 : 0
-        }}
         screenOptions={{
           tabBarShowLabel: false,
           tabBarStyle: {
             backgroundColor: '#FEFEFE',
             borderTopWidth: 1,
             borderTopColor: '#C4C4C4',
-            height: 60
+            height: 60,
           }
         }}
       >

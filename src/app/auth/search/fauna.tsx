@@ -40,7 +40,7 @@ export default function AuthLayout() {
     const paddingTop = interpolate(
       dragY.value,
       [0, 150],
-      [IMAGE_HEIGHT , 110],
+      [IMAGE_HEIGHT, 110],
       Extrapolation.CLAMP
     );
 
