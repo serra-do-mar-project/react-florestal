@@ -113,7 +113,7 @@ export default function MainLayout() {
     <>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Stack screenOptions={{ headerShown: false}}/>
-        <StatusBar translucent style="dark" />
+        <StatusBar translucent style="dark"/>
       </GestureHandlerRootView>
     </>
   );

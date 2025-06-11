@@ -31,8 +31,8 @@ export default function AuthLayout() {
   const [pBottom, setPBottom] = useState(350)
 
   useEffect(() => {
-    if(isOpen) setPBottom(140)
-    else setPBottom(300)
+    if(isOpen) setPBottom(160)
+    else setPBottom(320)
   }, [isOpen])
 
   // animação do conteudo
@@ -40,7 +40,7 @@ export default function AuthLayout() {
     const paddingTop = interpolate(
       dragY.value,
       [0, 150],
-      [IMAGE_HEIGHT, 110],
+      [IMAGE_HEIGHT + 20, 130],
       Extrapolation.CLAMP
     );
 
@@ -125,16 +125,16 @@ export default function AuthLayout() {
           resizeMode="cover"
         />
                 
-        <View className={`absolute top-0 w-full flex-row items-center justify-between z-20 ${isOpen ? "opacity-0" : "opacity-100"} transition-opacity duration-300 ease-in-out `}> 
+        <View className={`absolute top-9 w-full flex-row items-center justify-between z-20 ${isOpen ? "opacity-0" : "opacity-100"} transition-opacity duration-300 ease-in-out `}> 
              <TouchableOpacity
-            className="bg-white/70 h-12 flex justify-center items-center rounded-br-lg pl-6 pr-4"
+            className="bg-white/70 h-12 flex justify-center items-center rounded-br-lg rounded-tr-lg pl-4 pr-4"
             onPress={() => router.push("/auth/search")}
           >
             <images.leftArrow width={30} height={30} style={{ resizeMode: "contain", opacity: 0.8  }} />
           </TouchableOpacity>
           
            <View
-            className=" bg-white/70 h-12 flex justify-center items-center rounded-bl-lg pl-4 pr-5 z-20"
+            className=" bg-white/70 h-12 flex justify-center items-center rounded-bl-lg rounded-tl-lg pl-4 pr-4 z-20"
           >
             <Text className="text-gray-900/80 text-2xl font-bold">Fauna</Text>
           </View>
@@ -145,7 +145,7 @@ export default function AuthLayout() {
       {/* Painel animado com clique para alternar */}
       <Animated.View
         style={panelAnimatedStyle}
-        className="w-full absolute left-0 right-0 rounded-t-3xl pb-5 -mt-10 z-20"
+        className="w-full absolute left-0 right-0 rounded-t-3xl pb-5 -mt-5 z-20"
         onTouchEnd={() => setIsOpen((prev) => !prev)}
       >
         {isOpen ?
@@ -199,6 +199,7 @@ export default function AuthLayout() {
                 params:
                 {
                   id: item.id,
+                  categoria: item.categoria,
                   nome: item.nome_resumo,
                   procedimento: item.proc_OP
                 }
