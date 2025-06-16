@@ -98,6 +98,9 @@ const TabsLayout = () => {
         <Tabs.Screen name="search/fauna" options={{ href: null, headerShown: false, }} />
         <Tabs.Screen name="search/flora" options={{ href: null, headerShown: false, }} />
         <Tabs.Screen name="search/procedimentos" options={{ href: null, headerShown: false, }} />
+        <Tabs.Screen name="search/mineracao" options={{ href: null, headerShown: false, }} />
+        <Tabs.Screen name="search/usoPublico" options={{ href: null, headerShown: false, }} />
+        <Tabs.Screen name="search/construcao" options={{ href: null, headerShown: false, }} />
       </Tabs>
     </>
   )
