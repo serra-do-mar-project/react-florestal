@@ -19,14 +19,14 @@ export default function Index() {
           <images.logoparque width={300} height={150} />
         </View>
 
-        <View className="mt-2 px-5">
+        <View className="mt-3 px-5">
           <Text className="text-center text-2xl font-bold text-black leading-7">
             MANUAL DE PROCEDIMENTOS{"\n"}
             OPERACIONAIS E ADMINISTRATIVOS
           </Text>
         </View>
 
-        <View className="mt-3 w-full h-[60%] relative">
+        <View className="mt-2 w-full h-[60%] relative">
           <Image
             source={images.splashbg}
             className="w-full h-full"
