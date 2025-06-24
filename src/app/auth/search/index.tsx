@@ -31,22 +31,22 @@ export default function SearchPage() {
             <Card
               text="Flora"
               src={images.flora}
-              onPress={() => router.push("/auth/search")}
+              onPress={() => router.push("/auth/search/flora")}
             />
             <Card
               text="Construção"
               src={images.construcao}
-              onPress={() => router.push("/auth/search")}
+              onPress={() => router.push("/auth/search/construcao")}
             />
             <Card
               text="Uso Público"
               src={images.usoPublico}
-              onPress={() => router.push("/auth/search")}
+              onPress={() => router.push("/auth/search/usoPublico")}
             />
             <Card
               text="Mineração"
               src={images.mineracao}
-              onPress={() => router.push("/auth/search")}
+              onPress={() => router.push("/auth/search/mineracao")}
             />
           </View>
         </View>

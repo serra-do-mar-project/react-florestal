@@ -7,7 +7,7 @@ import { infracoesTable, Infracao } from "@/src/db/schema";
 import { eq } from "drizzle-orm";
 import { useRouter } from "expo-router";
 
-export default function FaunaPage() {
+export default function MineracaoPage() {
   const [data, setData] = useState<Infracao[]>([]);
   const router = useRouter();
 
@@ -22,12 +22,12 @@ export default function FaunaPage() {
     <ReusablePageLayout
       imageComponent={
         <Image
-          source={images.fauna}
+          source={images.mineracao}
           style={{ width: "100%", height: "100%" }}
           resizeMode="cover"
         />
       }
-      title="Fauna"
+      title="Mineração"
       data={data}
       onDropdownPress={(item: Infracao) =>
         router.push({

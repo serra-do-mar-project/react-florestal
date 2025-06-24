@@ -25,31 +25,27 @@ const TabIcon = ({focused, icon, iconActive, name}: any) => {
 }
 
 const TabsLayout = () => {
-
-  const segment = useSegments()
-  const [hidden, setHidden] = useState(false)
+  // const segment = useSegments()
+  // const [hidden, setHidden] = useState(false)
   
-  useEffect(() => {
-    if (segment[1] == 'search' && segment[2]) {
-      setHidden(true)
-    } else {
-      setHidden(false)
-    }
-  }, [segment])
+  // useEffect(() => {
+  //   if (segment[1] == 'search' && segment[2]) {
+  //     setHidden(true)
+  //   } else {
+  //     setHidden(false)
+  //   }
+  // }, [segment])
 
   return (
     <>
       <Tabs
-        safeAreaInsets={{
-          bottom: hidden ? 110 : 0
-        }}
         screenOptions={{
           tabBarShowLabel: false,
           tabBarStyle: {
             backgroundColor: '#FEFEFE',
             borderTopWidth: 1,
             borderTopColor: '#C4C4C4',
-            height: 60
+            height: 60,
           }
         }}
       >
@@ -99,6 +95,11 @@ const TabsLayout = () => {
           }}  
         />
         <Tabs.Screen name="search/fauna" options={{ href: null, headerShown: false, }} />
+        <Tabs.Screen name="search/flora" options={{ href: null, headerShown: false, }} />
+        <Tabs.Screen name="search/procedimentos" options={{ href: null, headerShown: false, }} />
+        <Tabs.Screen name="search/mineracao" options={{ href: null, headerShown: false, }} />
+        <Tabs.Screen name="search/usoPublico" options={{ href: null, headerShown: false, }} />
+        <Tabs.Screen name="search/construcao" options={{ href: null, headerShown: false, }} />
       </Tabs>
     </>
   )

@@ -14,15 +14,15 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function MainLayout() {
   const { success, error } = useMigrations(db, migrations);
-  const segment = useSegments()
+  // const segment = useSegments()
 
-  useEffect(() => {
-    if (segment[1] == 'search' && segment[2]) {
-      HiddenBar.setHidden(true)
-    } else {
-      HiddenBar.setHidden(false)
-    }
-  }, [segment])
+  // useEffect(() => {
+  //   if (segment[1] == 'search' && segment[2]) {
+  //     HiddenBar.setHidden(true)
+  //   } else {
+  //     HiddenBar.setHidden(false)
+  //   }
+  // }, [segment])
 
   useEffect(() => {
     if (!success) return;
@@ -86,14 +86,14 @@ export default function MainLayout() {
           tags: "Com a presença do infrator",
           proc_OP: `
             AÇÃO PRIMÁRIA:
-            1-Fazer a abordagem do indíviduo;
-            2- Registrar a ação com foto e/ou vídeo; 
+            1- Fazer a abordagem do indíviduo
+            2- Registrar a ação com foto e/ou vídeo
             3- Informá-lo sobre o crime ambiental utilizando a legislação infringida (se possível o Artigo);
 
             AÇÃO SECUNDÁRIA:
-            - Comunicar imediatamente a PAMB para a devida autuação e apoio.
-            - Apreender o instrumento ou ferramenta;
-            - Elaborar o ACIA/RMA (qualificação, coordenadas, etc.);
+            - Comunicar imediatamente a PAMB para a devida autuação e apoio
+            - Apreender o instrumento ou ferramenta
+            - Elaborar o ACIA/RMA (qualificação, coordenadas, etc.)
             - Encaminhar o(s) infratores(es) ao DP responsável pela área para lavratura do BOPC (sempre na presença de um funcionário da FF ou IF).`,
           proc_ADM: "Elaboração de ACIA",
           enquad_PEN: "Art. 29, § 1º, § 4º(A pena é aumentada de metade por ser praticado em Unidade de Conservação) da Lei Federal nº 9.605/1998 I - contra espécie rara ou considerada ameaçada de extinção, ainda que somente no local da infração",
@@ -108,10 +108,11 @@ export default function MainLayout() {
   }, [success]);
 
   return (
+    
     <>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Stack screenOptions={{ headerShown: false}}/>
-        <StatusBar translucent style="dark" />
+        <StatusBar translucent style="dark"/>
       </GestureHandlerRootView>
     </>
   );

@@ -7,14 +7,14 @@ import { infracoesTable, Infracao } from "@/src/db/schema";
 import { eq } from "drizzle-orm";
 import { useRouter } from "expo-router";
 
-export default function FaunaPage() {
+export default function FloraPage() {
   const [data, setData] = useState<Infracao[]>([]);
   const router = useRouter();
 
   useEffect(() => {
     db.select()
       .from(infracoesTable)
-      .where(eq(infracoesTable.categoria, "fauna"))
+      .where(eq(infracoesTable.categoria, "flora"))
       .then((res) => setData(res as Infracao[]));
   }, []);
 
@@ -22,12 +22,12 @@ export default function FaunaPage() {
     <ReusablePageLayout
       imageComponent={
         <Image
-          source={images.fauna}
+          source={images.flora}
           style={{ width: "100%", height: "100%" }}
           resizeMode="cover"
         />
       }
-      title="Fauna"
+      title="Flora"
       data={data}
       onDropdownPress={(item: Infracao) =>
         router.push({
