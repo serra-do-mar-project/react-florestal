@@ -5,10 +5,11 @@ import images from "../constants/images";
 interface DropdownProps extends React.ComponentPropsWithoutRef<typeof View> {
   title: string;
   tag?: string;
+  tipoOcorrencia: string;
   onPress: () => void;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, ...props }) => {
+const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia, ...props }) => {
   const [isSelected, setIsSelected] = useState(false);
   const tags = tag?.split(",") || [];
 
@@ -25,7 +26,7 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, ...props }) =>
             resizeMode="contain"
           />
         </View>
-        {tags && (
+        {tags[0] && (
           <View className="bg-[#DFDFDF] rounded-md px-3 py-1 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
             {tags.map((tag, index) => (
               <View className="flex flex-row items-center gap-1" key={index}>
@@ -41,13 +42,15 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, ...props }) =>
         )}
       </Pressable>
       {isSelected && (
-        <View className="flex flex-col p-4 pt-1">
+        <View className="flex flex-col py-4 px-5 pt-1 w-full">
           <Text className="text-white font-semibold text-lg">Natureza do Dano (Infração/Crime)</Text>
           <View className="bg-[#DFDFDF] rounded-md p-3 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
-            <Text className="text-black text-md">Art. 25 da Resolução SIMA 05/2021</Text>
-            <Text className="text-black text-md pt-2">MATAR, PERSEGUIR, CAÇAR, APANHAR, COLETAR OU UTILIZAR ESPÉCIMES DA FAUNA SILVESTRE, NATIVOS OU EM ROTA MIGRATÓRIA, SEM A DEVIDA PERMISSÃO, LICENÇA OU AUTORIZAÇÃO DA AUTORIDADE COMPETENTE, OU EM DESACORDO COM A OBTIDA</Text>
+            <Text className="text-black text-md">{tipoOcorrencia}</Text>
           </View>
-          <TouchableOpacity className="bg-[#DFDFDF] rounded-xl p-1 mt-6 flex flex-row justify-center border-x-hairline border-b-2 border-gray-900/30">
+          <TouchableOpacity
+            className="bg-[#DFDFDF] rounded-xl p-1 mt-6 mx-7 flex flex-row justify-center border-x-hairline border-b-2 border-gray-900/30"
+            onPress={onPress}
+          >
             <Text className="text-black font-medium text-xl text-center">Selecionar</Text>
           </TouchableOpacity>
         </View>

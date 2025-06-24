@@ -12,6 +12,7 @@ import { useRouter } from "expo-router";
 
 
 
+
 export default function loginPage() {
   const [checked, setChecked] = useState(false);
   const router = useRouter();
@@ -19,6 +20,7 @@ export default function loginPage() {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(true);
   const [keyboardOpen, setKeyboardOpen] = useState(false);
+
 
   useEffect(() => {
     const showSub = Keyboard.addListener("keyboardDidShow", () => setKeyboardOpen(true));
@@ -34,7 +36,7 @@ export default function loginPage() {
 
           <View className={`flex items-center w-full h-20 ${keyboardOpen ? "mt-10" : "mt-10 xs:mt-20"}`} >
                   <Title>
-                    <Text >Seja Bem-Vindo(a)</Text>
+                    <Text >Seja Bem-Vindo(a)</Text>        
                   </Title>
 
                   <Title>
@@ -74,8 +76,8 @@ export default function loginPage() {
 
           <View className="flex items-center w-full mt-14">
                 <SubmitButton title="Login" 
-                  onPress={() => router.push("/auth/searchPage")}
-                  />
+                  onPress={() => router.push("/auth/search")}
+                />
           </View>
 
           <View className="flex flex-1 justify-around items-end flex-row mt-8">
@@ -97,10 +99,8 @@ export default function loginPage() {
                 style={{ width: 100, height: 95, resizeMode: "contain" }}
               />
             </View>
-          </View>
- 
+      </View>
       </View>
       
-
   );
 }
