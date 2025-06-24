@@ -21,6 +21,7 @@ import semilLogo from "@/src/assets/images/semil-logo.png"
 import logoParque from "@/src/assets/images/logo-parque.svg"
 import arrow from "@/src/assets/images/arrow.png"
 import pin from "@/src/assets/images/pin.png"
+import userConfig from "@/src/assets/images/user-config.svg"
 
 
 const images = {
@@ -46,6 +47,7 @@ const images = {
   logoParque,
   arrow,
   pin,
+  userConfig,
 };
 
 export default images;
