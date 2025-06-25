@@ -22,6 +22,11 @@ import logoParque from "@/src/assets/images/logo-parque.svg"
 import arrow from "@/src/assets/images/arrow.png"
 import pin from "@/src/assets/images/pin.png"
 import userConfig from "@/src/assets/images/user-config.svg"
+import eye from "@/src/assets/images/eye.svg"
+import eyeSlash from "@/src/assets/images/eye-slash.svg"
+import leave from "@/src/assets/images/leave.svg"
+
+
 
 
 const images = {
@@ -48,6 +53,9 @@ const images = {
   arrow,
   pin,
   userConfig,
+  eye,
+  eyeSlash,
+  leave
 };
 
 export default images;
