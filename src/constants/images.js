@@ -8,7 +8,8 @@ import fauna from "@/src/assets/images/fauna.png"
 import flora from "@/src/assets/images/flora.png"
 import construcao from "@/src/assets/images/construcao.png"
 import usoPublico from "@/src/assets/images/uso-publico.png"
-import mineracao from "@/src/assets/images/mineracao4.png"
+import mineracao from "@/src/assets/images/mineracao.png"
+import mineracaoLarge from "@/src/assets/images/mineracao_large.png"
 import splashbg from "@/src/assets/images/splashbg.png"
 import logoparque from "@/src/assets/images/logo-parque.svg"
 import fundacaoFlorestalBranca from "@/src/assets/images/fundacaoflorestal-branca.svg"
@@ -55,7 +56,8 @@ const images = {
   userConfig,
   eye,
   eyeSlash,
-  leave
+  leave,
+  mineracaoLarge
 };
 
 export default images;
