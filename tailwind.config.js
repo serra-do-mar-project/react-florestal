@@ -30,6 +30,11 @@ module.exports = {
           600: "#1B5E20",
           800: "#496A37"
         },
+
+        red: {
+          500: "#CE4949"
+        },
+
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
