@@ -1,19 +1,45 @@
 import CardUser from "@/src/components/moderationComponents/CardUser";
 import images from "@/src/constants/images";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, TouchableOpacity, Modal, Pressable, Alert } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Pressable, Alert, Keyboard } from "react-native";
 import { ChangePassword } from "@/src/components/ChangePassword";
 import { SubmitButton } from "@/src/components/SubmitButton";
 import { CancelButton } from "@/src/components/CancelButton";
+import { Configinput } from "@/src/components/ConfigInput";
+import { DataInput } from "@/src/components/dataInput";
+import { OptionBox } from "@/src/components/OptionBox";
 
 export default function ModerationPage() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [addModalOpen, setAddModalOpen] = useState(false);
   const [changePasswordOpen, setChangePasswordOpen] = useState(false);
   const [password, setPassword] = useState("");      // Estado para senha
   const [newPassword, setNewPassword] = useState(""); 
   const [confirmPassword, setConfirmPassword] = useState(""); 
+  const [newName, setnNewName] = useState("");
+  const [newCpf, setNewCpf] = useState("");
+  const [newCargo, setNewCargo] = useState("");
+  const [keyboardOpen, setKeyboardOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<{ nome: string; cargo: string } | null>(null);
+
+  
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+      setKeyboardOpen(true);
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardOpen(false);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
 
   // Exemplo de lista de usuários
   const usuarios = [
@@ -24,14 +50,19 @@ export default function ModerationPage() {
     { nome: "Juliana Souza", cargo: "Administrador" },
     { nome: "Patrícia Lima", cargo: "Guarda florestal" },
     // ...adicione mais usuários se quiser
-    
+
   ];
 
-  const [selectedUser, setSelectedUser] = useState<{ nome: string; cargo: string } | null>(null);
+   const cargoOptions = [
+    { label: "Administrador", value: "Administrador" },
+    { label: "Guarda florestal", value: "Guarda florestal" },
+  ];
 
-  function handleOpenModal(user: { nome: string; cargo: string }) {
+ 
+
+  function handleOpenEditModal(user: { nome: string; cargo: string }) {
     setSelectedUser(user);
-    setModalOpen(true);
+    setEditModalOpen(true);
   }
 
   function handleDeleteUser() {
@@ -40,7 +71,7 @@ export default function ModerationPage() {
       `Tem certeza que deseja excluir ${selectedUser?.nome}?`,
       [
         { text: "Cancelar", style: "cancel" },
-        { text: "Excluir", style: "destructive", onPress: () => {setModalOpen(false)} }
+        { text: "Excluir", style: "destructive", onPress: () => {setEditModalOpen(false)} }
       ]
 
     );
@@ -54,7 +85,7 @@ export default function ModerationPage() {
   function handleCancel() {
     if (!password && !newPassword && !confirmPassword) {
       setChangePasswordOpen(false);
-      setModalOpen(false);
+      setEditModalOpen(false);
       return;
     }
     Alert.alert(
@@ -66,9 +97,39 @@ export default function ModerationPage() {
           text: "Sim",
           style: "destructive",
           onPress: () => {
-            setModalOpen(false)
+            setEditModalOpen(false)
             setChangePasswordOpen(false);
             setPassword("");
+            setNewPassword("");
+            setConfirmPassword("");
+          },
+        },
+      ]
+    );
+  }
+
+  function handleCreateUser() {
+
+  }
+
+  function handleCancelCreateUser() {
+    if (!newName && !newCpf && !newCargo && !newPassword && !confirmPassword) {
+      setAddModalOpen(false);
+      return;
+    }
+    Alert.alert(
+      "Cancelar cadastro",
+      "Tem certeza que deseja cancelar o cadastro do novo usuário?",
+      [
+        { text: "Não", style: "cancel" },
+        {
+          text: "Sim",
+          style: "destructive",
+          onPress: () => {
+            setAddModalOpen(false);
+            setnNewName("");
+            setNewCpf("");
+            setNewCargo("");
             setNewPassword("");
             setConfirmPassword("");
           },
@@ -87,10 +148,15 @@ export default function ModerationPage() {
       {/* Título e botão */}
       <View className="w-full mt-12 pl-3 pr-2 flex-row items-center justify-between">
         <Text className="text-3xl font-normal">Lista de usuários</Text>
-        <TouchableOpacity className="py-2 px-2.5 w-fit bg-green-500 flex-row items-center justify-center rounded-lg">
+
+        <TouchableOpacity 
+          className="py-2 px-2.5 w-fit bg-green-500 flex-row items-center justify-center rounded-lg" 
+          onPress={()=> {setAddModalOpen(true)}}
+        >
           <images.addUser width={14} height={14} />
           <Text className="font-semibold text-white text-sm pl-1.5">Adicionar usuário</Text>
         </TouchableOpacity>
+
       </View>
 
       {/* Lista de usuários */}
@@ -100,7 +166,7 @@ export default function ModerationPage() {
             key={idx}
             nome={user.nome}
             cargo={user.cargo}
-            onOptionsPress={() => handleOpenModal(user)}
+            onOptionsPress={() => handleOpenEditModal(user)}
             isFirst={idx === 0}
           />
         ))}
@@ -108,10 +174,10 @@ export default function ModerationPage() {
 
       
       <Modal
-        visible={modalOpen}
+        visible={editModalOpen}
         transparent
         animationType="slide"
-        onRequestClose={() => setModalOpen(false)}
+        onRequestClose={() => setEditModalOpen(false)}
       >
         <View className="flex-1 justify-end">
           <Pressable
@@ -120,7 +186,7 @@ export default function ModerationPage() {
               if (changePasswordOpen) {
                 handleCancel();
               } else {
-                setModalOpen(false);
+                setEditModalOpen(false);
               }
             }}
           />
@@ -130,21 +196,23 @@ export default function ModerationPage() {
 
                 <Pressable
                     className="h-1.5 w-16 bg-gray-400/50 rounded-full mx-auto mt-3 mb-10"
-                    onPress={() => setModalOpen(false)}
+                    onPress={() => setEditModalOpen(false)}
                   />
+
+                  {!keyboardOpen && 
                   <View className="w-full items-center pb-10">
                     <Text className="text-xl font-semibold">{selectedUser?.nome}</Text>
                     <Text className="text-lg ml-0.5">{selectedUser?.cargo}</Text>
-                  </View>
-
-
-                  <View className="px-5">
+                  </View>}
+                  
+                  <View className="h-full px-5">
                         <Text className="text-2xl font-medium text-gray-900 px-3" >Alterar senha</Text>
                         <Text className="w-full px-3">
                           lembre-se, a nova senha deve ser forte e única.
                         </Text>
                   
-                        <View className="items-center w-full mt-6">
+                        <ScrollView className="mt-6">
+                        <View className="w-full items-center">
                           <ChangePassword
                             password={password}
                             setPassword={setPassword}
@@ -178,7 +246,8 @@ export default function ModerationPage() {
                             onPress={handleCancel}
                           />
                           </View>
-                        </View>
+                          </View>
+                        </ScrollView>
                       </View>
   
 
@@ -190,7 +259,7 @@ export default function ModerationPage() {
               <SafeAreaView>
                     <Pressable
                     className="h-1.5 w-16 bg-gray-400/50 rounded-full mx-auto mt-3 mb-10"
-                    onPress={() => setModalOpen(false)}
+                    onPress={() => setEditModalOpen(false)}
                   />
                   <View className="w-full items-center pb-14">
                     <Text className="text-xl font-semibold">{selectedUser?.nome}</Text>
@@ -216,6 +285,88 @@ export default function ModerationPage() {
             }
           </SafeAreaView>
         </View>
+      </Modal>
+
+
+      <Modal
+        visible={addModalOpen}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setAddModalOpen(false)}
+      >
+        <Pressable
+            className="flex-1 bg-black/30"
+            onPress={() => {
+               
+                setAddModalOpen(false);
+            
+            }}
+          />
+        <SafeAreaView className={`h-[90%] bg-white rounded-t-3xl absolute bottom-0 w-full`}>
+            <Pressable
+              className="h-1.5 w-16 bg-gray-400/50 rounded-full mx-auto mt-3 mb-14"
+              onPress={() => setEditModalOpen(false)}
+            />
+
+             <View className="px-5 ">
+                        <Text className="text-3xl font-medium text-gray-900 px-3" >Adicionar Novo Usuário</Text>
+
+            </View>
+              <ScrollView className="mt-6">
+                <View className="w-full items-center">
+                  <DataInput
+                            data={newName}
+                            setData={setnNewName}
+                            label="Nome Completo"
+                          />
+                          <DataInput
+                            data={newCpf}
+                            setData={setNewCpf}
+                            label="CPF"
+                          />
+
+                         <OptionBox 
+                            title="Designar um Cargo"
+                            options={cargoOptions}
+                            value={newCargo}
+                            onChange={setNewCargo}
+                            placeholder="Selecione o cargo"
+                         />
+
+   
+                          <ChangePassword
+                            password={newPassword}
+                            setPassword={setNewPassword}
+                            label="Senha"
+                          />
+                  
+                          <ChangePassword
+                            password={confirmPassword}
+                            setPassword={setConfirmPassword}
+                            label="Confirmar senha"
+                          />
+                  
+                          <View className="mt-10 mb-10 w-full flex-row justify-around px-14">
+                            <SubmitButton
+                            classname="h-[3rem] w-[7rem] "
+                            textClass="text-xl"
+                            title="Salvar"
+                            onPress={handleCreateUser}
+                          />
+
+                          <CancelButton
+                            classname="h-[3rem] w-[7rem] "
+                            textClass="text-xl"
+                            title="Cancelar"
+                            onPress={handleCancelCreateUser}
+                          />
+                          </View>
+                </View>
+                          
+              </ScrollView>
+                                      
+        </SafeAreaView>
+
       </Modal>
       
      

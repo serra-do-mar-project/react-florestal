@@ -16,7 +16,7 @@ export function Configinput({children, textHolder, visible, value, onChangeText}
       value={value}
       onChangeText={onChangeText}
       secureTextEntry={visible}
-      className=" flex-1 w-full text-black placeholder: text-xl font-semibold"
+      className=" flex-1 w-full text-black text-xl font-semibold"
       placeholder = {textHolder}
     />
     {children && (
