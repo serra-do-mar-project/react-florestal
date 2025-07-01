@@ -1,0 +1,31 @@
+import { View, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import images from "@/src/constants/images";
+
+interface CardUserProps {
+  nome: string;
+  cargo: string;
+  onOptionsPress?: () => void;
+  isFirst?: boolean; // Adicione esta prop
+}
+
+export default function CardUser({ nome, cargo, onOptionsPress, isFirst }: CardUserProps) {
+  return (
+    <View
+      className={`h-24 flex-row items-center justify-between border-b border-gray-900/50 ${
+        isFirst ? "border-t" : ""
+      }`}
+    >
+      <View className="px-5 pb-1">
+        <Text className="text-xl font-semibold">{nome}</Text>
+        <Text className="text-lg ml-0.5">{cargo}</Text>
+      </View>
+      <TouchableOpacity
+        className="h-full px-5 pb-1 justify-center"
+        onPress={onOptionsPress}
+      >
+        <images.opcoes width={20} height={20} />
+      </TouchableOpacity>
+    </View>
+  );
+}

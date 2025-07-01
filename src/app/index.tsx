@@ -15,18 +15,18 @@ export default function Index() {
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-1 items-center z-10">
         
-        <View className="mt-6">
-          <images.logoparque width={300} height={150} />
+        <View className="mt-8">
+           <images.logoparque width={300} height={120} />
         </View>
 
-        <View className="mt-3 px-5">
-          <Text className="text-center text-2xl font-bold text-black leading-7">
-            MANUAL DE PROCEDIMENTOS{"\n"}
-            OPERACIONAIS E ADMINISTRATIVOS
+        <View className="mb-2 mt-1 px-2">
+
+          <Text className="text-center text-3xl font-semibold text-black leading-7">
+            Manual de Procedimentos Operacionais e Adimistrativos
           </Text>
         </View>
 
-        <View className="mt-2 w-full h-[60%] relative">
+        <SafeAreaView className={`mt-2 w-full relative`} style={{ height: height - 265 }}>
           <Image
             source={images.splashbg}
             className="w-full h-full"
@@ -35,12 +35,12 @@ export default function Index() {
 
           <View className="absolute bottom-24 w-full items-center">
             <SubmitButton
-              title="ENTRAR"
+              title="Entrar"
               onPress={() => router.push("/loginPage")}
             />
           </View>
-        </View>
-
+        </SafeAreaView>
+    
         <BottomBar />
       </View>
     </SafeAreaView>

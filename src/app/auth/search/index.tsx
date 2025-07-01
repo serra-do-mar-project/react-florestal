@@ -48,6 +48,12 @@ export default function SearchPage() {
               src={images.mineracao}
               onPress={() => router.push("/auth/search/mineracao")}
             />
+
+            <Card
+              text="Pesquisa"
+              src={images.pesquisa}
+              onPress={() => router.push("/auth/search/pesquisa")}
+            />
           </View>
         </View>
       </ScrollView>

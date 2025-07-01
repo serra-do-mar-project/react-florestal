@@ -32,7 +32,7 @@ export default function ConfigPage() {
   }
 
   return (
-    <View className="flex items w-full h-full">
+    <View className="flex w-full h-full">
       <View className="bg-[#fffdfd] pt-10 pb-5 shadow shadow-black ">
         <View className="w-full flex-row items-center justify-between mb-3 px-5 ">
         </View>
