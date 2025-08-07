@@ -7,7 +7,7 @@ import { infracoesTable, Infracao } from "@/src/db/schema";
 import { eq } from "drizzle-orm";
 import { useRouter } from "expo-router";
 
-export default function ConstrucaoPage() {
+export default function PesquisaPage() {
   const [data, setData] = useState<Infracao[]>([]);
   const router = useRouter();
 
@@ -22,12 +22,12 @@ export default function ConstrucaoPage() {
     <ReusablePageLayout
       imageComponent={
         <Image
-          source={images.construcaoLarge}
+          source={images.pesquisa}
           style={{ width: "100%", height: "100%" }}
           resizeMode="cover"
         />
       }
-      title="Construção"
+      title="Pesquisa não autorizada"
       data={data}
       onDropdownPress={(item: Infracao) =>
         router.push({

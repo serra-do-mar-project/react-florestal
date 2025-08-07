@@ -45,11 +45,11 @@ export default function loginPage() {
 
           </View>
 
-          <View className={`flex w-full h-fit ${keyboardOpen ? "mt-2 mb-1 " : "mt-10 mb-8"} items-center`}> 
-                <images.logoparque width={keyboardOpen ? FullWindowOverlay : 340} height={140} />
+          <View className={`flex w-full h-fit ${keyboardOpen ? "mt-1 mb-1 " : "mt-5 mb-5"} items-center`}> 
+                <images.logoparque width={keyboardOpen ? 200 : 500} height={keyboardOpen ? 160 : 190} />
           </View>
 
-          <View className="flex lg:px-96 items-center mx-4 mt-5" >
+          <View className="flex lg:px-96 items-center mx-4 mt-2" >
 
               <Logininput textHolder="CPF" value={CPF} onChangeText={setCPF}>
 
@@ -74,7 +74,7 @@ export default function loginPage() {
 
           </View>
 
-          <View className="flex items-center w-full mt-14">
+          <View className="flex items-center w-full mt-12 mb-">
                 <SubmitButton title="Login" 
                   onPress={() => router.push("/auth/search")}
                 />

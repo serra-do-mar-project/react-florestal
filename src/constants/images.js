@@ -7,8 +7,10 @@ import settings from "@/src/assets/images/settings.svg"
 import fauna from "@/src/assets/images/fauna.png"
 import flora from "@/src/assets/images/flora.png"
 import construcao from "@/src/assets/images/construcao.png"
+import construcaoLarge from "@/src/assets/images/construcao_large.png"
 import usoPublico from "@/src/assets/images/uso-publico.png"
-import mineracao from "@/src/assets/images/mineracao4.png"
+import mineracao from "@/src/assets/images/mineracao.png"
+import mineracaoLarge from "@/src/assets/images/mineracao_large.png"
 import splashbg from "@/src/assets/images/splashbg.png"
 import logoparque from "@/src/assets/images/logo-parque.svg"
 import fundacaoFlorestalBranca from "@/src/assets/images/fundacaoflorestal-branca.svg"
@@ -21,6 +23,18 @@ import semilLogo from "@/src/assets/images/semil-logo.png"
 import logoParque from "@/src/assets/images/logo-parque.svg"
 import arrow from "@/src/assets/images/arrow.png"
 import pin from "@/src/assets/images/pin.png"
+import userConfig from "@/src/assets/images/user-config.svg"
+import eye from "@/src/assets/images/eye.svg"
+import eyeSlash from "@/src/assets/images/eye-slash.svg"
+import leave from "@/src/assets/images/leave.svg"
+import pesquisa from "@/src/assets/images/Pesquisa.png"
+import moderacao from "@/src/assets/images/moderacao.svg"
+import addUser from "@/src/assets/images/addUser.svg"
+import opcoes from "@/src/assets/images/opcoes.svg"
+import edit from "@/src/assets/images/edit.svg"
+import trash from "@/src/assets/images/trash.svg"
+
+
 
 
 const images = {
@@ -46,6 +60,18 @@ const images = {
   logoParque,
   arrow,
   pin,
+  userConfig,
+  eye,
+  eyeSlash,
+  leave,
+  mineracaoLarge,
+  pesquisa,
+  moderacao,
+  construcaoLarge,
+  addUser,
+  opcoes,
+  edit,
+  trash
 };
 
 export default images;
