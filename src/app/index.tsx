@@ -1,10 +1,11 @@
 'use client'
 
-import { View, Image, Text, SafeAreaView, Dimensions } from "react-native";
+import { View, Image, Text, Dimensions } from "react-native";
 import images from "../constants/images";
 import { SubmitButton } from "../components/SubmitButton";
 import { useRouter } from "expo-router";
 import BottomBar from "../components/Bottombar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const { height } = Dimensions.get("window");
 
@@ -12,21 +13,16 @@ export default function Index() {
   const router = useRouter();
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-1 items-center z-10">
-        
-        <View className="mt-8">
-           <images.logoparque width={300} height={120} />
-        </View>
-
-        <View className="mb-2 mt-1 px-2">
-
-          <Text className="text-center text-3xl font-semibold text-black leading-7">
-            Manual de Procedimentos Operacionais e Adimistrativos
+    <SafeAreaView className="flex-1 bg-white items-center">
+        <View className="mt-6 px-5 items-center gap-3 flex-[1/3]">
+          <images.logoparque width={300} height={150} />
+          <Text className="text-center text-2xl font-bold text-black leading-7">
+            MANUAL DE PROCEDIMENTOS{"\n"}
+            OPERACIONAIS E ADMINISTRATIVOS
           </Text>
         </View>
 
-        <SafeAreaView className={`mt-2 w-full relative`} style={{ height: height - 265 }}>
+        <View className="mt-2 w-full flex-1 relative mb-auto">
           <Image
             source={images.splashbg}
             className="w-full h-full"
@@ -39,10 +35,9 @@ export default function Index() {
               onPress={() => router.push("/loginPage")}
             />
           </View>
-        </SafeAreaView>
+        </View>
     
         <BottomBar />
-      </View>
     </SafeAreaView>
   );
 }
