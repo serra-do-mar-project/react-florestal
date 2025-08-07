@@ -31,12 +31,12 @@ export default function Index() {
 
           <View className="absolute bottom-24 w-full items-center">
             <SubmitButton
-              title="ENTRAR"
-              onPress={() => router.push("/loginPage")}   
+              title="Entrar"
+              onPress={() => router.push("/loginPage")}
             />
           </View>
         </View>
-
+    
         <BottomBar />
     </SafeAreaView>
   );

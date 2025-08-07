@@ -82,6 +82,21 @@ const TabsLayout = () => {
           }}  
         />
         <Tabs.Screen
+          name="moderation" 
+          options={{
+            title: "Moderação",
+            headerShown: false,
+            tabBarIcon: ({focused}) => (
+              <TabIcon 
+                icon={<images.moderacao width={24} height={24} />}
+                iconActive={<images.moderacao width={24} height={24} color="green" strokeWidth={0.5} />}
+                name="Moderação"
+                focused={focused}
+              />
+            )
+          }}  
+        />
+        <Tabs.Screen
           name="config" 
           options={{
             title: "Configurações",
@@ -96,12 +111,6 @@ const TabsLayout = () => {
             )
           }}  
         />
-        {/* <Tabs.Screen name="search/fauna" options={{ href: null, headerShown: false, }} />
-        <Tabs.Screen name="search/flora" options={{ href: null, headerShown: false, }} />
-        <Tabs.Screen name="search/procedimentos" options={{ href: null, headerShown: false, }} />
-        <Tabs.Screen name="search/mineracao" options={{ href: null, headerShown: false, }} />
-        <Tabs.Screen name="search/usoPublico" options={{ href: null, headerShown: false, }} />
-        <Tabs.Screen name="search/construcao" options={{ href: null, headerShown: false, }} /> */}
       </Tabs>
     </>
   )

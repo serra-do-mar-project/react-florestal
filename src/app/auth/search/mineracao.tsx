@@ -22,7 +22,7 @@ export default function MineracaoPage() {
     <ReusablePageLayout
       imageComponent={
         <Image
-          source={images.mineracao}
+          source={images.mineracaoLarge}
           style={{ width: "100%", height: "100%" }}
           resizeMode="cover"
         />
