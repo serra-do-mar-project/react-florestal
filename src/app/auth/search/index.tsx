@@ -17,12 +17,12 @@ export default function SearchPage() {
       <SearchBar />
 
       <ScrollView
-        className="w-full"
+        className="w-full h-full"
         contentContainerStyle={{ alignItems: "center", justifyContent: "center" }} // Centraliza o conteúdo
         showsVerticalScrollIndicator={false} // Oculta a barra de rolagem vertical
       >
-        <View className="w-fit pb-5">
-          <View className="flex-1 flex-row flex-wrap gap-4 w-full px-5 mt-7 justify-start">
+        <View className="w-fit h-full pb-5 ">
+          <View className="flex-1 flex-row flex-wrap gap-4 w-full px-5 mt-7 items-end justify-start">
             <Card
               text="Fauna"
               src={images.fauna}

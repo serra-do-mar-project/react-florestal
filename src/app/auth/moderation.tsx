@@ -1,3 +1,4 @@
+import React from "react";
 import CardUser from "@/src/components/moderationComponents/CardUser";
 import images from "@/src/constants/images";
 import { useState, useEffect } from "react";
@@ -139,7 +140,7 @@ export default function ModerationPage() {
   }
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-gray-200">
       {/* Header */}
       <View className="bg-[#fffdfd] pt-10 pb-5 shadow shadow-black">
         <Text className="text-gray-900 font-semibold text-3xl ml-7">Moderação</Text>
@@ -160,7 +161,7 @@ export default function ModerationPage() {
       </View>
 
       {/* Lista de usuários */}
-      <ScrollView className="flex-1 mt-20 mb-16">
+      <ScrollView className="flex-1 mt-12 mb-12">
         {usuarios.map((user, idx) => (
           <CardUser
             key={idx}

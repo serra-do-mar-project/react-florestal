@@ -1,6 +1,6 @@
 'use client'
 
-import { View, Image, TouchableOpacity, Dimensions, Keyboard, Text } from "react-native";
+import { View, Image, TouchableOpacity, Keyboard, Text,} from "react-native";
 import images from '../constants/images'
 import Title from "../components/Title";
 import { FullWindowOverlay } from "react-native-screens";
@@ -32,9 +32,9 @@ export default function loginPage() {
   }, []);
 
   return (
-      <View className="flex-1 bg-white">
-
-          <View className={`flex items-center w-full h-20 ${keyboardOpen ? "mt-10" : "mt-10 xs:mt-20"}`} >
+    <View className="flex-1 bg-white">
+        <View className={`flex-1 items-center justify-center`}>
+          <View className={`flex items-center w-full h-20 ${keyboardOpen ? "mt-20" : "mt-10 mb-5 xs:mt-20"}`} >
                   <Title>
                     <Text >Seja Bem-Vindo(a)</Text>        
                   </Title>
@@ -49,7 +49,7 @@ export default function loginPage() {
                 <images.logoparque width={keyboardOpen ? 200 : 500} height={keyboardOpen ? 160 : 190} />
           </View>
 
-          <View className="flex lg:px-96 items-center mx-4 mt-2" >
+          <View className="flex lg:px-96 items-center mx-4 mt-8" >
 
               <Logininput textHolder="CPF" value={CPF} onChangeText={setCPF}>
 
@@ -74,13 +74,18 @@ export default function loginPage() {
 
           </View>
 
-          <View className="flex items-center w-full mt-12 mb-">
+          <View className={`flex items-center w-full ${keyboardOpen? "mt-10" : "mt-24"} mb-12`}>
                 <SubmitButton title="Login" 
                   onPress={() => router.push("/auth/search")}
                 />
           </View>
 
-          <View className="flex flex-1 justify-around items-end flex-row mt-8">
+
+          </View>
+
+          {!keyboardOpen &&
+          
+          <View className="flex-2 justify-around items-end flex-row mt-8">
             <View className="items-center justify-center w-24 h-24 bg-transparent">
               <Image
                 source={images.ifspLogo}
@@ -99,7 +104,11 @@ export default function loginPage() {
                 style={{ width: 100, height: 95, resizeMode: "contain" }}
               />
             </View>
-      </View>
+          </View>
+          
+    
+          }
+          
       </View>
       
   );
