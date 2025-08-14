@@ -161,7 +161,7 @@ export default function ModerationPage() {
       </View>
 
       {/* Lista de usuários */}
-      <ScrollView className="flex-1 mt-12 mb-12">
+      <ScrollView className="flex-1 mt-6 ">
         {usuarios.map((user, idx) => (
           <CardUser
             key={idx}

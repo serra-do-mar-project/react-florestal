@@ -9,6 +9,13 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['BaiJamjuree-Regular', 'System'],
+        bold: ['BaiJamjuree-Bold', 'System'],
+        semibold: ['BaiJamjuree-SemiBold', 'System'],
+        italic: ['BaiJamjuree-Italic', 'System'],
+        // adicione outros estilos se quiser
+      },
       screens: {
         xs: "320px",   // celulares pequenos
         sm: "400px",   // celulares regulares

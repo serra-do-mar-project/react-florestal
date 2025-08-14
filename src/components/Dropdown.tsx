@@ -15,7 +15,7 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia
 
   return (
     <View {...props} className="bg-[#57714A] rounded-md w-full flex flex-col items-center">
-      <Pressable className="pt-4 pb-5 px-5 flex flex-col" onPress={() => {
+      <Pressable className="pt-3 pb-4 px-5 flex flex-col" onPress={() => {
         setIsSelected(!isSelected);
       }}>
         <View className="flex flex-row items-center justify-between w-full gap-1">
@@ -27,7 +27,7 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia
           />
         </View>
         {tags[0] && (
-          <View className="bg-[#DFDFDF] rounded-md px-3 py-1 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
+          <View className="bg-[#DFDFDF] rounded-md px-3 pt-1 pb-1.5 mb-0.5 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
             {tags.map((tag, index) => (
               <View className="flex flex-row items-center gap-1" key={index}>
                 <Image

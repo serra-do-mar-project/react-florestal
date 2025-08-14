@@ -12,7 +12,7 @@ interface CardUserProps {
 export default function CardUser({ nome, cargo, onOptionsPress, isFirst }: CardUserProps) {
   return (
     <View
-      className={`h-24 mx-3 my-2 flex-row items-center justify-between bg-white border border-gray-900/50 rounded-xl`}
+      className={`h-24 mx-3 my-2 flex-row items-center justify-between bg-white border border-gray-900/20 rounded-xl`}
     >
       <View className="px-6 pb-1">
         <Text className="text-xl font-semibold">{nome}</Text>
