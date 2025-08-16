@@ -28,6 +28,7 @@ module.exports = {
           100: "#F7FAF6", // background de input
           200 : "#F6F5F5", // background
           300: "#D9D9D9", // hover de Tab
+          800: "#ABA8A8",
           900: "#1C1C1C", // texto
         },
         green: {

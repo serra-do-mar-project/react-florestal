@@ -1,5 +1,5 @@
 import React from "react";
-import CardUser from "@/src/components/moderationComponents/CardUser";
+import CardUser from "@/src/components/moderation/CardUser";
 import images from "@/src/constants/images";
 import { useState, useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
