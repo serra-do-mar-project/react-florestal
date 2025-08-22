@@ -1,5 +1,5 @@
 import './global.css'
-import { Stack, useSegments } from 'expo-router';
+import { Stack } from 'expo-router';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StatusBar as HiddenBar } from 'react-native';
@@ -8,11 +8,22 @@ import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import migrations from '../../drizzle/migrations';
 import { useEffect } from 'react';
 import { infracoesTable } from '../db/schema';
-
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
+import { useFonts } from 'expo-font'; // ADICIONE ESTA LINHA
+import { SplashScreen } from 'expo-router'; // OU use expo-splash-screen
 
 export default function MainLayout() {
+
+  // Carregue as fontes aqui
+  const [fontsLoaded] = useFonts({
+    'BaiJamjuree-Regular': require('../../assets/fonts/BaiJamjuree-Regular.ttf'),
+    'BaiJamjuree-Bold': require('../../assets/fonts/BaiJamjuree-Bold.ttf'),
+    'BaiJamjuree-Italic': require('../../assets/fonts/BaiJamjuree-Italic.ttf'),
+    'BaiJamjuree-SemiBold': require('../../assets/fonts/BaiJamjuree-SemiBold.ttf'),
+    // adicione outros estilos se quiser
+  });
+
+
   const { success, error } = useMigrations(db, migrations);
   // const segment = useSegments()
 

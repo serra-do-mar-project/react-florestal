@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
-import ReusablePageLayout from "@/src/components/searchComponents/CasosPageLayout";
+import ReusablePageLayout from "@/src/components/search/CasosPageLayout";
 import images from "@/src/constants/images";
 import db from "@/src/db/connection";
 import { infracoesTable, Infracao } from "@/src/db/schema";

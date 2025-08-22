@@ -1,6 +1,6 @@
 'use client'
 
-import { View, Image, TouchableOpacity, Dimensions, Keyboard, Text } from "react-native";
+import { View, Image, TouchableOpacity, Keyboard, Text,} from "react-native";
 import images from '../constants/images'
 import Title from "../components/Title";
 import { FullWindowOverlay } from "react-native-screens";
@@ -9,6 +9,7 @@ import { SubmitButton } from "../components/SubmitButton";
 import React, { useEffect, useState } from "react";
 import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
 import { useRouter } from "expo-router";
+import { ScrollView } from "react-native-gesture-handler";
 
 
 
@@ -32,9 +33,13 @@ export default function loginPage() {
   }, []);
 
   return (
-      <View className="flex-1 bg-white">
-
-          <View className={`flex items-center w-full h-20 ${keyboardOpen ? "mt-10" : "mt-10 xs:mt-20"}`} >
+    <View className="flex-1 bg-white">
+        <ScrollView
+          scrollEnabled={keyboardOpen}
+          className="flex-1"
+          contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }}
+        >
+          <View className={`flex items-center w-full h-20 ${keyboardOpen ? "mt-20" : "mt-10 mb-5 xs:mt-20"}`} >
                   <Title>
                     <Text >Seja Bem-Vindo(a)</Text>        
                   </Title>
@@ -44,43 +49,38 @@ export default function loginPage() {
                   </Title>
 
           </View>
-
-          <View className={`flex w-full h-fit ${keyboardOpen ? "mt-1 mb-1 " : "mt-5 mb-5"} items-center`}> 
-                <images.logoparque width={keyboardOpen ? 200 : 500} height={keyboardOpen ? 160 : 190} />
+          <View className={`flex w-full h-fit ml-0.5 ${keyboardOpen ? "mt-1 mb-1 " : "mt-1 mb-5"} items-center`}> 
+            <images.logoparque width={keyboardOpen ? 200 : 500} height={keyboardOpen ? 160 : 190} />
           </View>
-
-          <View className="flex lg:px-96 items-center mx-4 mt-2" >
-
-              <Logininput textHolder="CPF" value={CPF} onChangeText={setCPF}>
-
+          <View className="flex lg:px-96 items-center mx-4 mt-4" >
+            <Logininput textHolder="CPF" value={CPF} onChangeText={setCPF}>
               <images.user width="24px" height="24px"/>
-
-              </Logininput>
-
-              <Logininput visible={visible} textHolder="Senha" value={password} onChangeText={setPassword}>
-                <TouchableOpacity
-                  onPress={() => setVisible(!visible)}
-                >
+            </Logininput>
+            <Logininput visible={visible} textHolder="Senha" value={password} onChangeText={setPassword}>
+              <TouchableOpacity
+                onPress={() => setVisible(!visible)}
+              >
                 <images.lock width="24px" height="24px"/>
-                </TouchableOpacity>
-              </Logininput>
-              <View className="w-full pl-6">
-                <CheckboxWithLabel
-                  checked={checked}
-                  onCheckedChange={setChecked}
-                  label="Lembrar de mim" 
-                />
-              </View>
-
+              </TouchableOpacity>
+            </Logininput>
+            <View className="w-full pl-6">
+              <CheckboxWithLabel
+                checked={checked}
+                onCheckedChange={setChecked}
+                label="Lembrar de mim" 
+              />
+            </View>
           </View>
-
-          <View className="flex items-center w-full mt-12 mb-">
-                <SubmitButton title="Login" 
-                  onPress={() => router.push("/auth/search")}
-                />
+          <View className={`flex items-center w-full ${keyboardOpen? "mt-12" : "mt-14"} mb-12`}>
+            <SubmitButton title="Login" 
+              onPress={() => router.push("/auth/search")}
+            />
           </View>
+        </ScrollView>
 
-          <View className="flex flex-1 justify-around items-end flex-row mt-8">
+          {!keyboardOpen &&
+          
+          <View className="flex-2 justify-around items-end flex-row mt-8">
             <View className="items-center justify-center w-24 h-24 bg-transparent">
               <Image
                 source={images.ifspLogo}
@@ -99,7 +99,11 @@ export default function loginPage() {
                 style={{ width: 100, height: 95, resizeMode: "contain" }}
               />
             </View>
-      </View>
+          </View>
+          
+    
+          }
+          
       </View>
       
   );

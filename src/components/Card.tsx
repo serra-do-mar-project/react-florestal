@@ -11,7 +11,7 @@ export function Card({ text, onPress, src }: CardProps) {
   return (
     <TouchableOpacity
       onPress={onPress}
-      className="h-44 w-[45%] rounded-lg overflow-hidden bg-white border border-green-100 shadow-md"
+      className="h-44 w-[45%] rounded-lg overflow-hidden bg-white border border-gray-900/30 shadow-md"
     >
       <View className="h-32">
         <Image
@@ -22,7 +22,7 @@ export function Card({ text, onPress, src }: CardProps) {
         />
       </View>
 
-      <View className="flex items-center pt-2">
+      <View className="flex-1 items-center pt-2 border-t border-gray-900/40 ">
         <Text className="text-xl font-medium">{text}</Text>
       </View>
     </TouchableOpacity>
