@@ -1,10 +1,16 @@
+import { DataInput } from "@/src/components/dataInput";
 import DropdownBox from "@/src/components/report/DropdownBox";
+import FormCard from "@/src/components/report/FormCard";
+import RadioButton from "@/src/components/report/RadioButton";
 import images from "@/src/constants/images";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function ReportPage() {
+
+  const options = ["Opção 1", "Opção 2", "Opção 3"];
+  const data= "";
 
   return (
     <View className="flex w-full h-full">
@@ -16,29 +22,16 @@ export default function ReportPage() {
 
       <ScrollView className="flex-1">
 
-        <View className="bg-white pb-7 mx-5 border border-gray-800/80 rounded-lg">
-          <View className="px-6 py-3">
-            <Text className="text-gray-800 text-sm pb-1.5">
-              Página 01 de 05
-            </Text>
-            <Text className="font-bold pb-1.5" style={{ fontSize: 23 }}>
-              Seção
-            </Text>
-            <Text className="text-gray-800 text-sm">
-              Preencha esses campos abaixo
-            </Text>
-          </View>
+      <FormCard title="Dropdown">
+        <DropdownBox title="Equipe" options={options}/>
+        <DropdownBox options={options}/>
+        <DropdownBox options={options}/>
+      </FormCard>
 
-          <View className="flex-row pt-10 pb-5 mx-8 justify-around">
-              
-            <DropdownBox/>
-            <DropdownBox/>
+      <FormCard>
+       <RadioButton/>
 
-          </View>
-
-
-          
-        </View>
+      </FormCard>
 
       </ScrollView>
 

@@ -11,7 +11,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['BaiJamjuree-Regular', 'System'],
-        bold: ['BaiJamjuree-Bold', 'System'],
+        bold: ['BaiJamjuree-Bold',],
         semibold: ['BaiJamjuree-SemiBold', 'System'],
         italic: ['BaiJamjuree-Italic', 'System'],
         // adicione outros estilos se quiser
