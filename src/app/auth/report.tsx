@@ -29,7 +29,8 @@ export default function ReportPage() {
       </FormCard>
 
       <FormCard>
-       <RadioButton/>
+       <RadioButton title="Pergunta 1" options={options} multiSelect={false}/>
+       <RadioButton title="Pergunta 2" options={options} />
 
       </FormCard>
 
