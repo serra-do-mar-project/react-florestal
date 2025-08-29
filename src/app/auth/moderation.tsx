@@ -314,8 +314,8 @@ export default function ModerationPage() {
 
             </View>
               <ScrollView className="mt-6">
-                <View className="w-full items-center">
-                  <DataInput
+                <View className="w-full items-center px-8">
+                          <DataInput
                             data={newName}
                             setData={setnNewName}
                             label="Nome Completo"
@@ -347,7 +347,7 @@ export default function ModerationPage() {
                             label="Confirmar senha"
                           />
                   
-                          <View className="mt-10 mb-10 w-full flex-row justify-around px-14">
+                          <View className="mt-10 mb-10 w-full flex-row justify-around px-7">
                             <SubmitButton
                             classname="h-[3rem] w-[7rem] "
                             textClass="text-xl"

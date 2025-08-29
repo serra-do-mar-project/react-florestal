@@ -18,7 +18,7 @@ export function ChangePassword({
   const [visible, setVisible] = useState(true);
 
   return (
-    <View className="w-96">
+    <View className="w-full">
       <Text className="w-full text-xl pb-2 font-medium">{label}</Text>
       <Configinput
         visible={visible}
@@ -26,11 +26,11 @@ export function ChangePassword({
         value={password}
         onChangeText={setPassword}
       >
-       {visible ? <TouchableOpacity onPress={() => setVisible(!visible)}>
+       {visible ? <TouchableOpacity className="h-full justify-center pl-6 pr-3" onPress={() => setVisible(!visible)}>
         <images.eyeSlash width={24} height={24} />
         </TouchableOpacity>
           :  
-       <TouchableOpacity onPress={() => setVisible(!visible)}>
+       <TouchableOpacity className="h-full justify-center pl-6 pr-3" onPress={() => setVisible(!visible)}>
           <images.eye width={24} height={24} />
         </TouchableOpacity>}
 

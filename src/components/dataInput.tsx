@@ -18,9 +18,9 @@ export function DataInput({
   const [visible, setVisible] = useState(true);
 
   return (
-    <View className="w-96">
+    <View className="w-full">
       
-      <Text className="w-full text-xl pb-2 font-medium">{label}</Text>
+      <Text className="w-full text-xl pb-2 font-semibold">{label}</Text>
       <Configinput
         textHolder=""
         value={data}
