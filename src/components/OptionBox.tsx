@@ -22,7 +22,7 @@ export function OptionBox({ options, value, onChange, title, placeholder = "Sele
   const selectedLabel = options.find(opt => opt.value === value)?.label || placeholder;
 
   return (
-    <View className="w-full ml-14 mb-5 mt-1 items-start">
+    <View className="w-full mb-5 mt-1 items-start">
       <Text className="w-full text-xl pb-3 font-medium">{title}</Text>
 
       <TouchableOpacity

@@ -43,10 +43,15 @@ export default function Selectable({ title, options, multiSelect = true, onSelec
             onPress={() => handlePress(option)}
           >
             <View
-              className={`w-5 h-5 border-2 border-gray-900/80 rounded-full ${
-                selected.includes(option) ? "bg-gray-900/70" : ""
-              }`}
-            />
+              className={`w-5 h-5 items-center justify-center border-2 border-gray-900/80 rounded-full`}
+            >
+              {
+                selected.includes(option)&& 
+                <View className="w-3 h-3 bg-gray-900/70 rounded-full"/>
+              
+              }
+
+            </View>
             <Text className="pl-2 pt-1 font-sans text-lg">{option}</Text>
           </TouchableOpacity>
         ))}

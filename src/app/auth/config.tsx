@@ -69,7 +69,7 @@ export default function ConfigPage() {
         lembre-se, a nova senha deve ser forte e única.
       </Text>
 
-      <View className="items-center w-full mt-5">
+      <View className="items-center w-full mt-5 px-3">
         <ChangePassword
           password={password}
           setPassword={setPassword}
