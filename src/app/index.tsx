@@ -6,6 +6,8 @@ import { SubmitButton } from "../components/SubmitButton";
 import { useRouter } from "expo-router";
 import BottomBar from "../components/Bottombar";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { LinearGradient } from 'expo-linear-gradient';
+import { rgbaColor } from "react-native-reanimated/lib/typescript/Colors";
 
 const { height } = Dimensions.get("window");
 
@@ -15,14 +17,19 @@ export default function Index() {
   return (
     <SafeAreaView className="flex-1 bg-white items-center">
         <View className="mt-6 px-5 items-center gap-3 flex-[1/3]">
-          <images.logoparque width={300} height={150} />
+          <images.logoparque width={300} height={80} />
           <Text className="text-center text-2xl font-bold text-black leading-7">
             MANUAL DE PROCEDIMENTOS{"\n"}
             OPERACIONAIS E ADMINISTRATIVOS
           </Text>
         </View>
+        
+        <View className="w-full flex-1 relative mb-auto">
+          <LinearGradient 
+            colors={['#FFFFFF', 'transparent']}
+            className="absolute top-0 z-10 h-10 w-full">
+          </LinearGradient>  
 
-        <View className="mt-2 w-full flex-1 relative mb-auto">
           <Image
             source={images.splashbg}
             className="w-full h-full"
