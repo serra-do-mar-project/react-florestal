@@ -1,16 +1,40 @@
 import images from '@/src/constants/images';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 
 interface DropdownBoxProps {
     title?: string;
     options: string[];
-    onSelect?: (option: string) => void;
+    onSelect?: (option: string | undefined) => void;
+    required?: boolean; // Adiciona a propriedade "required"
+    error?: boolean;
 }
 
-const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect }) => {
+const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, required = true }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selected, setSelected] = useState<string | null>(null);
+    const [selected, setSelected] = useState<string | undefined>(undefined);
+    const [error, setError] = useState(false); // Estado para controlar o erro
+
+    const handleSelect = (option: string) => {
+        setSelected(option);
+        setIsOpen(false);
+        setError(false); // Limpa o erro ao selecionar uma opção
+    };
+
+
+    useEffect(() => {
+
+        onSelect?.(selected); // Chama o callback sempre que "selected" mudar
+    }, [selected]); // Dependência no "selected"
+
+
+    const handleRequired = () => {
+        if (required && !selected ) {
+            setError(true); 
+            return;
+        }
+        setIsOpen((open) => !open);
+    };
 
     return (
 
@@ -22,11 +46,11 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect }) =
             {/* Botão de abrir/fechar */}
             <Pressable
                 className={`bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen&& " rounded-b-none"}`}
-                onPress={() => setIsOpen((open) => !open)}
+                onPress={() => setIsOpen(!isOpen)}
             >
                 <View className={`flex-row items-center `}>
                     <Text className="flex-1 font-sans text-lg py-2 pl-3">
-                        {selected  || "Selecione"}
+                        {selected || "Selecione"}
                     </Text>
                     <Image
                         source={images.arrow}
@@ -43,11 +67,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect }) =
                     {options.map((option, idx) => (
                         <Pressable
                             key={option}
-                            onPress={() => {
-                                setSelected(option);
-                                setIsOpen(false);
-                                onSelect?.(option);
-                            }}
+                            onPress={() => handleSelect(option)}
                         >
                             {({ pressed }) => (
                                 <Text
@@ -63,6 +83,9 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect }) =
                     ))}
                 </View>
             )}
+
+            {/* Mensagem de erro */}
+            {error && <Text className="text-red-500 text-sm mt-1">Selecione uma opção antes de continuar.</Text>}
         </View>
     );
 };
