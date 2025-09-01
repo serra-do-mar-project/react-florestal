@@ -1,8 +1,9 @@
-import { DataInput } from "@/src/components/dataInput";
 import DropdownBox from "@/src/components/report/DropdownBox";
 import FormCard from "@/src/components/report/FormCard";
+import { Forminput } from "@/src/components/report/FormInput";
 import RadioButton from "@/src/components/report/RadioButton";
 import TextArea from "@/src/components/report/TextArea";
+import { SubmitButton } from "@/src/components/SubmitButton";
 import images from "@/src/constants/images";
 import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
@@ -13,14 +14,32 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function ReportPage() {
 
   const options = ["Opção 1", "Opção 2", "Opção 3"];
-  const[trowError, setTrowError] = useState<Boolean>(false)
+  const[trowError, setTrowError] = useState<boolean>(false)
+  const [form, setForm] = useState<any>({}) 
+
   const [newData, setNewData] = useState("");
   const [newData2, setNewData2] = useState("");
   const [newData3, setNewData3] = useState("");
 
-  const [form, setForm] = useState<any>({}) 
-  console.log(form)
  
+  
+
+  const handleSubmit = (formData: any) => {
+    const hasUndefined = Object.keys(formData).map(key => formData[key]).some(value => value === undefined);
+    
+    if (hasUndefined) {
+      console.log("Erro: Existem campos undefined");
+      console.log(form)
+      setTrowError(true)
+      return;
+    }
+    
+    console.log("Formulário válido");
+    console.log(form)
+  }
+ 
+   
+    
         
   return ( 
     <View className="flex w-full h-full">
@@ -29,41 +48,43 @@ export default function ReportPage() {
         </View>
         <Text className="text-gray-900 font-semibold text-3xl ml-7 ">Relátorio diário</Text>
       </View>
-  
+   
       <ScrollView className="flex-1 "> 
-        <View className="pt-10"> 
+        <View className="pt-10 items-center px-4 "> 
             <FormCard title="Dropdown"> 
-              <DropdownBox onSelect={(selectedOption) => form[1] = selectedOption} title="Equipe" options={options} />
-              <DropdownBox onSelect={(selectedOption) => form[2] = selectedOption} options={options}/>
-              <DropdownBox onSelect={(selectedOption) => form[3] = selectedOption} options={options}/>
+              <DropdownBox onSelect={(selectedOption) => form[1] = selectedOption} showError={trowError} title="Equipe" options={options} />
+              <DropdownBox onSelect={(selectedOption) => form[2] = selectedOption} showError={trowError} options={options}/>
+              <DropdownBox onSelect={(selectedOption) => form[3] = selectedOption} showError={trowError} options={options}/>
             </FormCard>
 
             <FormCard>
-            <RadioButton onSelect={(selectedOption) => form[4] = selectedOption} title="Pergunta 1" options={options} multiSelect={false}/>
-            <RadioButton title="Pergunta 2" options={options} />
+            <RadioButton onSelect={(selectedOption) => form[4] = selectedOption} showError={trowError} title="Pergunta 1" options={options} multiSelect={false}/>
+            <RadioButton onSelect={(selectedOption) => form[5] = selectedOption} showError={trowError} title="Pergunta 2" options={options} />
 
             </FormCard>
 
             <FormCard> 
-              <DataInput
-                data={newData}
-                setData={setNewData}
+              <Forminput
+                onChangeText={(selectedOption) => form[6] = selectedOption} 
+                showError={trowError}
                 label="Nome Completo"
               />
-              <DataInput
-                data={newData2}
-                setData={setNewData2}
+              <Forminput
+                onChangeText={(selectedOption) => form[7] = selectedOption} 
+                showError={trowError}
                 label="CPF"
               />
 
               <TextArea
                 label="Descreva o ocorrido"
-                value={newData3}
-                onChangeText={setNewData3}
+                onChangeText={(selectedOption) => form[8] = selectedOption} 
+                showError={trowError}
               />
 
               
             </FormCard>
+
+            <SubmitButton classname="my-10" title="enviar" onPress={() => handleSubmit(form)}/>
 
         </View>
 

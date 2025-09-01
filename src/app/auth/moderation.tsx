@@ -9,7 +9,6 @@ import { ChangePassword } from "@/src/components/ChangePassword";
 import { SubmitButton } from "@/src/components/SubmitButton";
 import { CancelButton } from "@/src/components/CancelButton";
 import { Configinput } from "@/src/components/ConfigInput";
-import { DataInput } from "@/src/components/dataInput";
 import { OptionBox } from "@/src/components/OptionBox";
 
 export default function ModerationPage() {
@@ -315,14 +314,14 @@ export default function ModerationPage() {
             </View>
               <ScrollView className="mt-6">
                 <View className="w-full items-center px-8">
-                          <DataInput
-                            data={newName}
-                            setData={setnNewName}
+                          <Configinput
+                            value={newName}
+                            onChangeText={setnNewName}
                             label="Nome Completo"
                           />
-                          <DataInput
-                            data={newCpf}
-                            setData={setNewCpf}
+                          <Configinput
+                            value={newCpf}
+                            onChangeText={setNewCpf}
                             label="CPF"
                           />
 

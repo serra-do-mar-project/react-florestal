@@ -6,35 +6,33 @@ interface DropdownBoxProps {
     title?: string;
     options: string[];
     onSelect?: (option: string | undefined) => void;
-    required?: boolean; // Adiciona a propriedade "required"
-    error?: boolean;
+    required?: boolean; 
+    showError?: boolean;
 }
 
-const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, required = true }) => {
+const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, required = true, showError = false}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState<string | undefined>(undefined);
-    const [error, setError] = useState(false); // Estado para controlar o erro
+    const [localError, setLocalError] = useState(false); // Estado local para controlar o erro
 
     const handleSelect = (option: string) => {
         setSelected(option);
         setIsOpen(false);
-        setError(false); // Limpa o erro ao selecionar uma opção
+        setLocalError(false); 
     };
 
 
     useEffect(() => {
+        onSelect?.(selected); 
+    }, [selected]); 
 
-        onSelect?.(selected); // Chama o callback sempre que "selected" mudar
-    }, [selected]); // Dependência no "selected"
 
-
-    const handleRequired = () => {
-        if (required && !selected ) {
-            setError(true); 
-            return;
+    useEffect(() => {
+        if (showError && !selected) {
+            setLocalError(true);
         }
-        setIsOpen((open) => !open);
-    };
+    }, [showError]); 
+
 
     return (
 
@@ -84,8 +82,8 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
                 </View>
             )}
 
-            {/* Mensagem de erro */}
-            {error && <Text className="text-red-500 text-sm mt-1">Selecione uma opção antes de continuar.</Text>}
+            
+            {(localError) && <Text className="text-red-500 font-sans text-sm mt-1">Selecione uma opção antes de continuar.</Text>}
         </View>
     );
 };

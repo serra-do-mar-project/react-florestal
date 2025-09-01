@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, TextInput, Text } from "react-native";
 
-interface TextAreaProps {
-  label: string;
+interface props {
+  children?: React.ReactNode,
   textHolder?: string;
+  visible?: boolean;
   onChangeText: (text: string | undefined) => void;
+  label?: string;
   showError?: boolean;
 }
 
-export default function TextArea({ label, textHolder, onChangeText, showError = false }: TextAreaProps) {
-
+export function Forminput({children, textHolder, visible, onChangeText, label, showError = false}: props){
   const [localError, setLocalError] = useState(false);
   const [value, setValue] = useState<string | undefined>(undefined);
 
+  // Notifica o componente pai quando montado com valor undefined
   useEffect(() => {
     onChangeText?.(undefined);
   }, []);
@@ -28,7 +30,6 @@ export default function TextArea({ label, textHolder, onChangeText, showError = 
     }
   };
 
-
   useEffect(() => {
     if (showError && value === undefined) {
       setLocalError(true);
@@ -36,18 +37,24 @@ export default function TextArea({ label, textHolder, onChangeText, showError = 
   }, [showError, value]); 
 
   return (
-    <View>
-      <Text className={`w-full text-xl font-semibold ${localError ? "" : "pb-2"}`}>{label}</Text>
+    <View className="w-full">
+      {label && (
+        <Text className={`w-full text-xl font-semibold ${localError ? "" : "pb-2"}`}>{label}</Text>
+      )}
       {localError && <Text className="text-red-500 font-sans text-sm mt-1 pb-2">Este campo é obrigatório.</Text>}
-      <View className="flex w-full h-40 mb-5 bg-gray-100 border border-green-600 rounded-md shadow-lg">
+      <View className="flex items-center justify-between flex-row w-full h-10 mb-4  bg-gray-100 border border-green-600  rounded-md shadow-lg">
         <TextInput 
-          multiline
-          textAlignVertical="top"
           value={value || ""}
           onChangeText={handleChangeText}
-          className="flex-1 text-black text-lg font-semibold m-3"
-          placeholder={textHolder}
+          secureTextEntry={visible}
+          className="flex-1 px-2 mt-0.5 text-black text-lg font-semibold"
+          placeholder = {textHolder}
         />
+        {children && (
+            <View className="flex-2 items-center justify-center">
+              {children}
+            </View>
+          )}
       </View>
     </View>
   );
