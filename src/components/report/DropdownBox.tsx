@@ -36,23 +36,23 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
 
     return (
 
-        <View className="w-52">
+        <View className="w-48">
 
             {title&&
                 <Text className='font-semibold text-xl ml-1 mb-2'>{title}</Text>
             }
             {/* Botão de abrir/fechar */}
             <Pressable
-                className={`bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen&& " rounded-b-none"}`}
+                className={` bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen&& " rounded-b-none"}`}
                 onPress={() => setIsOpen(!isOpen)}
             >
-                <View className={`flex-row items-center `}>
+                <View className={`flex-row items-center`}>
                     <Text className="flex-1 font-sans text-lg py-2 pl-3">
                         {selected || "Selecione"}
                     </Text>
                     <Image
                         source={images.arrow}
-                        className={`w-4 h-4 mx-2 transition-transform duration-100 ${isOpen ? "rotate-180" : ""}`}
+                        className={`w-4 h-4 mx-3 transition-transform duration-100 ${isOpen ? "rotate-180" : ""}`}
                         resizeMode="contain"
                         tintColor="black"
                     />
@@ -61,7 +61,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
 
             {/* Lista de opções */}
             {isOpen && (
-                <View className="bg-[#EFEFEF] border border-t-0 border-gray-900/30 rounded-b-md">
+                <View className="bg-[#EFEFEF] w-48 border border-t-0 border-gray-900/30 rounded-b-md">
                     {options.map((option, idx) => (
                         <Pressable
                             key={option}

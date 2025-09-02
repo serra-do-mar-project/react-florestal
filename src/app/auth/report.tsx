@@ -1,3 +1,4 @@
+import DatePicker from "@/src/components/report/DatePicker";
 import DropdownBox from "@/src/components/report/DropdownBox";
 import FormCard from "@/src/components/report/FormCard";
 import { Forminput } from "@/src/components/report/FormInput";
@@ -11,15 +12,13 @@ import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 
+
 export default function ReportPage() {
 
   const options = ["Opção 1", "Opção 2", "Opção 3"];
   const[trowError, setTrowError] = useState<boolean>(false)
   const [form, setForm] = useState<any>({}) 
-
-  const [newData, setNewData] = useState("");
-  const [newData2, setNewData2] = useState("");
-  const [newData3, setNewData3] = useState("");
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
  
   
@@ -55,12 +54,26 @@ export default function ReportPage() {
               <DropdownBox onSelect={(selectedOption) => form[1] = selectedOption} showError={trowError} title="Equipe" options={options} />
               <DropdownBox onSelect={(selectedOption) => form[2] = selectedOption} showError={trowError} options={options}/>
               <DropdownBox onSelect={(selectedOption) => form[3] = selectedOption} showError={trowError} options={options}/>
+              <TextArea
+                label="Descreva o ocorrido"
+                onChangeText={(selectedOption) => form[8] = selectedOption} 
+                showError={trowError}
+              />
+              <Forminput
+                onChangeText={(selectedOption) => form[7] = selectedOption} 
+                showError={trowError}
+                label="CPF"
+              />
             </FormCard>
 
             <FormCard>
             <RadioButton onSelect={(selectedOption) => form[4] = selectedOption} showError={trowError} title="Pergunta 1" options={options} multiSelect={false}/>
             <RadioButton onSelect={(selectedOption) => form[5] = selectedOption} showError={trowError} title="Pergunta 2" options={options} />
-
+            <TextArea
+                label="Descreva o ocorrido"
+                onChangeText={(selectedOption) => form[8] = selectedOption} 
+                showError={trowError}
+              />
             </FormCard>
 
             <FormCard> 
@@ -81,8 +94,15 @@ export default function ReportPage() {
                 showError={trowError}
               />
 
+
               
             </FormCard>
+
+            <FormCard>
+              <DatePicker title="Data da infração" onDateChange={(selectedOption) => form[9] = selectedOption}/>
+              <DatePicker mode="time" title="Hora da infração" onDateChange={(selectedOption) => form[10] = selectedOption}/>
+            </FormCard>
+            
 
             <SubmitButton classname="my-10" title="enviar" onPress={() => handleSubmit(form)}/>
 

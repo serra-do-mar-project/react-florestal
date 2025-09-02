@@ -36,7 +36,7 @@ export default function TextArea({ label, textHolder, onChangeText, showError = 
   }, [showError, value]); 
 
   return (
-    <View>
+    <View className="w-full">
       <Text className={`w-full text-xl font-semibold ${localError ? "" : "pb-2"}`}>{label}</Text>
       {localError && <Text className="text-red-500 font-sans text-sm mt-1 pb-2">Este campo é obrigatório.</Text>}
       <View className="flex w-full h-40 mb-5 bg-gray-100 border border-green-600 rounded-md shadow-lg">
