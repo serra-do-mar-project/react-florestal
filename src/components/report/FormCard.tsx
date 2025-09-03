@@ -7,9 +7,9 @@ interface FormCardProps {
   contentClassName?: string; 
 }
 
-export default function FormCard({ children, contentClassName, title }: FormCardProps) {
+export default function FormCard({ children, contentClassName, title}: FormCardProps) {
   return (
-    <View className="bg-white pb-7 mb-4 mx-5 border border-gray-800/80 rounded-lg">
+    <View className="bg-white w-full pb-7 mb-4 mx-5 border border-gray-800/80 rounded-lg">
       <View className="px-6 py-2">
        <View className=" flex-row justify-between items-center">
         <Text className="font-semibold" style={{ fontSize: 23 }}>

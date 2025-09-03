@@ -1,36 +1,58 @@
 import images from '@/src/constants/images';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 
 interface DropdownBoxProps {
     title?: string;
     options: string[];
-    onSelect?: (option: string) => void;
+    onSelect?: (option: string | undefined) => void;
+    required?: boolean; 
+    showError?: boolean;
 }
 
-const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect }) => {
+const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, required = true, showError = false}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selected, setSelected] = useState<string | null>(null);
+    const [selected, setSelected] = useState<string | undefined>(undefined);
+    const [localError, setLocalError] = useState(false); // Estado local para controlar o erro
+
+    const handleSelect = (option: string) => {
+        setSelected(option);
+        setIsOpen(false);
+        setLocalError(false); 
+    };
+
+
+    useEffect(() => {
+        onSelect?.(selected); 
+    }, [selected]); 
+
+
+    useEffect(() => {
+        if (showError && !selected) {
+            setLocalError(true);
+        }
+    }, [showError]); 
+
 
     return (
 
-        <View className="w-52">
+        <View className="w-48">
 
             {title&&
                 <Text className='font-semibold text-xl ml-1 mb-2'>{title}</Text>
             }
             {/* Botão de abrir/fechar */}
             <Pressable
-                className={`bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen&& " rounded-b-none"}`}
-                onPress={() => setIsOpen((open) => !open)}
+                className={` bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen&& " rounded-b-none"}`}
+                onPress={() => setIsOpen(!isOpen)}
             >
-                <View className={`flex-row items-center `}>
+                <View className={`flex-row items-center`}>
                     <Text className="flex-1 font-sans text-lg py-2 pl-3">
-                        {selected  || "Selecione"}
+                        {selected || "Selecione"}
                     </Text>
                     <Image
                         source={images.arrow}
-                        className={`w-4 h-4 mx-2 transition-transform duration-100 ${isOpen ? "rotate-180" : ""}`}
+                        className={`w-4 h-4 mx-3 transition-transform duration-100 ${isOpen ? "rotate-180" : ""}`}
                         resizeMode="contain"
                         tintColor="black"
                     />
@@ -39,15 +61,11 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect }) =
 
             {/* Lista de opções */}
             {isOpen && (
-                <View className="bg-[#EFEFEF] border border-t-0 border-gray-900/30 rounded-b-md">
+                <View className="bg-[#EFEFEF] w-48 border border-t-0 border-gray-900/30 rounded-b-md">
                     {options.map((option, idx) => (
                         <Pressable
                             key={option}
-                            onPress={() => {
-                                setSelected(option);
-                                setIsOpen(false);
-                                onSelect?.(option);
-                            }}
+                            onPress={() => handleSelect(option)}
                         >
                             {({ pressed }) => (
                                 <Text
@@ -63,6 +81,9 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect }) =
                     ))}
                 </View>
             )}
+
+            
+            {(localError) && <Text className="text-red-500 font-sans text-sm mt-1">Selecione uma opção antes de continuar.</Text>}
         </View>
     );
 };

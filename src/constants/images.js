@@ -33,6 +33,9 @@ import addUser from "@/src/assets/images/addUser.svg"
 import opcoes from "@/src/assets/images/opcoes.svg"
 import edit from "@/src/assets/images/edit.svg"
 import trash from "@/src/assets/images/trash.svg"
+import calendar from "@/src/assets/images/calendar.svg"
+
+
 
 
 
@@ -71,7 +74,8 @@ const images = {
   addUser,
   opcoes,
   edit,
-  trash
+  trash,
+  calendar
 };
 
 export default images;
