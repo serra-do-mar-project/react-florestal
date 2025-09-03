@@ -52,8 +52,7 @@ export default function ReportPage() {
         <View className="pt-10 items-center px-4 "> 
             <FormCard title="Dropdown"> 
               <DropdownBox onSelect={(selectedOption) => form[1] = selectedOption} showError={trowError} title="Equipe" options={options} />
-              <DropdownBox onSelect={(selectedOption) => form[2] = selectedOption} showError={trowError} options={options}/>
-              <DropdownBox onSelect={(selectedOption) => form[3] = selectedOption} showError={trowError} options={options}/>
+              
               <TextArea
                 label="Descreva o ocorrido"
                 onChangeText={(selectedOption) => form[8] = selectedOption} 
@@ -99,8 +98,8 @@ export default function ReportPage() {
             </FormCard>
 
             <FormCard>
-              <DatePicker title="Data da infração" onDateChange={(selectedOption) => form[9] = selectedOption}/>
-              <DatePicker mode="time" title="Hora da infração" onDateChange={(selectedOption) => form[10] = selectedOption}/>
+              <DatePicker title="Data da infração" onDateChange={(selectedOption) => form[9] = selectedOption} showError={trowError}/>
+              <DatePicker mode="time" title="Hora da infração" onDateChange={(selectedOption) => form[10] = selectedOption} showError={trowError}/>
             </FormCard>
             
 

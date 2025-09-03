@@ -42,7 +42,7 @@ export function Forminput({children, textHolder, visible, onChangeText, label, s
         <Text className={`w-full text-xl font-semibold ${localError ? "" : "pb-2"}`}>{label}</Text>
       )}
       {localError && <Text className="text-red-500 font-sans text-sm mt-1 pb-2">Este campo é obrigatório.</Text>}
-      <View className="flex items-center justify-between flex-row w-full h-10 mb-4  bg-gray-100 border border-green-600  rounded-md shadow-lg">
+      <View className="flex items-center justify-between flex-row w-full h-10 mb-4  bg-[#EFEFEF] border border-gray-900/30 rounded-md shadow-lg">
         <TextInput 
           value={value || ""}
           onChangeText={handleChangeText}
