@@ -4,10 +4,12 @@ import { View, Text } from "react-native";
 interface FormCardProps {
   title?: string;
   children?: React.ReactNode;
-  contentClassName?: string; 
+  contentClassName?: string;
+  currentPage?: number;
+  totalPages?: number;
 }
 
-export default function FormCard({ children, contentClassName, title}: FormCardProps) {
+export default function FormCard({ children, contentClassName, title, currentPage, totalPages }: FormCardProps) {
   return (
     <View className="bg-white w-full pb-7 mb-4 mx-5 border border-gray-800/80 rounded-lg">
       <View className="px-6 py-2">
@@ -16,7 +18,7 @@ export default function FormCard({ children, contentClassName, title}: FormCardP
           {title || "Seção"}
         </Text>
         <Text className="text-gray-800 text-sm ">
-          Página 01 de 05
+          {`Página ${currentPage?.toString().padStart(2, '0') ?? '01'} de ${totalPages?.toString().padStart(2, '0') ?? '05'}`}
         </Text>
        </View>
         <Text className="text-gray-800 text-sm">

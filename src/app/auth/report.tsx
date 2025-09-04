@@ -20,6 +20,8 @@ export default function ReportPage() {
   const [form, setForm] = useState<any>({}) 
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  const totalPages = 8;
+
  
   
 
@@ -50,57 +52,96 @@ export default function ReportPage() {
    
       <ScrollView className="flex-1 "> 
         <View className="pt-10 items-center px-4"> 
-            <FormCard title="Dropdown"> 
-              <DropdownBox onSelect={(selectedOption) => form[1] = selectedOption} showError={trowError} title="Equipe" options={options} />
+
+            <FormCard title="Equipe" currentPage={1} totalPages={totalPages}>
+              <DropdownBox
+                title="Nome da quipe" 
+                options={["Charlie Sede Diurno", "Charlie RP Diurno", "Charlie RP Noturno", "Delta Sede Diurno", "Delta RP Diurno", "Delta RP Noturno" ]}
+                onSelect={(selectedOption) => form[1] = selectedOption}
+                showError={trowError}
+              />
+
+              <RadioButton
+                title="Equipe em Atuação"
+                options={["Miguel Nema Neto", "Alvimar de Melo Amorim", "William Fonseca Celestino da Silva", 
+                          "Alex Roberto dos Santos", "Paulo Sérgio Farias", "Alexandro dos Santos", "Luciano José da Silva",
+                          "Valdenei Esbruzzi", "Alef Irmão de Moura", "Leonardo Sant'Anna Martins", "Genivaldo Duque da Silva",
+                          "Brian Luiz Gomes Mortensen Ferreira", "Lucas Tomi Assai", "Maurilio Costa Ramos", " João Leonardo",
+                          "Elson da Silva", " Renilson Luiz", "Jenifer de Magalhães luz", "Davidson Fernandes Raimundo", "Vanessa Trally Bard",
+                          "Fabio Henrique Paiva de Souza", "Ailton Silva Souza", "Anthony Elias Galdino Ramos", "Marcos Antônio Ramos Lima"
+                        ]}
+                onSelect={(selectedOption) => form[2] = selectedOption}
+                showError={trowError}
+              />
+              <TextArea title="Outros" 
+                        onChangeText={(selectedOption) => form[3] = selectedOption}
+                        showError={trowError}
+                        required={false}
+              />
+            </FormCard>
+
+            <FormCard title="Dados da Ação" currentPage={2} totalPages={totalPages}>
+              <TextArea 
+                title="Órgãos e Instituições envolvidas" 
+                label="Preencher com os nomes e pelo menos um documento (RG, CPF, RE, Matrícula, etc...) - PAMB, Bombeiros, Polícia Rodoviária, CETESB, Prefeitura, etc."
+                onChangeText={(text) => form[4] = text} 
+                required={true}
+                showError={trowError}
+              />
+
+              <Forminput 
+                title="Responsável pelo preenchimento" 
+                label="(Nome e CNV)" 
+                onChangeText={(text) => form[5] = text} 
+                showError={trowError}/>
+
+              <DatePicker 
+                title="Data e Hora do início da ação" 
+                showError={trowError}
+                onDateChange={(selectedDate) => form[6] = selectedDate}
+              />
+
+              <DatePicker 
+                mode="time"
+                showError={trowError}
+                onDateChange={(selectedDate) => form[7] = selectedDate}
+              />
+
+              <DatePicker 
+                title="Data e hora do término da ação" 
+                showError={trowError}
+                onDateChange={(selectedDate) => form[8] = selectedDate}
+              />
+
+              <DatePicker 
+                mode="time"
+                showError={trowError}
+                onDateChange={(selectedDate) => form[9] = selectedDate}
+              />
+
+              <DropdownBox
+                title="Origem da Ação" 
+                options={["Rotina", "Planejamento SIM-UC", "DEJEM SIM-UC", "Denúnica", "Atendimento a Órgãos Externos", "Demanda Solicitação Interna" ]}
+                onSelect={(selectedOption) => form[10] = selectedOption}
+                showError={trowError}
+              />
+
+              <RadioButton
+                title="Registro de ocorrência"
+                multiSelect={false}
+                options={["Sim", "Não"]}
+                onSelect={(selectedOption) => form[11] = selectedOption}
+                showError={trowError}
+              />
               
-              <TextArea
-                label="Descreva o ocorrido"
-                onChangeText={(selectedOption) => form[8] = selectedOption} 
-                showError={trowError}
-              />
-              <Forminput
-                onChangeText={(selectedOption) => form[7] = selectedOption} 
-                showError={trowError}
-                label="CPF"
-              />
+
             </FormCard>
 
-            <FormCard>
-            <RadioButton onSelect={(selectedOption) => form[4] = selectedOption} showError={trowError} title="Pergunta 1" options={options} multiSelect={false}/>
-            <RadioButton onSelect={(selectedOption) => form[5] = selectedOption} showError={trowError} title="Pergunta 2" options={options} />
-            <TextArea
-                label="Descreva o ocorrido"
-                onChangeText={(selectedOption) => form[8] = selectedOption} 
-                showError={trowError}
-              />
-            </FormCard>
-
-            <FormCard> 
-              <Forminput
-                onChangeText={(selectedOption) => form[6] = selectedOption} 
-                showError={trowError}
-                label="Nome Completo"
-              />
-              <Forminput
-                onChangeText={(selectedOption) => form[7] = selectedOption} 
-                showError={trowError}
-                label="CPF"
-              />
-
-              <TextArea
-                label="Descreva o ocorrido"
-                onChangeText={(selectedOption) => form[8] = selectedOption} 
-                showError={trowError}
-              />
+          
 
 
-              
-            </FormCard>
 
-            <FormCard>
-              <DatePicker title="Data da infração" onDateChange={(selectedOption) => form[9] = selectedOption} showError={trowError}/>
-              <DatePicker mode="time" title="Hora da infração" onDateChange={(selectedOption) => form[10] = selectedOption} showError={trowError}/>
-            </FormCard>
+
             
 
             <SubmitButton classname="my-10" title="enviar" onPress={() => handleSubmit(form)}/>

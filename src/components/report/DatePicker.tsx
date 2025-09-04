@@ -7,59 +7,69 @@ import images from "@/src/constants/images";
 interface DatePickerProps {
   title?: string;
   initialDate?: Date;
-  onDateChange?: (date: Date | undefined) => void;
+  onDateChange?: (date: string | undefined | null) => void;
   mode?: 'date' | 'time';
   showError?: boolean;
+  required?: boolean;
 }
 
-export default function DatePicker({ initialDate = new Date(), onDateChange, title, mode = 'date', showError =false }: DatePickerProps) {
-  const [date, setDate] = useState<Date | undefined>(undefined);
+export default function DatePicker({ initialDate = new Date(), onDateChange, title, mode = 'date', showError = false, required = true }: DatePickerProps) {
+  const [date, setDate] = useState<Date | undefined | null>(undefined);
   const [pressed, setPressed] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [localError, setLocalError] = useState(false); // Estado local para controlar o erro
-  
 
-   useEffect(() => {
-      onDateChange?.(date);
-    }, []);
+  useEffect(() => {
+    // Notifica o pai ao montar
+    onDateChange?.(required ? undefined : null);
+  }, []);
 
-    useEffect(() => {
-  if (showError && date == undefined) {
-    setLocalError(true);
-  } else {
-    setLocalError(false);
-  }
-}, [showError, date]); 
+  useEffect(() => {
+    if (showError && required && date === undefined) {
+      setLocalError(true);
+    } else {
+      setLocalError(false);
+    }
+  }, [showError, date, required]);
 
   const handleChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     setShow(false); // fecha no Android
-    if (selectedDate) {
-      setDate(selectedDate);
-      if (onDateChange) {
-        if (mode === 'date') {
-          // Envia apenas a data no formato yyyy-mm-dd
-          const formatted = selectedDate.toISOString().split('T')[0];
-          onDateChange(formatted as any);
-        } else if (mode === 'time') {
-          // Envia apenas a hora no formato HH:mm
-          const formatted = selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-          onDateChange(formatted as any);
-        } else {
-          onDateChange(selectedDate);
-        }
+    if (!selectedDate) {
+      // Se limpar a seleção
+      if (required) {
+        setDate(undefined);
+        onDateChange?.(undefined);
+      } else {
+        setDate(null);
+        onDateChange?.(null);
+      }
+      return;
+    }
+    setDate(selectedDate);
+    if (onDateChange) {
+      if (mode === 'date') {
+        // Envia a data formatada no padrão DD/MM/YYYY (en-GB)
+        const formatted = selectedDate.toLocaleDateString('en-GB');
+        onDateChange(formatted);
+      } else if (mode === 'time') {
+        // Envia apenas a hora no formato HH:mm
+        const formatted = selectedDate.toLocaleTimeString(["en-GB"], { hour: '2-digit', minute: '2-digit', hour12: false });
+        onDateChange(formatted);
+      } else {
+        onDateChange(selectedDate as any);
       }
     }
   };
 
   return (
-    <View className="w-full my-3" >
+    <View className="w-full mb-3" >
 
       {title&&
-        <Text className={`font-semibold text-xl ml-0.5 ${localError? "" : "mb-3"}`}>{title}</Text>
+        <Text className={`font-semibold text-xl ml-0.5 mt-3 ${localError? "" : "mb-3"}`}>{title}</Text>
       }
       {localError && <Text className="text-red-500 font-sans text-sm mb-3 ml-0.5">{mode == "date"?  "Selecione uma data" : "Selecione um horário"}</Text>}
       <Pressable
-        className={`${mode === 'date' ? "w-44" : "w-28"} bg-[#EFEFEF] ${pressed ? "bg-gray-300" : ""} flex-row items-center justify-between  border border-gray-900/30 rounded-md`}
+        className={`${mode === 'date' ? "w-44" : "w-32"} bg-[#EFEFEF] ${pressed ? "bg-gray-300" : ""} flex-row items-center justify-between  border border-gray-900/30 rounded-md`}
         onPressIn={() => setPressed(true)}
         onPressOut={() => setPressed(false)}
         onPress={() => setShow(true)}

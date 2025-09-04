@@ -6,42 +6,56 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 interface DropdownBoxProps {
     title?: string;
     options: string[];
-    onSelect?: (option: string | undefined) => void;
+    onSelect?: (option: string | undefined | null) => void;
     required?: boolean; 
     showError?: boolean;
 }
 
 const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, required = true, showError = false}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selected, setSelected] = useState<string | undefined>(undefined);
+    const [selected, setSelected] = useState<string | undefined | null>(undefined);
     const [localError, setLocalError] = useState(false); // Estado local para controlar o erro
 
     const handleSelect = (option: string) => {
         setSelected(option);
         setIsOpen(false);
         setLocalError(false); 
+        if (onSelect) onSelect(option);
     };
 
-
-    useEffect(() => {
-        onSelect?.(selected); 
-    }, [selected]); 
-
-
-    useEffect(() => {
-        if (showError && !selected) {
-            setLocalError(true);
+    // Limpa seleção se usuário clicar novamente na opção já selecionada
+    const handleClear = () => {
+        if (required) {
+            setSelected(undefined);
+            if (onSelect) onSelect(undefined);
+        } else {
+            setSelected(null);
+            if (onSelect) onSelect(null);
         }
-    }, [showError]); 
+        setIsOpen(false);
+        setLocalError(false);
+    };
 
+    useEffect(() => {
+        // Notifica o pai ao montar
+        onSelect?.(required ? undefined : null);
+    }, []);
+
+    useEffect(() => {
+        if (showError && required && selected === undefined) {
+            setLocalError(true);
+        } else {
+            setLocalError(false);
+        }
+    }, [showError, selected, required]);
 
     return (
         
-        <SafeAreaView className="w-48 mb-5">
+        <View className="w-60 mb-5">
 
             {title&&
                 <>
-                    <Text className={`font-semibold text-xl ml-0.5 ${localError? "" : "mb-3"}`}>{title}</Text>
+                    <Text className={`font-semibold text-xl ml-0.5 mt-3 ${localError? "" : "mb-3"}`}>{title}</Text>
                     {(localError) && <Text className="text-red-500 font-sans text-sm ml-0.5 mb-3">Selecione uma opção antes de continuar.</Text>}
                 </>
                 
@@ -51,9 +65,10 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
             <Pressable
                 className={`bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen&& "rounded-b-none"}`}
                 onPress={() => setIsOpen(!isOpen)}
+                onLongPress={selected ? handleClear : undefined}
             >
                 <View className={`flex-row items-center`}>
-                    <Text className="flex-1 font-sans text-lg py-2 pl-3">
+                    <Text className="flex-1 font-sans text-lg py-2 pl-3 pr-1">
                         {selected || "Selecione"}
                     </Text>
                     <View className='border-l h-full border-gray-900/30'>
@@ -71,7 +86,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
 
             {/* Lista de opções */}
             {isOpen && (
-                <View className="bg-[#EFEFEF] w-48 border border-t-0 border-gray-900/30 rounded-b-md">
+                <View className="bg-[#EFEFEF] w-60 border border-t-0 border-gray-900/30 rounded-b-md">
                     {options.map((option, idx) => (
                         <Pressable
                             key={option}
@@ -81,7 +96,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
                                 <Text
                                     className={`font-sans text-md py-1 pl-3 
                                         ${pressed ? "bg-gray-300" : ""}  
-                                        ${idx === options.length - 1 ? "rounded-b-md" : ""}
+                                        ${idx === options.length - 1  && required? "rounded-b-md" : ""}
                                     `}
                                 >
                                     {option}
@@ -89,12 +104,26 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
                             )}
                         </Pressable>
                     ))}
+                    {/* Botão para limpar seleção, se não for required */}
+                    {!required && (
+                        <Pressable onPress={handleClear}  className="">
+                            {({ pressed }) => (
+                                <Text
+                                    className={`font-sans text-red-500 text-md py-1 pl-3 rounded-b-md
+                                                ${pressed ? "bg-gray-300" : ""}  
+                                              `}
+                                >
+                                Limpar seleção
+                                </Text>
+                            )}
+                        </Pressable>
+                    )}
                 </View>
             )}
 
             {(localError && !title) && <Text className="text-red-500 font-sans text-sm ml-0.5 mb-3">Selecione uma opção antes de continuar.</Text>}
             
-        </SafeAreaView>
+        </View>
     );
 };
 
