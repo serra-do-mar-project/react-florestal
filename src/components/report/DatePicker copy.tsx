@@ -1,39 +1,94 @@
-import React, { useState } from "react";
-import { View, Button, Text } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Button, Text, Image } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import { Pressable } from "react-native";
+import images from "@/src/constants/images";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface DatePickerProps {
+  title?: string;
   initialDate?: Date;
-  onDateChange?: (date: Date) => void;
+  onDateChange?: (date: Date | undefined) => void;
+  mode?: 'date' | 'time';
+  showError?: boolean;
 }
 
-export default function DatePicker({ initialDate = new Date(), onDateChange }: DatePickerProps) {
-  const [date, setDate] = useState<Date>(initialDate);
+export default function DatePicker({ initialDate = new Date(), onDateChange, title, mode = 'date', showError =false }: DatePickerProps) {
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [pressed, setPressed] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
+  const [localError, setLocalError] = useState(false); // Estado local para controlar o erro
+  
+
+  
+
+    useEffect(() => {
+  if (showError && date == undefined) {
+    setLocalError(true);
+  } else {
+    setLocalError(false);
+  }
+}, [showError, date]); 
 
   const handleChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     setShow(false); // fecha no Android
     if (selectedDate) {
       setDate(selectedDate);
       if (onDateChange) {
-        onDateChange(selectedDate); // dispara para o componente pai
+        if (mode === 'date') {
+          // Envia apenas a data no formato yyyy-mm-dd
+          const formatted = selectedDate.toISOString().split('T')[0];
+          onDateChange(formatted as any);
+        } else if (mode === 'time') {
+          // Envia apenas a hora no formato HH:mm
+          const formatted = selectedDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+          onDateChange(formatted as any);
+        } else {
+          onDateChange(selectedDate);
+        }
       }
     }
   };
 
   return (
-    <View style={{ margin: 10 }}>
-      <Text style={{ marginBottom: 5 }}>Selecionado: {date.toLocaleString()}</Text>
-      <Button title="Selecionar Data" onPress={() => setShow(true)} />
+    <View className="w-full mt-3" >
+      {title&&
+        <Text className={`font-semibold text-xl ml-0.5 ${localError? "" : " mb-3"}`}>{title}</Text>
+      }
+      {localError && <Text className="text-red-500 font-sans text-sm mb-3 ml-0.5">{mode == "date"?  "Selecione uma data" : "Selecione um horário"}</Text>}
+      <Pressable
+        className={`w-44 bg-[#EFEFEF] ${pressed ? "bg-gray-300" : ""} border border-gray-900/30 rounded-md flex-row items-center`}
+        onPressIn={() => setPressed(true)}
+        onPressOut={() => setPressed(false)}
+        onPress={() => setShow(true)}
+      >
+          <Text className="font-sans text-lg pb-1 px-3 pt-2">
+          {/* {date == undefined ? 
+            ("DD/MM/AA"):
+            (
+              mode === 'date'? date.toLocaleDateString("en-GB") : date.toLocaleTimeString("en-GB", { hour: '2-digit', minute: '2-digit' })
+              )
+          } */}
+          DD/MM/AA
+          </Text>
+          <View className='border-l px-2.5 flex-col h-full border-gray-900/30'>
+              <View className=" flex-1 justify-center">
+                <images.calendar />
+              </View>       
+          </View>
+      </Pressable>
+      
 
       {show && (
         <DateTimePicker
-          value={date}
-          mode="date" // pode trocar para "time"
+          value={date || new Date()}
+          mode={mode}
           display="default"
           onChange={handleChange}
         />
       )}
+      
     </View>
+
   );
 }

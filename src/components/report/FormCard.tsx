@@ -24,7 +24,7 @@ export default function FormCard({ children, contentClassName, title}: FormCardP
         </Text>
       </View>
 
-      <View className={`flex-wrap pt-5 pb-5 mx-7 justify-around gap-3 ${contentClassName ?? ""}`}>
+      <View className={`pt-5 pb-5 mx-7 justify-around gap-3 ${contentClassName ?? ""}`}>
         {children}
       </View>
     </View>

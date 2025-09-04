@@ -59,17 +59,17 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, tit
       }
       {localError && <Text className="text-red-500 font-sans text-sm mb-3 ml-0.5">{mode == "date"?  "Selecione uma data" : "Selecione um horário"}</Text>}
       <Pressable
-        className={`${mode === 'date' ? "w-44" : "w-32"} bg-[#EFEFEF] ${pressed ? "bg-gray-300" : ""}  border border-gray-900/30 rounded-md`}
+        className={`${mode === 'date' ? "w-44" : "w-28"} bg-[#EFEFEF] ${pressed ? "bg-gray-300" : ""} flex-row items-center justify-between  border border-gray-900/30 rounded-md`}
         onPressIn={() => setPressed(true)}
         onPressOut={() => setPressed(false)}
         onPress={() => setShow(true)}
       >
-        <View className="flex-1 flex-row items-center justify-between">
-          <Text className="font-sans text-lg pb-1 px-3 pt-2">
+        
+          <Text className="font-sans text-lg pb-1 pl-3 pt-2">
            {date
             ? mode === 'date'
-            ? date.toLocaleDateString()
-            : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            ? date.toLocaleDateString("en-GB")
+            : date.toLocaleTimeString(["en-GB"], { hour: '2-digit', minute: '2-digit' })
             : mode === 'date'
             ? "DD/MM/AA"
             : "HH:MM"}
@@ -82,7 +82,7 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, tit
                         
           </View>
           
-        </View>
+        
       </Pressable>
       
 
