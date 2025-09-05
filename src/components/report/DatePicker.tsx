@@ -52,6 +52,7 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, tit
   };
 
   return (
+
     <View className="w-full my-3" >
 
       {title&&
@@ -63,8 +64,7 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, tit
         onPressIn={() => setPressed(true)}
         onPressOut={() => setPressed(false)}
         onPress={() => setShow(true)}
-      >
-        
+      >        
           <Text className="font-sans text-lg pb-1 pl-3 pt-2">
            {date
             ? mode === 'date'
@@ -77,12 +77,8 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, tit
           <View className='border-l px-2.5 flex-col h-full border-gray-900/30'>
               <View className=" flex-1 justify-center">
                 <images.calendar />
-              </View>
-              
-                        
+              </View>      
           </View>
-          
-        
       </Pressable>
       
 
@@ -93,8 +89,7 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, tit
           display="default"
           onChange={handleChange}
         />
-      )}
-      
+      )}      
     </View>
   );
 }

@@ -26,8 +26,6 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
     useEffect(() => {
         onSelect?.(selected); 
     }, [selected]); 
-
-
     useEffect(() => {
         if (showError && !selected) {
             setLocalError(true);
@@ -35,8 +33,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
     }, [showError]); 
 
 
-    return (
-        
+    return (   
         <SafeAreaView className="w-48 mb-5">
 
             {title&&
@@ -91,7 +88,6 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
                     ))}
                 </View>
             )}
-
             {(localError && !title) && <Text className="text-red-500 font-sans text-sm ml-0.5 mb-3">Selecione uma opção antes de continuar.</Text>}
             
         </SafeAreaView>

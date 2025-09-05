@@ -49,10 +49,11 @@ export default function ReportPage() {
       </View>
    
       <ScrollView className="flex-1 "> 
-        <View className="pt-10 items-center px-4"> 
+        <View className="pt-10 items-center px-4 "> 
             <FormCard title="Dropdown"> 
               <DropdownBox onSelect={(selectedOption) => form[1] = selectedOption} showError={trowError} title="Equipe" options={options} />
-              
+              <DropdownBox onSelect={(selectedOption) => form[2] = selectedOption} showError={trowError} options={options}/>
+              <DropdownBox onSelect={(selectedOption) => form[3] = selectedOption} showError={trowError} options={options}/>
               <TextArea
                 label="Descreva o ocorrido"
                 onChangeText={(selectedOption) => form[8] = selectedOption} 
