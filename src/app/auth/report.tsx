@@ -99,8 +99,8 @@ export default function ReportPage() {
             </FormCard>
 
             <FormCard>
-              <DatePicker title="Data da infração" onDateChange={(selectedOption) => form[9] = selectedOption}/>
-              <DatePicker mode="time" title="Hora da infração" onDateChange={(selectedOption) => form[10] = selectedOption}/>
+              <DatePicker title="Data da infração" onDateChange={(selectedOption) => form[9] = selectedOption} showError={trowError}/>
+              <DatePicker mode="time" title="Hora da infração" onDateChange={(selectedOption) => form[10] = selectedOption} showError={trowError}/>
             </FormCard>
             
 

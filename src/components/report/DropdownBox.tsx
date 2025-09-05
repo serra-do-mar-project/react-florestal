@@ -1,6 +1,7 @@
 import images from '@/src/constants/images';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface DropdownBoxProps {
     title?: string;
@@ -25,8 +26,6 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
     useEffect(() => {
         onSelect?.(selected); 
     }, [selected]); 
-
-
     useEffect(() => {
         if (showError && !selected) {
             setLocalError(true);
@@ -34,28 +33,36 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
     }, [showError]); 
 
 
-    return (
-
-        <View className="w-48">
+    return (   
+        <SafeAreaView className="w-48 mb-5">
 
             {title&&
-                <Text className='font-semibold text-xl ml-1 mb-2'>{title}</Text>
+                <>
+                    <Text className={`font-semibold text-xl ml-0.5 ${localError? "" : "mb-3"}`}>{title}</Text>
+                    {(localError) && <Text className="text-red-500 font-sans text-sm ml-0.5 mb-3">Selecione uma opção antes de continuar.</Text>}
+                </>
+                
             }
+            
             {/* Botão de abrir/fechar */}
             <Pressable
-                className={` bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen&& " rounded-b-none"}`}
+                className={`bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen&& "rounded-b-none"}`}
                 onPress={() => setIsOpen(!isOpen)}
             >
                 <View className={`flex-row items-center`}>
                     <Text className="flex-1 font-sans text-lg py-2 pl-3">
                         {selected || "Selecione"}
                     </Text>
-                    <Image
-                        source={images.arrow}
-                        className={`w-4 h-4 mx-3 transition-transform duration-100 ${isOpen ? "rotate-180" : ""}`}
-                        resizeMode="contain"
-                        tintColor="black"
-                    />
+                    <View className='border-l h-full border-gray-900/30'>
+                        <View className='flex-1 justify-center'>
+                            <Image
+                                source={images.arrow}
+                                className={`w-4 h-4 mx-3 transition-transform duration-100 ${isOpen ? "rotate-180" : ""}`}
+                                resizeMode="contain"
+                                tintColor="black"
+                            />
+                        </View>
+                    </View>
                 </View>
             </Pressable>
 
@@ -81,10 +88,9 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
                     ))}
                 </View>
             )}
-
+            {(localError && !title) && <Text className="text-red-500 font-sans text-sm ml-0.5 mb-3">Selecione uma opção antes de continuar.</Text>}
             
-            {(localError) && <Text className="text-red-500 font-sans text-sm mt-1">Selecione uma opção antes de continuar.</Text>}
-        </View>
+        </SafeAreaView>
     );
 };
 
