@@ -62,10 +62,10 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, tit
   };
 
   return (
-    <View className="w-full mb-3" >
+    <View className="w-full mb-4" >
 
       {title&&
-        <Text className={`font-semibold text-xl ml-0.5 mt-3 ${localError? "" : "mb-3"}`}>{title}</Text>
+        <Text className={`font-semibold text-xl ml-0.5 mt-1 ${localError? "" : "mb-4"}`}>{title}</Text>
       }
       {localError && <Text className="text-red-500 font-sans text-sm mb-3 ml-0.5">{mode == "date"?  "Selecione uma data" : "Selecione um horário"}</Text>}
       <Pressable

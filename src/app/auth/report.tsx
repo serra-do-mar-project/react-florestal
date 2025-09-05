@@ -19,10 +19,11 @@ export default function ReportPage() {
   const[trowError, setTrowError] = useState<boolean>(false)
   const [form, setForm] = useState<any>({}) 
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [vtr, setVtr] = useState<boolean>(true);
 
   const totalPages = 8;
 
- 
+
   
 
   const handleSubmit = (formData: any) => {
@@ -208,32 +209,40 @@ export default function ReportPage() {
             </FormCard>
 
             <FormCard title="Dados da VTR" currentPage={5} totalPages={totalPages}>
+
+              <RadioButton
+                title="Foi feito uso de VTR?"
+                options={["Sim", "Não"]}
+                multiSelect={false}
+                onSelect={(selectedOption) => setVtr(selectedOption === "Sim")}
+              />
+
               <Forminput
                   title="Placa do veículo"
                   onChangeText={(text) => form[21] = text}
                   showError={trowError}
-                  required={false}
+                  required={vtr}
                 />
               <Forminput
                   title="KM Inicial"
                   label="Colocar somente números"
                   onChangeText={(text) => form[22] = text}
                   showError={trowError}
-                  required={false}
+                  required={vtr}
                 />
               <Forminput
                   title="KM Final"
                   label="Colocar somente números"
                   onChangeText={(text) => form[23] = text}
                   showError={trowError}
-                  required={false}
+                  required={vtr}
                 />
               <Forminput
                   title="Condições da VTR"
                   label="Em caso de problemas mecânicos, troca de VTR ou impossibilidade trafegar"
                   onChangeText={(text) => form[24] = text}
                   showError={trowError}
-                  required={false}
+                  required={vtr}
                 />
               
             </FormCard>
@@ -248,10 +257,11 @@ export default function ReportPage() {
                    />
 
                    <TextArea 
-                    title="Abordagens de veículos"
+                    title="Veículos Abordados em caso de Bloqueios"
                     label="colocar todas as informações dos veículos abordados (tipo, modelo, placa, origem e destino)"
                     onChangeText={(text) => form[26] = text}
                     showError={trowError}
+                    required={false}
                     />
 
                     <Forminput
@@ -279,8 +289,15 @@ export default function ReportPage() {
                       title="Veículos Abordados (tipo)"
                       options={["Motocicleta", "Automóvel", "Caminhão",
                                 " Onibus/Vã",]}
-                      onSelect={(selectedOption) => form[25] = selectedOption}
-                      showError={trowError}
+                      onSelect={(selectedOption) => form[30] = selectedOption}
+                      required={false}
+                   />
+
+                   <TextArea
+                    title="Descrição dos veículos abordados"
+                    label="Modelo/Placa/Origem/Destino/Descrição"
+                    onChangeText={(text) => form[31] = text}
+                    required={false}
                    />
 
               </FormCard>
