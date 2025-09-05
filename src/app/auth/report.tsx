@@ -137,9 +137,153 @@ export default function ReportPage() {
 
             </FormCard>
 
-          
+            <FormCard title="Localização" currentPage={3} totalPages={totalPages}>
+              
+              <Forminput 
+                title="Rua/Estrada/Trilha"
+                label="Ex: Estrada do Pouso Alto"
+                onChangeText={(text) => form[12] = text}
+                showError={trowError}
+              />
+              <Forminput 
+                title="Número/Quilômetro"
+                label="Ex: Km 04"
+                onChangeText={(text) => form[13] = text}
+                showError={trowError}
+              />
 
+              <Forminput 
+                title="Bairro"
+                label="Ex: Bairro Rio Negro"
+                onChangeText={(text) => form[14] = text}
+                showError={trowError}
+              />
 
+              <RadioButton
+                title="Setores Fiscalizados"
+                options={["Caraguatatuba Norte", "Caraguatatuba Sul", "Alto da Serra Norte", "Alto da Serra Sul"]}
+                onSelect={(selectedDate) => form[15] = selectedDate}
+                showError={trowError}
+              />
+
+              <Forminput 
+                title="Especificação do Local"
+                label="Ex.: Posse abandonada, Trilha em meio à mata, Rodovia Estadual, Estrada que liga Caraguatatuba à Salesópolis, etc."
+                onChangeText={(text) => form[16] = text}
+                showError={trowError}
+              />
+
+            </FormCard>
+
+            <FormCard title="Fizcalização" currentPage={4} totalPages={totalPages}>
+            <TextArea 
+                title="Relatório de Fiscalização"
+                onChangeText={(text) => form[17] = text}
+                showError={trowError}
+                textHolder="Descrever de forma bem objetiva todas as atividade de fiscalização realizadas no período. Somente Fiscalização. Inserir relatório por área fiscalizada."
+              />
+
+              <TextArea 
+                title="Outras atividades"
+                label="NÃO RELACIONADAS à fiscalização"
+                onChangeText={(text) => form[18] = text}
+                showError={trowError}
+                required={false}
+              />
+ 
+              <Forminput
+                title="Coordenadas geográficas"
+                label="Ex: -23,70916 / -45,544281"
+                onChangeText={(text) => form[19] = text}
+                showError={trowError}
+              />
+
+              <Forminput
+                title="Referência da coordenada"
+                label="Ex: Guarita Base RP"
+                onChangeText={(text) => form[20] = text}
+                showError={trowError}
+              />
+
+            </FormCard>
+
+            <FormCard title="Dados da VTR" currentPage={5} totalPages={totalPages}>
+              <Forminput
+                  title="Placa do veículo"
+                  onChangeText={(text) => form[21] = text}
+                  showError={trowError}
+                  required={false}
+                />
+              <Forminput
+                  title="KM Inicial"
+                  label="Colocar somente números"
+                  onChangeText={(text) => form[22] = text}
+                  showError={trowError}
+                  required={false}
+                />
+              <Forminput
+                  title="KM Final"
+                  label="Colocar somente números"
+                  onChangeText={(text) => form[23] = text}
+                  showError={trowError}
+                  required={false}
+                />
+              <Forminput
+                  title="Condições da VTR"
+                  label="Em caso de problemas mecânicos, troca de VTR ou impossibilidade trafegar"
+                  onChangeText={(text) => form[24] = text}
+                  showError={trowError}
+                  required={false}
+                />
+              
+            </FormCard>
+
+              <FormCard title="Detalhamento da Fiscalização" currentPage={6} totalPages={totalPages}>
+                   <RadioButton
+                      title="Tipos de Ação"
+                      options={["Incurssão em Viatura", "Incursão a Pé", "Fiscalização Embarcada",
+                                "Sobrevoo", "Fiscalização com Drone", "Bloqueio" ]}
+                      onSelect={(selectedOption) => form[25] = selectedOption}
+                      showError={trowError}
+                   />
+
+                   <TextArea 
+                    title="Abordagens de veículos"
+                    label="colocar todas as informações dos veículos abordados (tipo, modelo, placa, origem e destino)"
+                    onChangeText={(text) => form[26] = text}
+                    showError={trowError}
+                    />
+
+                    <Forminput
+                      title="KM Percorridos (Viatura e a pé)"
+                      label="Ex: 62km (viatura) e 4km (a pé)"
+                      onChangeText={(text) => form[27] = text}
+                      showError={trowError}
+                    />
+
+                    <DatePicker
+                     title="Horas em Viatura"
+                     mode="time"
+                     onDateChange={(selectedDate) => form[28] = selectedDate}
+                      showError={trowError}
+                    />
+
+                    <DatePicker
+                     title="Horas a Pé"
+                     mode="time"
+                     onDateChange={(selectedDate) => form[29] = selectedDate}
+                      showError={trowError}
+                    />
+
+                    <RadioButton
+                      title="Veículos Abordados (tipo)"
+                      options={["Motocicleta", "Automóvel", "Caminhão",
+                                " Onibus/Vã",]}
+                      onSelect={(selectedOption) => form[25] = selectedOption}
+                      showError={trowError}
+                   />
+
+              </FormCard>
 
 
             

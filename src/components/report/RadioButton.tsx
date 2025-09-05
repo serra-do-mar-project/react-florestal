@@ -51,7 +51,7 @@ export default function Selectable({ title, options, multiSelect = true, onSelec
   return (
     <View className="mt-2 mb-3">
       <Text className="font-semibold text-xl">{title || "Pergunta"}</Text>
-      <Text className={` ${localError? "text-red-500" : "text-gray-800"} font-sans text-sm`}>{multiSelect? "Selecione uma ou mais opções." : "Selecione somente uma opção."}</Text>
+      <Text className={` ${localError? "text-red-500" : "text-gray-900/70"} font-sans text-md`}>{multiSelect? "Selecione uma ou mais opções." : "Selecione somente uma opção."}</Text>
       <View className="mt-2">
 
         {options.map(option => (
