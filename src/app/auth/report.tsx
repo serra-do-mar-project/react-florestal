@@ -6,6 +6,7 @@ import RadioButton from "@/src/components/report/RadioButton";
 import TextArea from "@/src/components/report/TextArea";
 import { SubmitButton } from "@/src/components/SubmitButton";
 import images from "@/src/constants/images";
+import { formatReport } from "@/src/lib/utils";
 import { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -31,13 +32,15 @@ export default function ReportPage() {
     
     if (hasUndefined) {
       console.log("Erro: Existem campos undefined");
-      console.log(form)
+      formatReport(form)
       setTrowError(true)
       return;
     }
     
+
     console.log("Formulário válido");
-    console.log(form)
+    formatReport(form)
+
   }
  
    
@@ -140,37 +143,53 @@ export default function ReportPage() {
 
             <FormCard title="Localização" currentPage={3} totalPages={totalPages}>
               
+            <RadioButton
+                title="Área Fiscalizada Na Área Protegida"
+                multiSelect={false}
+                options={["Dentro", "Entorno (Zona de Amortecimento)"]}
+                onSelect={(selectedOption) => form[12] = selectedOption} 
+                showError={trowError}
+              />
+              
+              <RadioButton
+                title="Município(s)"
+                multiSelect={false}
+                options={["Caraguatatuba", "Paraibuna", "Natividade da Serra"]}
+                onSelect={(selectedOption) => form[13] = selectedOption}
+                showError={trowError}
+              />
+
               <Forminput 
                 title="Rua/Estrada/Trilha"
                 label="Ex: Estrada do Pouso Alto"
-                onChangeText={(text) => form[12] = text}
+                onChangeText={(text) => form[14] = text}
                 showError={trowError}
               />
               <Forminput 
                 title="Número/Quilômetro"
                 label="Ex: Km 04"
-                onChangeText={(text) => form[13] = text}
+                onChangeText={(text) => form[15] = text}
                 showError={trowError}
               />
 
               <Forminput 
                 title="Bairro"
                 label="Ex: Bairro Rio Negro"
-                onChangeText={(text) => form[14] = text}
+                onChangeText={(text) => form[16] = text}
                 showError={trowError}
               />
 
               <RadioButton
                 title="Setores Fiscalizados"
                 options={["Caraguatatuba Norte", "Caraguatatuba Sul", "Alto da Serra Norte", "Alto da Serra Sul"]}
-                onSelect={(selectedDate) => form[15] = selectedDate}
+                onSelect={(selectedDate) => form[17] = selectedDate}
                 showError={trowError}
               />
 
               <Forminput 
                 title="Especificação do Local"
                 label="Ex.: Posse abandonada, Trilha em meio à mata, Rodovia Estadual, Estrada que liga Caraguatatuba à Salesópolis, etc."
-                onChangeText={(text) => form[16] = text}
+                onChangeText={(text) => form[18] = text}
                 showError={trowError}
               />
 
@@ -179,7 +198,7 @@ export default function ReportPage() {
             <FormCard title="Fizcalização" currentPage={4} totalPages={totalPages}>
             <TextArea 
                 title="Relatório de Fiscalização"
-                onChangeText={(text) => form[17] = text}
+                onChangeText={(text) => form[19] = text}
                 showError={trowError}
                 textHolder="Descrever de forma bem objetiva todas as atividade de fiscalização realizadas no período. Somente Fiscalização. Inserir relatório por área fiscalizada."
               />
@@ -187,7 +206,7 @@ export default function ReportPage() {
               <TextArea 
                 title="Outras atividades"
                 label="NÃO RELACIONADAS à fiscalização"
-                onChangeText={(text) => form[18] = text}
+                onChangeText={(text) => form[20] = text}
                 showError={trowError}
                 required={false}
               />
@@ -195,14 +214,14 @@ export default function ReportPage() {
               <Forminput
                 title="Coordenadas geográficas"
                 label="Ex: -23,70916 / -45,544281"
-                onChangeText={(text) => form[19] = text}
+                onChangeText={(text) => form[21] = text}
                 showError={trowError}
               />
 
               <Forminput
                 title="Referência da coordenada"
                 label="Ex: Guarita Base RP"
-                onChangeText={(text) => form[20] = text}
+                onChangeText={(text) => form[22] = text}
                 showError={trowError}
               />
 
@@ -219,30 +238,30 @@ export default function ReportPage() {
 
               <Forminput
                   title="Placa do veículo"
-                  onChangeText={(text) => form[21] = text}
+                  onChangeText={(text) => form[23] = text}
                   showError={trowError}
                   required={vtr}
                 />
               <Forminput
                   title="KM Inicial"
                   label="Colocar somente números"
-                  onChangeText={(text) => form[22] = text}
+                  onChangeText={(text) => form[24] = text}
                   showError={trowError}
                   required={vtr}
                 />
               <Forminput
                   title="KM Final"
                   label="Colocar somente números"
-                  onChangeText={(text) => form[23] = text}
+                  onChangeText={(text) => form[25] = text}
                   showError={trowError}
                   required={vtr}
                 />
               <Forminput
                   title="Condições da VTR"
                   label="Em caso de problemas mecânicos, troca de VTR ou impossibilidade trafegar"
-                  onChangeText={(text) => form[24] = text}
+                  onChangeText={(text) => form[26] = text}
                   showError={trowError}
-                  required={vtr}
+                  required={false}
                 />
               
             </FormCard>
@@ -252,14 +271,14 @@ export default function ReportPage() {
                       title="Tipos de Ação"
                       options={["Incurssão em Viatura", "Incursão a Pé", "Fiscalização Embarcada",
                                 "Sobrevoo", "Fiscalização com Drone", "Bloqueio" ]}
-                      onSelect={(selectedOption) => form[25] = selectedOption}
+                      onSelect={(selectedOption) => form[27] = selectedOption}
                       showError={trowError}
                    />
 
                    <TextArea 
                     title="Veículos Abordados em caso de Bloqueios"
                     label="colocar todas as informações dos veículos abordados (tipo, modelo, placa, origem e destino)"
-                    onChangeText={(text) => form[26] = text}
+                    onChangeText={(text) => form[28] = text}
                     showError={trowError}
                     required={false}
                     />
@@ -267,21 +286,21 @@ export default function ReportPage() {
                     <Forminput
                       title="KM Percorridos (Viatura e a pé)"
                       label="Ex: 62km (viatura) e 4km (a pé)"
-                      onChangeText={(text) => form[27] = text}
+                      onChangeText={(text) => form[29] = text}
                       showError={trowError}
                     />
 
                     <DatePicker
                      title="Horas em Viatura"
                      mode="time"
-                     onDateChange={(selectedDate) => form[28] = selectedDate}
+                     onDateChange={(selectedDate) => form[30] = selectedDate}
                       showError={trowError}
                     />
 
                     <DatePicker
                      title="Horas a Pé"
                      mode="time"
-                     onDateChange={(selectedDate) => form[29] = selectedDate}
+                     onDateChange={(selectedDate) => form[31] = selectedDate}
                       showError={trowError}
                     />
 
@@ -289,14 +308,14 @@ export default function ReportPage() {
                       title="Veículos Abordados (tipo)"
                       options={["Motocicleta", "Automóvel", "Caminhão",
                                 " Onibus/Vã",]}
-                      onSelect={(selectedOption) => form[30] = selectedOption}
+                      onSelect={(selectedOption) => form[32] = selectedOption}
                       required={false}
                    />
 
                    <TextArea
                     title="Descrição dos veículos abordados"
                     label="Modelo/Placa/Origem/Destino/Descrição"
-                    onChangeText={(text) => form[31] = text}
+                    onChangeText={(text) => form[33] = text}
                     required={false}
                    />
 
