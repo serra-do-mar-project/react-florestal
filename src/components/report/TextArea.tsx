@@ -57,6 +57,7 @@ export default function TextArea({ title, textHolder, onChangeText, showError = 
           onChangeText={handleChangeText}
           className="flex-1 text-black text-lg font-semibold m-3"
           placeholder={textHolder}
+          placeholderTextColor={"#9F9F9F"}
         />
       </View>
     </View>

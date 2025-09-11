@@ -59,6 +59,7 @@ export function Forminput({children, textHolder, visible, onChangeText, label, t
           secureTextEntry={visible}
           className="flex-1 px-2 mt-0.5 text-black text-lg font-semibold"
           placeholder = {textHolder}
+          placeholderTextColor={"#9F9F9F"}
         />
         {children && (
             <View className="flex-2 items-center justify-center">
