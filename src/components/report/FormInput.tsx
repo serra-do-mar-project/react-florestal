@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { View, TextInput, Text } from "react-native";
 
 interface props {
@@ -16,17 +16,28 @@ interface props {
 export function Forminput({children, textHolder, visible, onChangeText, label, title, showError = false, required = true, disabled = false}: props){
   const [localError, setLocalError] = useState(false);
   const [value, setValue] = useState<string | undefined | null>(undefined);
+  const prevDisabled = useRef<boolean>(disabled);
 
-  // Notifica o componente pai quando montado e quando required/disabled mudarem, apenas se estiver vazio
+  // Notifica o componente pai quando montado e quando required/disabled/value mudarem
   useEffect(() => {
-    const isEmpty = value === undefined || value === null || value === '';
-    if (isEmpty) {
-      onChangeText?.(required ? undefined : null);
+    if (disabled && !prevDisabled.current) {
+      onChangeText?.(null);
+    } else {
+      const isEmpty = value === undefined || value === null || value === '';
+      if (isEmpty) {
+        onChangeText?.(required ? undefined : null);
+      } else {
+        onChangeText?.(value);
+      }
     }
+    prevDisabled.current = disabled;
   }, [required, disabled, value]);
 
   const handleChangeText = (text: string) => {
-    if (disabled) return;
+    if (disabled){
+      onChangeText?.(null)
+      return;
+    };
     setLocalError(false); 
     if(text === ""){
       if(required){
