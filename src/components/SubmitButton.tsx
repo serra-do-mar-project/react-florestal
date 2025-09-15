@@ -17,7 +17,7 @@ export function SubmitButton({ title, onPress, classname, textClass }: ButtonPro
       onPress={onPress}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
-      className={`flex items-center justify-center w-44 h-14 pb-0.5 rounded-full border-x-hairline border-b-2 border-stone-700 shadow-xl ${
+      className={`flex items-center justify-center w-44 h-14 pb-0.5 rounded-2xl border-x-hairline border-b-2 border-stone-700 shadow-xl ${
         pressed ? "bg-green-900" : "bg-green-500"
       } ${classname}`}
     >

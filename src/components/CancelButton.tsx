@@ -17,12 +17,12 @@ export function CancelButton({ title, onPress, classname, textClass }: ButtonPro
       onPress={onPress}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
-      className={`flex items-center justify-center w-44 h-14 pb-0.5 rounded-full  ${
+      className={`flex items-center justify-center w-fit h-14 pb-0.5 rounded-2xl  ${
         pressed ? "bg-green-500 border-x-hairline border-b-2 border-stone-700" : "border border-green-600 shadow-green-600"
       } ${classname}`}
     >
       <Text
-        className={`text-gray-900 text-2xl font-semibold ${pressed && "text-white"} ${textClass}`}
+        className={`text-gray-900  text-2xl font-semibold ${pressed && "text-white"} ${textClass}`}
       >
         {title}
       </Text>

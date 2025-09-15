@@ -7,19 +7,20 @@ import images from "@/src/constants/images";
 interface DatePickerProps {
   title?: string;
   initialDate?: Date;
-  onDateChange?: (date: string | undefined | null) => void;
+  onDateChange?: (date: any) => void;
   mode?: 'date' | 'time';
   showError?: boolean;
   required?: boolean;
+  className?: string;
 }
 
-export default function DatePicker({ initialDate = new Date(), onDateChange, title, mode = 'date', showError = false, required = true }: DatePickerProps) {
+export default function DatePicker({ initialDate = new Date(), onDateChange, className, title, mode = 'date', showError = false, required = true }: DatePickerProps) {
   const [date, setDate] = useState<Date | undefined | null>(undefined);
   const [pressed, setPressed] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
   const [localError, setLocalError] = useState(false); // Estado local para controlar o erro
 
-  useEffect(() => {
+   useEffect(() => {
     // Notifica o pai ao montar
     onDateChange?.(required ? undefined : null);
   }, []);
@@ -62,12 +63,11 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, tit
   };
 
   return (
-    <View className="w-full mb-4" >
+    <View className={`flex-1 mb-4 ${className}`}>
 
       {title&&
-        <Text className={`font-semibold text-xl ml-0.5 mt-1 ${localError? "" : "mb-4"}`}>{title}</Text>
+        <Text className={`font-semibold text-xl ml-0.5 mt-1 mb-4`}>{title}</Text>
       }
-      {localError && <Text className="text-red-500 font-sans text-sm mb-3 ml-0.5">{mode == "date"?  "Selecione uma data" : "Selecione um horário"}</Text>}
       <Pressable
         className={`${mode === 'date' ? "w-44" : "w-32"} bg-[#EFEFEF] ${pressed ? "bg-gray-300" : ""} flex-row items-center justify-between  border border-gray-900/30 rounded-md`}
         onPressIn={() => setPressed(true)}
@@ -84,16 +84,16 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, tit
             ? "DD/MM/AA"
             : "HH:MM"}
           </Text>
-          <View className='border-l px-2.5 flex-col h-full border-gray-900/30'>
+          <View className='border-l px-2 flex-col h-full border-gray-900/30'>
+
               <View className=" flex-1 justify-center">
-                <images.calendar />
+                {mode === 'date' ? <images.calendar /> : <images.clock/>}
               </View>
-              
-                        
+     
           </View>
-          
         
       </Pressable>
+       {localError && <Text className="text-red-500 font-sans text-sm mb-3 ml-0.5">{mode == "date"?  "Selecione uma data" : "Selecione um horário"}</Text>}
       
 
       {show && (

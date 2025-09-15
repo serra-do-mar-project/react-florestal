@@ -2,13 +2,15 @@ import DatePicker from "@/src/components/report/DatePicker";
 import DropdownBox from "@/src/components/report/DropdownBox";
 import FormCard from "@/src/components/report/FormCard";
 import { Forminput } from "@/src/components/report/FormInput";
-import { HoursInput } from "@/src/components/report/HoursInput";
+import  {DurationInput} from "@/src/components/report/DurationInput";
 import RadioButton from "@/src/components/report/RadioButton";
 import TextArea from "@/src/components/report/TextArea";
 import { SubmitButton } from "@/src/components/SubmitButton";
 import { useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import DateTimePicker from "@/src/components/report/DateTimePicker";
+import DateTimePickerV2 from "@/src/components/report/DateTimePickerV2";
 
 export default function ReportPage() {
   const options = ["Opção 1", "Opção 2", "Opção 3"];
@@ -36,11 +38,15 @@ export default function ReportPage() {
   };
 
   const setField = (fieldIndex: number, valueIndex: number, value: string | string[] | null | undefined) => {
-    if (!form[fieldIndex]) form[fieldIndex] = { [fieldIndex]: [] };
-    
-    // Converte array para string se necessário
-    const stringValue = Array.isArray(value) ? value.join('; ') : (value);
-    form[fieldIndex][fieldIndex][valueIndex] = stringValue;
+    const stringValue = Array.isArray(value) ? value.join('; ') : (value as string | null | undefined);
+    setForm(prev => {
+      const next = Array.isArray(prev) ? [...prev] : [];
+      // Ensure the slot exists and follows the existing pattern: an object keyed by index holding an array
+      if (!next[fieldIndex]) next[fieldIndex] = { [fieldIndex]: [] } as any;
+      if (!next[fieldIndex][fieldIndex]) next[fieldIndex][fieldIndex] = [];
+      next[fieldIndex][fieldIndex][valueIndex] = stringValue;
+      return next;
+    });
   };
 
   return (
@@ -93,29 +99,22 @@ export default function ReportPage() {
                 onChangeText={(res) => setField(3, 0, res)} 
                 showError={trowError}/>
 
-              <DatePicker 
-                title="Data e Hora do início da ação" 
+             <DateTimePicker 
+                title="Data e hora do início da ação"
                 showError={trowError}
-                onDateChange={(res) => setField(4, 0, res)}
+                onDateChange={(res) => {
+                  res.map((item, index) => (setField(5, index, item)));
+               }}
               />
 
-              <DatePicker 
-                mode="time"
+              <DateTimePicker 
+                title="Data e hora do término da ação"
                 showError={trowError}
-                onDateChange={(res) => setField(4, 1, res)}
+                onDateChange={(res) => {
+                  res.map((item, index) => (setField(5, index, item)));
+               }}
               />
 
-              <DatePicker 
-                title="Data e hora do término da ação" 
-                showError={trowError}
-                onDateChange={(res) => setField(5, 0, res)}
-              />
-
-              <DatePicker 
-                mode="time"
-                showError={trowError}
-                onDateChange={(res) => setField(5, 1, res)}
-              />
 
               <DropdownBox
                 title="Origem da Ação" 
@@ -234,6 +233,7 @@ export default function ReportPage() {
                   title="Placa do veículo"
                   onChangeText={(res) => setField(16, 0, res)}
                   showError={trowError}
+                  disabled={!vtr}
                   required={vtr}
                 />
               <Forminput
@@ -241,12 +241,14 @@ export default function ReportPage() {
                   label="Colocar somente números"
                   onChangeText={(res) => setField(17, 0, res)}
                   showError={trowError}
+                  disabled={!vtr}
                   required={vtr}
                 />
               <Forminput
                   title="KM Final"
                   label="Colocar somente números"
                   onChangeText={(res) => setField(18, 0, res)}
+                  disabled={!vtr}
                   showError={trowError}
                   required={vtr}
                 />
@@ -255,6 +257,7 @@ export default function ReportPage() {
                   label="Em caso de problemas mecânicos, troca de VTR ou impossibilidade trafegar"
                   onChangeText={(res) => setField(19, 0, res)}
                   showError={trowError}
+                  disabled={!vtr}
                   required={false}
                 />
               
@@ -284,13 +287,13 @@ export default function ReportPage() {
                       showError={trowError}
                     />
 
-                    <HoursInput
-                     title="Horas em Viatura"
-                     onChangeText={(res) => setField(23, 0, res? res +"(viatura)" : res)}
-                      showError={trowError}
+                    <DurationInput
+                     title="Horas em viatura"
+                     onChangeText={(res) => setField(23, 0, res? res +" (viatura)" : res)}
+                     showError={trowError}
                     />
 
-                    <HoursInput
+                    <DurationInput
                      title="Horas a Pé"
                      onChangeText={(res) => setField(23, 1, res? res +"(a pé)" : res)}
                       showError={trowError}

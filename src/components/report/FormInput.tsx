@@ -10,18 +10,23 @@ interface props {
   label?: string;
   showError?: boolean;
   required?: boolean;
+  disabled?: boolean;
 }
 
-export function Forminput({children, textHolder, visible, onChangeText, label, title, showError = false, required = true}: props){
+export function Forminput({children, textHolder, visible, onChangeText, label, title, showError = false, required = true, disabled = false}: props){
   const [localError, setLocalError] = useState(false);
   const [value, setValue] = useState<string | undefined | null>(undefined);
 
-  // Notifica o componente pai quando montado
+  // Notifica o componente pai quando montado e quando required/disabled mudarem, apenas se estiver vazio
   useEffect(() => {
-    onChangeText?.(required ? undefined : null);
-  }, []);
+    const isEmpty = value === undefined || value === null || value === '';
+    if (isEmpty) {
+      onChangeText?.(required ? undefined : null);
+    }
+  }, [required, disabled, value]);
 
   const handleChangeText = (text: string) => {
+    if (disabled) return;
     setLocalError(false); 
     if(text === ""){
       if(required){
@@ -38,15 +43,19 @@ export function Forminput({children, textHolder, visible, onChangeText, label, t
   };
 
   useEffect(() => {
+    if (disabled) {
+      setLocalError(false);
+      return;
+    }
     if (showError && required && value === undefined) {
       setLocalError(true);
     } else {
       setLocalError(false);
     }
-  }, [showError, value, required]); 
+  }, [showError, value, required, disabled]); 
 
   return (
-    <View className="w-full">
+    <View className={`w-full ${disabled && 'opacity-60' }`}>
       {title && (
         <Text className={`w-full text-xl font-semibold mt-3 ${localError || label ? "" : "pb-2"}`}>{title}</Text>
       )}
@@ -57,12 +66,13 @@ export function Forminput({children, textHolder, visible, onChangeText, label, t
           value={value || ""}
           onChangeText={handleChangeText}
           secureTextEntry={visible}
-          className="flex-1 px-2 mt-0.5 text-black text-lg font-semibold"
+          editable={!disabled}
+          className={`flex-1 px-2 mt-0.5 text-black text-lg font-semibold ${disabled ? 'opacity-60' : ''}`}
           placeholder = {textHolder}
           placeholderTextColor={"#9F9F9F"}
         />
         {children && (
-            <View className="flex-2 items-center justify-center">
+            <View className="items-center justify-center">
               {children}
             </View>
           )}
