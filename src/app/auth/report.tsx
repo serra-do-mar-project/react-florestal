@@ -10,7 +10,6 @@ import { useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@/src/components/report/DateTimePicker";
-import DateTimePickerV2 from "@/src/components/report/DateTimePickerV2";
 
 export default function ReportPage() {
   const options = ["Opção 1", "Opção 2", "Opção 3"];
@@ -29,16 +28,16 @@ export default function ReportPage() {
     if (hasUndefined) {
       console.log("Erro: Existem campos undefined");
       setTrowError(true);
-      console.log(formData)
+      console.log(form)
       return;
     }
 
     console.log("Formulário válido");
-    console.log(formData)
+    console.log(form)
   };
 
   const setField = (fieldIndex: number, valueIndex: number, value: string | string[] | null | undefined) => {
-    const stringValue = Array.isArray(value) ? value.join('; ') : (value as string | null | undefined);
+    const stringValue = Array.isArray(value) ? value.join(', ') : (value as string | null | undefined);
     setForm(prev => {
       const next = Array.isArray(prev) ? [...prev] : [];
       // Ensure the slot exists and follows the existing pattern: an object keyed by index holding an array
@@ -103,7 +102,7 @@ export default function ReportPage() {
                 title="Data e hora do início da ação"
                 showError={trowError}
                 onDateChange={(res) => {
-                  res.map((item, index) => (setField(5, index, item)));
+                  res.map((item, index) => (setField(4, index, item)));
                }}
               />
 
@@ -121,6 +120,7 @@ export default function ReportPage() {
                 options={["Rotina", "Planejamento SIM-UC", "DEJEM SIM-UC", "Denúnica", "Atendimento a Órgãos Externos", "Demanda Solicitação Interna" ]}
                 onSelect={(res) => setField(6, 0, res)}
                 showError={trowError}
+                
               />
 
               <RadioButton
@@ -129,6 +129,7 @@ export default function ReportPage() {
                 options={["Sim", "Não"]}
                 onSelect={(res) => setField(7, 0, res)}
                 showError={trowError}
+                disabled={true}
               />
               
 

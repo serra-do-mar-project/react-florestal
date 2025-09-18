@@ -66,27 +66,29 @@ export function Forminput({children, textHolder, visible, onChangeText, label, t
   }, [showError, value, required, disabled]); 
 
   return (
-    <View className={`w-full ${disabled && 'opacity-60' }`}>
+    <View className={`w-full`}>
+      <View className={` ${disabled && 'opacity-60' }`}>
       {title && (
-        <Text className={`w-full text-xl font-semibold mt-3 ${localError || label ? "" : "pb-2"}`}>{title}</Text>
+        <Text className={`w-full text-xl font-semibold mt-3 ${localError || label ? "" : "pb-2"} `}>{title}</Text>
       )}
       {localError && <Text className={`${label? "" : "pb-2"} text-red-500 font-sans text-sm mt-0.5`}>Este campo é obrigatório.</Text>}
-            {label && <Text className="font-sans text-gray-900/70 text-md pb-2 ">{label}</Text>}
-      <View className="flex items-center justify-between flex-row w-full h-10 mb-4  bg-[#EFEFEF] border border-gray-900/30 rounded-md shadow-lg">
-        <TextInput 
+      {label && <Text className="font-sans text-gray-900/70 text-md pb-2 ">{label}</Text>}
+      </View>
+      <View className="flex items-center justify-between flex-row w-full h-10 mb-4 bg-[#EFEFEF] border border-gray-900/30 rounded-md shadow-lg">
+        <TextInput
           value={value || ""}
           onChangeText={handleChangeText}
           secureTextEntry={visible}
           editable={!disabled}
-          className={`flex-1 px-2 mt-0.5 text-black text-lg font-semibold ${disabled ? 'opacity-60' : ''}`}
-          placeholder = {textHolder}
+          className={`flex-1 px-2 mt-0.5 bg-[#EFEFEF] text-lg font-semibold ${disabled ? 'text-gray-900/30' : 'text-black'}`}
+          placeholder={textHolder}
           placeholderTextColor={"#9F9F9F"}
         />
         {children && (
-            <View className="items-center justify-center">
-              {children}
-            </View>
-          )}
+          <View className="items-center justify-center">
+            {children}
+          </View>
+        )}
       </View>
     </View>
   );

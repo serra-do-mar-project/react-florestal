@@ -9,6 +9,7 @@ interface Props {
   showError?: boolean;
   required?: boolean;
   value?: string;
+  disabled?: boolean;
 }
 
 export function DurationInput({
@@ -19,16 +20,36 @@ export function DurationInput({
   showError = false,
   required = true,
   value,
+  disabled = false,
 }: Props) {
   const [localError, setLocalError] = useState(false);
   const [internalValue, setInternalValue] = useState("");
+  const [prevDisabled, setPrevDisabled] = useState<boolean>(false);
 
   // Inicializa o valor
   useEffect(() => {
     onChangeText?.(required ? undefined : null);
   }, []);
 
+  useEffect(() => {
+    if (disabled && !prevDisabled) {
+      onChangeText?.(null);
+    } else {
+      const isEmpty = internalValue === undefined || internalValue === null || internalValue === '';
+      if (isEmpty) {
+        onChangeText?.(required ? undefined : null);
+      } else {
+        onChangeText?.(internalValue);
+      }
+    }
+    setPrevDisabled(!!disabled);
+  }, [required, disabled, internalValue]);
+
   const handleTextChange = (text: string) => {
+    if (disabled) {
+      onChangeText?.(null);
+      return;
+    }
     // Remove tudo que não for número
     const numbersOnly = text.replace(/\D/g, "").slice(0, 4);
 
@@ -77,29 +98,31 @@ export function DurationInput({
 
   return (
     <View className="w-full">
-      {title && (
-        <Text className={`text-xl font-semibold mt-1.5 ${localError || label ? "" : "mb-2"}`}>
-          {title}
-        </Text>
-      )}
+      <View className={` ${disabled ? 'opacity-60' : ''}` }>
+        {title && (
+          <Text className={`text-xl font-semibold mt-1.5 ${localError || label ? "" : "mb-2"}`}>
+            {title}
+          </Text>
+        )}
 
-      {localError && (
-        <Text className={`text-red-500 text-sm font-sans mt-0.5 ${label ? "" : "mb-2"}`}>
-          Este campo é obrigatório.
-        </Text>
-      )}
+        {localError && (
+          <Text className={`text-red-500 text-sm font-sans mt-0.5 ${label ? "" : "mb-2"}`}>
+            Este campo é obrigatório.
+          </Text>
+        )}
 
-      {label && <Text className="text-gray-600 text-md font-sans mb-1">{label}</Text>}
-
+        {label && <Text className="text-gray-600 text-md font-sans mb-1">{label}</Text>}
+      </View>
       <View className="flex items-center justify-center flex-row  bg-[#EFEFEF] w-24 h-fit mb-4 py-1 border border-gray-900/30 rounded-lg shadow-md ">
         <TextInput
           value={internalValue}
           onChangeText={handleTextChange}
+          editable={!disabled}
           placeholder={textHolder}
           placeholderTextColor="#A0A0A0"
           keyboardType="numeric"
           maxLength={7}
-          className="flex-1 pt-0.5 px-2 text-center text-black text-xl font-italic"
+          className={`flex-1 pt-0.5 px-2 text-center text-xl font-italic ${disabled ? 'text-gray-900/50' : 'text-black'}`}
           style={{ letterSpacing: 2 }}
         />
       </View>

@@ -9,10 +9,12 @@ interface DropdownBoxProps {
     onSelect?: (option: string | undefined | null) => void;
     required?: boolean; 
     showError?: boolean;
+    disabled?: boolean;
 }
 
-const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, required = true, showError = false}) => {
+const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, required = true, showError = false, disabled = false }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [prevDisabled, setPrevDisabled] = useState<boolean>(false);
     const [selected, setSelected] = useState<string | undefined | null>(undefined);
     const [localError, setLocalError] = useState(false); // Estado local para controlar o erro
 
@@ -42,6 +44,19 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
     }, []);
 
     useEffect(() => {
+        if (disabled && !prevDisabled) {
+            onSelect?.(null);
+        } else {
+            if (selected === undefined || selected === null || selected === '') {
+                onSelect?.(required ? undefined : null);
+            } else {
+                onSelect?.(selected);
+            }
+        }
+        setPrevDisabled(!!disabled);
+    }, [required, disabled, selected]);
+
+    useEffect(() => {
         if (showError && required && selected === undefined) {
             setLocalError(true);
         } else {
@@ -54,18 +69,17 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
         <View className="w-60 mb-5">
 
             {title&&
-                <>
+                <View className={` ${disabled ? 'opacity-60' : ''}` }>
                     <Text className={`font-semibold text-xl ml-0.5 mt-3 ${localError? "" : "mb-3"}`}>{title}</Text>
                     {(localError) && <Text className="text-red-500 font-sans text-sm ml-0.5 mb-3">Selecione uma opção antes de continuar.</Text>}
-                </>
-                
+                </View>
             }
             
             {/* Botão de abrir/fechar */}
             <Pressable
-                className={`bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen&& "rounded-b-none"}`}
-                onPress={() => setIsOpen(!isOpen)}
-                onLongPress={selected ? handleClear : undefined}
+                className={`bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen&& "rounded-b-none"} ${disabled ? 'opacity-60' : ''}`}
+                onPress={() => !disabled && setIsOpen(!isOpen)}
+                onLongPress={!disabled && selected ? handleClear : undefined}
             >
                 <View className={`flex-row items-center`}>
                     <Text className="flex-1 font-sans text-lg py-2 pl-3 pr-1">

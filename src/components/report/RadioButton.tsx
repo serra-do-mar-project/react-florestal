@@ -10,11 +10,13 @@ interface SelectableProps {
   onSelect?: (selected: string[] | string | undefined | null) => void;
   showError?: boolean;
   required?: boolean;
+  disabled?: boolean;
 }
- 
-export default function Selectable({ title, options, multiSelect = true, onSelect, showError = false, required = true }: SelectableProps) {
+
+export default function Selectable({ title, options, multiSelect = true, onSelect, showError = false, required = true, disabled = false }: SelectableProps) {
   const [selected, setSelected] = useState<string[] | undefined | null>(undefined);
   const [localError, setLocalError] = useState(false); // Estado local para controlar o erro
+  const [prevDisabled, setPrevDisabled] = useState<boolean>(false);
 
   useEffect(() => {
     // Notifica o pai ao montar
@@ -22,7 +24,10 @@ export default function Selectable({ title, options, multiSelect = true, onSelec
   }, []);
 
   useEffect(() => {
-    if (showError && required && (!selected || (Array.isArray(selected) && selected.length === 0))) {
+    if (disabled && !prevDisabled) {
+      onSelect?.(null);
+    }
+    else if (showError && required && (!selected || (Array.isArray(selected) && selected.length === 0))) {
       setLocalError(true);
     } else {
       setLocalError(false);
