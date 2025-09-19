@@ -34,7 +34,7 @@ import opcoes from "@/src/assets/images/opcoes.svg"
 import edit from "@/src/assets/images/edit.svg"
 import trash from "@/src/assets/images/trash.svg"
 import calendar from "@/src/assets/images/calendar.svg"
-
+import clock from "@/src/assets/images/clock.svg"
 
 
 
@@ -75,7 +75,8 @@ const images = {
   opcoes,
   edit,
   trash,
-  calendar
+  calendar,
+  clock
 };
 
 export default images;

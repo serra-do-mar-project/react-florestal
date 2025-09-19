@@ -7,8 +7,10 @@ interface SelectableProps {
   title?: string;
   options: string[];
   multiSelect?: boolean ;  // define se permite múltiplas seleções
-  onSelect?: (selected: string[] | string | undefined) => void;
+  onSelect?: (selected: string[] | string | undefined | null) => void;
   showError?: boolean;
+  required?: boolean;
+  disabled?: boolean;
 }
  
 export default function Selectable({ title, options, multiSelect = true, onSelect, showError = false }: SelectableProps) {
@@ -27,30 +29,50 @@ export default function Selectable({ title, options, multiSelect = true, onSelec
     }
   }, [showError, selected]); 
 
+export default function Selectable({ title, options, multiSelect = true, onSelect, showError = false, required = true, disabled = false }: SelectableProps) {
+  const [selected, setSelected] = useState<string[] | undefined | null>(undefined);
+  const [localError, setLocalError] = useState(false); // Estado local para controlar o erro
+  const [prevDisabled, setPrevDisabled] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Notifica o pai ao montar
+    onSelect?.(required ? undefined : null);
+  }, []);
+
+  useEffect(() => {
+    if (disabled && !prevDisabled) {
+      onSelect?.(null);
+    }
+    else if (showError && required && (!selected || (Array.isArray(selected) && selected.length === 0))) {
+      setLocalError(true);
+    } else {
+      setLocalError(false);
+    }
+  }, [showError, selected, required]);
 
   const handlePress = (option: string) => {
     if (multiSelect) {
       let newSelected = [];
-      if (selected && selected.includes(option)) {
+      if (selected && Array.isArray(selected) && selected.includes(option)) {
         newSelected = selected.filter(item => item !== option);
       } else {
-        newSelected = selected ? [...selected, option] : [option];
+        newSelected = selected && Array.isArray(selected) ? [...selected, option] : [option];
       }
       setSelected(newSelected);
       setLocalError(false);
-      onSelect?.(newSelected.length === 0 ? undefined : newSelected);
+      if (onSelect) onSelect(newSelected.length === 0 ? (required ? undefined : null) : newSelected);
     } else {
       // Seleção única
       setSelected([option]);
       setLocalError(false);
-      onSelect?.(option);
+      if (onSelect) onSelect(option);
     }
   };
 
   return (
     <View className="mt-2 mb-3">
       <Text className="font-semibold text-xl">{title || "Pergunta"}</Text>
-      <Text className={` ${localError? "text-red-500" : "text-gray-800"} font-sans text-sm`}>{multiSelect? "Selecione uma ou mais opções." : "Selecione somente uma opção."}</Text>
+      <Text className={` ${localError? "text-red-500" : "text-gray-900/70"} font-sans text-md`}>{multiSelect? "Selecione uma ou mais opções." : "Selecione somente uma opção."}</Text>
       <View className="mt-2">
 
         {options.map(option => (
