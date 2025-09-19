@@ -134,9 +134,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
                     )}
                 </View>
             )}
-
             {(localError && !title) && <Text className="text-red-500 font-sans text-sm ml-0.5 mb-3">Selecione uma opção antes de continuar.</Text>}
-            
         </View>
     );
 };

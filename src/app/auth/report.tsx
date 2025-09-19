@@ -11,6 +11,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@/src/components/report/DateTimePicker";
 import { useFormManager } from "@/src/hooks/useFormManager";
 
+
 export default function ReportPage() {
   const [vtr, setVtr] = useState<boolean>(true);
   
@@ -32,12 +33,28 @@ export default function ReportPage() {
 
   const totalPages = 6;
 
-  return (
+  const handleSubmit = (formData: any) => {
+    const hasUndefined = Object.keys(formData).map(key => formData[key]).some(value => value === undefined);
+    
+    if (hasUndefined) {
+      console.log("Erro: Existem campos undefined");
+      console.log(form)
+      setTrowError(true)
+      return;
+    }
+    
+    console.log("Formulário válido");
+    console.log(form)
+  }
+ 
+   
+    
+        
+  return ( 
     <View className="flex w-full h-full">
       <View className="bg-[#fffdfd] pt-10 pb-5 shadow shadow-black">
         <Text className="text-gray-900 font-semibold text-3xl ml-7">Relátorio diário</Text>
       </View>
-
       <ScrollView className="flex-1">
         <View className="pt-10 items-center px-4">
           {/* Equipe */}

@@ -84,6 +84,7 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, cla
             ? "DD/MM/AA"
             : "HH:MM"}
           </Text>
+        
           <View className='border-l px-2 flex-col h-full border-gray-900/30'>
 
               <View className=" flex-1 justify-center">
