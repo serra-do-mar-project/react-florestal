@@ -1,4 +1,3 @@
-import DatePicker from "@/src/components/report/DatePicker";
 import DropdownBox from "@/src/components/report/DropdownBox";
 import FormCard from "@/src/components/report/FormCard";
 import { Forminput } from "@/src/components/report/FormInput";
@@ -10,43 +9,28 @@ import { useState } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@/src/components/report/DateTimePicker";
+import { useFormManager } from "@/src/hooks/useFormManager";
 
 export default function ReportPage() {
-  const options = ["Opção 1", "Opção 2", "Opção 3"];
-  const [trowError, setTrowError] = useState<boolean>(false);
-  const [form, setForm] = useState<any[]>([]);
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [vtr, setVtr] = useState<boolean>(true);
-
-  const totalPages = 8;
-
-  const handleSubmit = (formData: any) => {
-    const hasUndefined = form.some(field => 
-      !field || !field.valor || field.valor.some((value: string | null | undefined) => value === undefined || value === "" || value === null)
-    );
-
-    if (hasUndefined) {
-      console.log("Erro: Existem campos undefined");
-      setTrowError(true);
-      console.log(form)
-      return;
+  
+  const { 
+    form, 
+    setField, 
+    handleSubmit, 
+    trowError 
+  } = useFormManager({
+    onSubmitSuccess: (formData) => {
+      // Aqui você pode adicionar lógica específica de sucesso
+      console.log("Formulário enviado com sucesso!");
+    },
+    onSubmitError: (formData) => {
+      // Aqui você pode adicionar lógica específica de erro
+      console.log("Erro no envio do formulário");
     }
+  });
 
-    console.log("Formulário válido");
-    console.log(form)
-  };
-
-  const setField = (fieldIndex: number, valueIndex: number, value: string | string[] | null | undefined) => {
-    const stringValue = Array.isArray(value) ? value.join(', ') : (value as string | null | undefined);
-    setForm(prev => {
-      const next = Array.isArray(prev) ? [...prev] : [];
-      // Ensure the slot exists and follows the existing pattern: an object keyed by index holding an array
-      if (!next[fieldIndex]) next[fieldIndex] = { [fieldIndex]: [] } as any;
-      if (!next[fieldIndex][fieldIndex]) next[fieldIndex][fieldIndex] = [];
-      next[fieldIndex][fieldIndex][valueIndex] = stringValue;
-      return next;
-    });
-  };
+  const totalPages = 6;
 
   return (
     <View className="flex w-full h-full">
@@ -129,7 +113,6 @@ export default function ReportPage() {
                 options={["Sim", "Não"]}
                 onSelect={(res) => setField(7, 0, res)}
                 showError={trowError}
-                disabled={true}
               />
               
 
@@ -319,7 +302,7 @@ export default function ReportPage() {
 
           
 
-          <SubmitButton classname="my-10" title="enviar" onPress={() => handleSubmit(form)} />
+          <SubmitButton classname="my-10" title="enviar" onPress={() => handleSubmit()} />
         </View>
       </ScrollView>
     </View>
