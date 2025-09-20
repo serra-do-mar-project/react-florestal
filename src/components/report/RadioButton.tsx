@@ -12,22 +12,6 @@ interface SelectableProps {
   required?: boolean;
   disabled?: boolean;
 }
- 
-export default function Selectable({ title, options, multiSelect = true, onSelect, showError = false }: SelectableProps) {
-
-  const [selected, setSelected] = useState<string[] | undefined>(undefined);
-  const [localError, setLocalError] = useState(false); // Estado local para controlar o erro
-  
-  
-  useEffect(() => {
-    onSelect?.(selected);
-  }, []);
-
-  useEffect(() => {
-    if (showError && (!selected || (Array.isArray(selected) && selected.length === 0))) {
-      setLocalError(true);
-    }
-  }, [showError, selected]); 
 
 export default function Selectable({ title, options, multiSelect = true, onSelect, showError = false, required = true, disabled = false }: SelectableProps) {
   const [selected, setSelected] = useState<string[] | undefined | null>(undefined);
