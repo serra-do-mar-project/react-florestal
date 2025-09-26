@@ -6,7 +6,38 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+type LoginOkResponse = {
+  status: string;
+  user: {
+    id: number;
+    nome: string;
+    tipo: string;
+  };
+  token: string;
+};
 
+export const login = async (
+  cpf: string,
+  senha: string
+): Promise<LoginOkResponse> => {
+  try {
+    const response = await fetch(
+      "https://nest-florestal-fork.onrender.com/auth/signin",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cpf: cpf,
+          senha: senha,
+        }),
+      }
+    );
 
-
-
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};

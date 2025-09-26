@@ -1,19 +1,21 @@
 import { create } from 'zustand'
 
 export type UseStore = {
+  id: number | null;
   nome: string | null;
   token: string | null;
-  type: number | null;
+  tipo: string | null;
   isLogged: boolean;
-  login: (name: string, type: number, token: string) => void;
+  login: (id: number, nome: string, tipo: string, token: string) => void;
   logout: () => void;
 }
 
 export const useUserStore = create<UseStore>((set) => ({
+  id: null,
   nome: null,
   token: null,
-  type: null,
+  tipo: null,
   isLogged: false,
-  login: (name: string, type: number, token: string) => set(() => ({ name, type, token, isLogged: true })),
-  logout: () => set(() => ({ name: null, type: null, token: null, isLogged: false })),
+  login: (id: number, nome: string, tipo: string, token: string) => set(() => ({ id, nome, tipo, token, isLogged: true })),
+  logout: () => set(() => ({ id: null, nome: null, tipo: null, token: null, isLogged: false })),
 }))

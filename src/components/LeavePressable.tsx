@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { useUserStore } from "@/src/store/userStore";
 
 export function LeavePressable() {
-  const logout = useUserStore((state) => state.logout);
+  const {logout} = useUserStore()
 
   const handleLeave = () => {
     Alert.alert(

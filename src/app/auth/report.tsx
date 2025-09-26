@@ -32,23 +32,7 @@ export default function ReportPage() {
   });
 
   const totalPages = 6;
-
-  const handleSubmit = (formData: any) => {
-    const hasUndefined = Object.keys(formData).map(key => formData[key]).some(value => value === undefined);
-    
-    if (hasUndefined) {
-      console.log("Erro: Existem campos undefined");
-      console.log(form)
-      setTrowError(true)
-      return;
-    }
-    
-    console.log("Formulário válido");
-    console.log(form)
-  }
  
-   
-    
         
   return ( 
     <View className="flex w-full h-full">
@@ -282,9 +266,16 @@ export default function ReportPage() {
                     />
 
                     <Forminput
-                      title="KM Percorridos (Viatura e a pé)"
-                      label="Ex: 62km (viatura) e 4km (a pé)"
-                      onChangeText={(res) => setField(22, 0, res)}
+                      title="KM Percorridos (Viatura)"
+                      label="Ex: 62km"
+                      onChangeText={(res) => setField(22, 0, res? res +" (viatura)" : res)}
+                      showError={trowError}
+                    />
+
+                    <Forminput
+                      title="KM Percorridos (a pé)"
+                      label="Ex: 4km"
+                      onChangeText={(res) => setField(22, 1, res? res +"(a pé)" : res)}
                       showError={trowError}
                     />
 
@@ -296,7 +287,7 @@ export default function ReportPage() {
 
                     <DurationInput
                      title="Horas a Pé"
-                     onChangeText={(res) => setField(23, 1, res? res +"(a pé)" : res)}
+                     onChangeText={(res) => setField(23, 1, res? res +" (a pé)" : res)}
                       showError={trowError}
                     />
 
