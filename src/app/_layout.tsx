@@ -25,15 +25,6 @@ export default function MainLayout() {
 
 
   const { success, error } = useMigrations(db, migrations);
-  // const segment = useSegments()
-
-  // useEffect(() => {
-  //   if (segment[1] == 'search' && segment[2]) {
-  //     HiddenBar.setHidden(true)
-  //   } else {
-  //     HiddenBar.setHidden(false)
-  //   }
-  // }, [segment])
 
 
   useEffect(() => {

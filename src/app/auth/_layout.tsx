@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Pressable, View, Text } from "react-native";
 import images from "@/src/constants/images";
 import { StatusBar } from "react-native";
+import { useUserStore } from "@/src/store/userStore";
 
 const TabIcon = ({focused, icon, iconActive, name}: any) => {
   return (
@@ -26,16 +27,13 @@ const TabIcon = ({focused, icon, iconActive, name}: any) => {
 
 const TabsLayout = () => {
 
-  // const segment = useSegments()
-  // const [hidden, setHidden] = useState(false)
-  
-  // useEffect(() => {
-  //   if (segment[1] == 'search' && segment[2]) {
-  //     setHidden(true)
-  //   } else {
-  //     setHidden(false)
-  //   }
-  // }, [segment])
+  const { isLogged, tipo } = useUserStore();
+
+  useEffect(() => {
+    if (!isLogged) {
+      router.replace("/loginPage");
+    }
+  }, [isLogged]);
 
   return (
     <>
@@ -81,6 +79,7 @@ const TabsLayout = () => {
             )
           }}  
         />
+        {tipo === "Admin" ? (
         <Tabs.Screen
           name="moderation" 
           options={{
@@ -95,7 +94,14 @@ const TabsLayout = () => {
               />
             )
           }}  
-        />
+        />) : (
+          <Tabs.Screen
+            name="moderation" 
+            options={{
+              href: null,
+            }}
+          />
+        )}
         <Tabs.Screen
           name="config" 
           options={{
