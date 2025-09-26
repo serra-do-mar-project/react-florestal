@@ -3,13 +3,10 @@
 import { View, Image, TouchableOpacity, Keyboard, Text, KeyboardAvoidingView, Platform,} from "react-native";
 import images from '../constants/images'
 import Title from "../components/Title";
-import { FullWindowOverlay } from "react-native-screens";
 import { Logininput } from "../components/Logininput";
 import { SubmitButton } from "../components/SubmitButton";
 import React, { useEffect, useState } from "react";
-import { CheckboxWithLabel } from "../components/CheckboxWithLabel";
 import { useRouter } from "expo-router";
-import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { login } from "../lib/utils";
 import { useUserStore } from "../store/userStore";
@@ -46,13 +43,12 @@ export default function loginPage() {
       return
     }
 
-    const data = await login(CPF, password)
-    if (data?.status === "success" && data.user && data.token) {
-      console.log(data.user)
+    try {
+      const data = await login(CPF, password)
       userLogin(data.user.id, data.user.nome, data.user.tipo, data.token);
       router.replace("/auth/search")
-    } else {
-      setError(data?.message || "Erro desconhecido");
+    } catch (error: any) {
+      setError(error.message)
     }
   }
 
@@ -85,9 +81,9 @@ export default function loginPage() {
               <images.lock width="24px" height="24px"/>
             </TouchableOpacity>
           </Logininput>
+          <Text className="text-red-500">{error}</Text>
         </View>
-        <Text className="text-red-500">{error}</Text>
-
+        
         <View className={`flex items-center w-full mt-14 mb-12`}>
           <SubmitButton title="Login" 
             onPress={() => handleLogin()}

@@ -8,13 +8,12 @@ export function cn(...inputs: ClassValue[]) {
 
 type LoginOkResponse = {
   status: string;
-  user?: {
+  user: {
     id: number;
     nome: string;
     tipo: string;
-  } | null;
-  token?: string | null;
-  message?: string | null;
+  };
+  token: string;
 };
 
 export const login = async (
@@ -22,7 +21,6 @@ export const login = async (
   senha: string
 ): Promise<LoginOkResponse> => {
   try {
-    console.log("Attempting login...");
     const response = await fetch(
       "https://nest-florestal-fork.onrender.com/auth/signin",
       {
@@ -39,8 +37,7 @@ export const login = async (
 
     const data = await response.json();
     return data;
-  } catch (error) {
-    console.error("Login error:", error);
-    return { status: "error", message: "Login failed" };
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
