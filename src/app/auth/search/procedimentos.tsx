@@ -8,9 +8,7 @@ import { infracoesTable, Infracao } from "@/src/db/schema";
 import { eq } from "drizzle-orm";
 import FormCard from "@/src/components/report/FormCard";
 import { Section } from "@/src/hooks/useDynamicForm";
-import Dropdown from "@/src/components/Dropdown";
-import { Forminput } from "@/src/components/report/FormInput";
-import DropdownBox from "@/src/components/report/DropdownBox";
+import {useFormManager} from "@/src/hooks/useFormManager";
 
 const mockData = {
       "infractionType": "Reforma sem autorização",
@@ -132,6 +130,10 @@ export default function ProcedimentosPage() {
     }
   }, [params.id]);
 
+
+
+  const { form, setDynamicField, handleSubmit, trowError } = useFormManager();
+
   return (
     <View className="flex-1">
       <View className="bg-[#fffdfd] pt-10 pb-5 border-b-1 border-gray-900/30 shadow shadow-black ">
@@ -195,18 +197,23 @@ export default function ProcedimentosPage() {
               </FormCard>
 
                     {mockData.components.map((section, i) => (
-                          <Section key={i} section={section} />
+                          <Section key={i} section={section} setFieldDynamic={setDynamicField} showError={trowError} />
                     ))}
 
           </View>
           
 
-          <SubmitButton
-            classname="h-[3rem] w-[9rem] mt-9 mb-10"
-            textClass="text-xl"
-            title="Prosseguir"
-            onPress={() => router.push("/auth/search")}
-          />
+           <SubmitButton
+           classname="my-10"
+            title="Enviar"
+            onPress={() => {
+              const isValid = handleSubmit();
+              if (isValid) {
+                console.log("Form válido:", form);
+                router.push('/auth/search')
+              }
+              }}
+            />
         </ScrollView>
       </View>
     </View>
