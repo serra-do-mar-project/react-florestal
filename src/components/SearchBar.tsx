@@ -1,13 +1,19 @@
 import { Input } from "@/src/components/Input";
-import { View } from 'react-native';
+import { TextInput, View, TouchableOpacity } from 'react-native';
 import images from "@/src/constants/images";
 
 export default function SearchBar() {
   return (
     <View className="w-full h-fit mt-8">
-        <View className=" flex-row items-center justify-between w-fit h-fit mx-5 border border-gray-900/30 bg-white px-4 py-2 rounded-2xl">
-          <Input className="flex-1 border-transparent bg-transparent" placeholder="Pesquisar"/>
-          <images.search width={24} height={24} stroke="black" strokeWidth={0.5} />
+        <View className=" flex-row items-center justify-between w-fit h-16 mx-5 border border-gray-900/30 bg-white pl-4 rounded-2xl">
+          <TextInput
+            placeholder="Pesquisar"
+            className="flex-1 font-sans text-lg text-black justify-center "
+          />
+          <TouchableOpacity className="h-full justify-center px-4">
+            <images.search width={24} height={24} stroke="black" strokeWidth={0.5} />
+          </TouchableOpacity>
+          
       </View>
     </View>
   )

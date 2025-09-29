@@ -33,7 +33,7 @@ export default function ConfigPage() {
 
   return (
     <View className="flex w-full h-full">
-      <View className="bg-[#fffdfd] pt-10 pb-5 shadow shadow-black ">
+      <View className="bg-[#fffdfd] pt-7 pb-5 shadow shadow-black ">
         <View className="w-full flex-row items-center justify-between mb-3 px-5 ">
         </View>
         <Text className="text-gray-900 font-semibold text-3xl ml-7 ">Configurações</Text>
