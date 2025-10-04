@@ -91,12 +91,27 @@ const mockData = {
           }
         },
         {
+          "name": "Dados da infração",
+          "Dados da infração":[
+              {
+                  "type": "boolean",
+                  "name": "Envolve ou não a coleta de material biológico",
+                  "id": 16
+              }
+          ]
+        },
+        {
           "name": "Informações Extras",
           "Informações Extras": [
             {
               "type": "string",
               "name": "Descrição da intervenção",
               "id": 12
+            },
+            {
+              "type": "integer",
+              "name": "Área total suprimida em m²",
+              "id": 15
             }
           ]
         },
@@ -163,7 +178,7 @@ export default function ProcedimentosPage() {
 
           <View className="w-full pt-10 items-center px-4">
 
-            <FormCard title="Nome completo" subTitle="">
+            <FormCard title="Nome completo" subTitle="" currentPage={1} totalPages={mockData.components.length + 3}>
                 <View className="flex-1">
                   <Text className="text-xl font-medium text-stone-900">
                     {item?.nome_compelto}
@@ -172,7 +187,7 @@ export default function ProcedimentosPage() {
               </FormCard>
  
 
-              <FormCard title="Natureza do Dano" subTitle="">
+              <FormCard title="Natureza do Dano" subTitle="" currentPage={2} totalPages={mockData.components.length + 3}>
                 <View className="flex-1">
                   <Text className="text-lg text-stone-900">
                     {item?.tipo_ocorrencia}
@@ -180,7 +195,7 @@ export default function ProcedimentosPage() {
                 </View>
               </FormCard>
 
-              <FormCard title="Procedimentos Operacionais" subTitle="">
+              <FormCard title="Procedimentos Operacionais" subTitle="" currentPage={3} totalPages={mockData.components.length + 3}>
                   <View className="flex-1">
                   {(item?.proc_OP ?? params.procedimento ?? "")
                     .toString()
@@ -197,7 +212,7 @@ export default function ProcedimentosPage() {
               </FormCard>
 
                     {mockData.components.map((section, i) => (
-                          <Section key={i} section={section} setFieldDynamic={setDynamicField} showError={trowError} />
+                          <Section currentPage={i + 4} totalPages={mockData.components.length + 3} key={i} section={section} setFieldDynamic={setDynamicField} showError={trowError} />
                     ))}
 
           </View>
@@ -209,9 +224,10 @@ export default function ProcedimentosPage() {
             onPress={() => {
               const isValid = handleSubmit();
               if (isValid) {
-                console.log("Form válido:", form);
                 router.push('/auth/search')
               }
+
+              
               }}
             />
         </ScrollView>

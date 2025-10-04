@@ -22,17 +22,19 @@ export const useFormManager = ({ onSubmitSuccess, onSubmitError }: UseFormManage
   };
 
   // (para formulários vindos do backend)
-  const setDynamicField = (id: number, type: string, value: string | undefined) => {
+  const setDynamicField = (id: number, value: string | string[] | undefined) => {
     setForm(prev => {
       const next = [...prev];
       const index = next.findIndex(f => f.id === id);
+      
+      const stringValue = Array.isArray(value) ? value.join(", ") : (value ?? undefined);
 
       if (index !== -1) {
-        next[index] = { ...next[index], value };
+        next[index] = { ...next[index], value: stringValue };
       } else {
-        next.push({ id, type, value });
+        next.push({ id, value: stringValue });
       }
-
+      
       return next;
     });
   };

@@ -57,8 +57,7 @@ export default function Selectable({ title, options, multiSelect = true, onSelec
     <View className="mt-2 mb-3">
       <Text className="font-semibold text-xl">{title || "Pergunta"}</Text>
       <Text className={` ${localError? "text-red-500" : "text-gray-900/70"} font-sans text-md`}>{multiSelect? "Selecione uma ou mais opções." : "Selecione somente uma opção."}</Text>
-      <View className="mt-2">
-
+      <View className={`mt-2 ${options.length <= 2 && 'flex-row pr-2'}`}>
         {options.map(option => (
           <TouchableOpacity
             key={option}
@@ -71,7 +70,6 @@ export default function Selectable({ title, options, multiSelect = true, onSelec
               {
                 selected && selected.includes(option)&& 
                 <View className="w-3 h-3 bg-gray-900/70 rounded-full"/>
-              
               }
 
             </View>
