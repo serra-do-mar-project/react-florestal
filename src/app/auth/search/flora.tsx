@@ -3,19 +3,19 @@ import { Image } from "react-native";
 import ReusablePageLayout from "@/src/components/search/CasosPageLayout";
 import images from "@/src/constants/images";
 import db from "@/src/db/connection";
-import { infracoesTable, Infracao } from "@/src/db/schema";
+import { ExemploDeCasoTable, ExemploDeCaso } from "@/src/db/schema";
 import { eq } from "drizzle-orm";
 import { useRouter } from "expo-router";
 
 export default function FloraPage() {
-  const [data, setData] = useState<Infracao[]>([]);
+  const [data, setData] = useState<ExemploDeCaso[]>([]);
   const router = useRouter();
 
   useEffect(() => {
     db.select()
-      .from(infracoesTable)
-      .where(eq(infracoesTable.categoria, "flora"))
-      .then((res) => setData(res as Infracao[]));
+      .from(ExemploDeCasoTable)
+      .where(eq(ExemploDeCasoTable.categoria, "flora"))
+      .then((res) => setData(res as ExemploDeCaso[]));
   }, []);
 
   return (
@@ -29,7 +29,7 @@ export default function FloraPage() {
       }
       title="Flora"
       data={data}
-      onDropdownPress={(item: Infracao) =>
+      onDropdownPress={(item: ExemploDeCaso) =>
         router.push({
           pathname: "/auth/search/procedimentos",
           params: {
