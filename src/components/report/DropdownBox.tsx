@@ -70,7 +70,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
 
             {title&&
                 <View className={` ${disabled ? 'opacity-60' : ''}` }>
-                    <Text className={`font-semibold text-xl ml-0.5 mt-3 ${localError? "" : "mb-3"}`}>{title}</Text>
+                    <Text className={`font-semibold text-xl ml-0.5 mt-2 ${localError? "" : "mb-3"}`}>{title}</Text>
                     {(localError) && <Text className="text-red-500 font-sans text-sm ml-0.5 mb-3">Selecione uma opção antes de continuar.</Text>}
                 </View>
             }

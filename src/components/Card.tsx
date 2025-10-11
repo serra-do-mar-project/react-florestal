@@ -10,6 +10,7 @@ interface CardProps {
 export function Card({ text, onPress, src }: CardProps) {
   return (
     <TouchableOpacity
+      activeOpacity={0.7}
       onPress={onPress}
       className="h-44 w-[45%] rounded-lg overflow-hidden bg-white border border-gray-900/30 shadow-md"
     >
@@ -23,7 +24,7 @@ export function Card({ text, onPress, src }: CardProps) {
       </View>
 
       <View className="flex-1 items-center pt-2 border-t border-gray-900/40 ">
-        <Text className="text-xl font-medium">{text}</Text>
+        <Text className="text-xl font-semibold">{text}</Text>
       </View>
     </TouchableOpacity>
   );

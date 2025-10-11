@@ -8,7 +8,7 @@ interface props{
 const Title = ({children}: props) => {
   return (
     
-        <Text className="text-gray-900 font-bold text-3xl">
+        <Text className="text-gray-900 font-semibold text-3xl">
           {children}
         </Text>
   );

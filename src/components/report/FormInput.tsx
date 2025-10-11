@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { View, TextInput, Text } from "react-native";
+import { View, TextInput, Text, TextInputProps, KeyboardTypeOptions } from "react-native";
 
 interface props {
   children?: React.ReactNode,
@@ -11,9 +11,10 @@ interface props {
   showError?: boolean;
   required?: boolean;
   disabled?: boolean;
+  keyboardType?: KeyboardTypeOptions;
 }
 
-export function Forminput({children, textHolder, visible, onChangeText, label, title, showError = false, required = true, disabled = false}: props){
+export function Forminput({children, textHolder, visible, onChangeText, label, title, showError = false, required = true, disabled = false, keyboardType}: props){
   const [localError, setLocalError] = useState(false);
   const [value, setValue] = useState<string | undefined | null>(undefined);
   const prevDisabled = useRef<boolean>(disabled);
@@ -83,6 +84,7 @@ export function Forminput({children, textHolder, visible, onChangeText, label, t
           className={`flex-1 px-2 mt-0.5 bg-[#EFEFEF] text-lg font-semibold ${disabled ? 'text-gray-900/30' : 'text-black'}`}
           placeholder={textHolder}
           placeholderTextColor={"#9F9F9F"}
+          keyboardType={keyboardType}
         />
         {children && (
           <View className="items-center justify-center">
