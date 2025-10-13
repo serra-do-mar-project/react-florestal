@@ -18,10 +18,16 @@ export default function Index() {
     <SafeAreaView className="flex-1 bg-white items-center">
         <View className="px-5 items-center gap-3 flex-[1/3]">
           <images.logoparque width={200} height={120} />
-          <Text className="text-center text-2xl font-semibold text-black leading-7">
-            MANUAL DE PROCEDIMENTOS{"\n"}
-            OPERACIONAIS E ADMINISTRATIVOS
+          <View className="items-center">
+
+            <Text className="w-full text-center font-semibold text-[#45503F] stroke-black leading-7" style={{fontSize: 26}}>
+            Manual de Procedimentos
           </Text>
+
+          <Text className="w-full text-center font-semibold text-[#45503F] stroke-black leading-7"  style={{fontSize: 19}}>
+            Operacionais e Administrativos
+          </Text>
+          </View>
         </View>
         
         <View className="w-full flex-1 relative mb-auto">

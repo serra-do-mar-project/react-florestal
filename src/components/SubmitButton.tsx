@@ -22,7 +22,7 @@ export function SubmitButton({ title, onPress, classname, textClass }: ButtonPro
       } ${classname}`}
     >
       <Text
-        className={`text-white text-2xl font-semibold ${textClass}`}
+        className={`w-full text-center text-white text-2xl font-semibold ${textClass}`}
         style={{
           textShadowColor: '#45503F',
           textShadowOffset: { width: 2, height: 2 },
