@@ -35,6 +35,8 @@ import edit from "@/src/assets/images/edit.svg"
 import trash from "@/src/assets/images/trash.svg"
 import calendar from "@/src/assets/images/calendar.svg"
 import clock from "@/src/assets/images/clock.svg"
+import folder from "@/src/assets/images/folder.svg"
+import check from "@/src/assets/images/check.svg"
 
 
 
@@ -76,7 +78,9 @@ const images = {
   edit,
   trash,
   calendar,
-  clock
+  clock,
+  folder,
+  check
 };
 
 export default images;

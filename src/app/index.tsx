@@ -16,9 +16,9 @@ export default function Index() {
 
   return (
     <SafeAreaView className="flex-1 bg-white items-center">
-        <View className="mt-6 px-5 items-center gap-3 flex-[1/3]">
-          <images.logoparque width={300} height={80} />
-          <Text className="text-center text-2xl font-bold text-black leading-7">
+        <View className="px-5 items-center gap-3 flex-[1/3]">
+          <images.logoparque width={200} height={120} />
+          <Text className="text-center text-2xl font-semibold text-black leading-7">
             MANUAL DE PROCEDIMENTOS{"\n"}
             OPERACIONAIS E ADMINISTRATIVOS
           </Text>

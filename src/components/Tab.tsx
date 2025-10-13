@@ -11,7 +11,7 @@ export default function Tab() {
   return (
     <View className="w-full flex flex-row h-24 border border-green-100">
       <TabButton text="Pesquisa" 
-        onPress={() => router.push("/auth/searchPage")}
+        onPress={() => router.push("/auth/search")}
          isActive={pathname === "/auth/searchPage"} 
         >
         <images.search width={24} height={24} stroke="black" strokeWidth={0.5} />
