@@ -2,7 +2,7 @@ import { View, ScrollView } from "react-native";
 import images from "@/src/constants/images";
 import Title from "@/src/components/Title";
 import SearchBar from "@/src/components/SearchBar";
-import { Card } from "@/src/components/Card";
+import { Card } from "@/src/components/search/Card";
 import { useRouter } from "expo-router";
 
 export default function SearchPage() {

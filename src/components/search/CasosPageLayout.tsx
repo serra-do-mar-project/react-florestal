@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Title from "@/src/components/Title";
-import Dropdown from "@/src/components/Dropdown";
+import Dropdown from "@/src/components/search/Dropdown";
 import images from "../../constants/images";
 
 const IMAGE_HEIGHT = 270;

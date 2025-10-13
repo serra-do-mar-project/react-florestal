@@ -3,13 +3,15 @@
 import { View, Image, TouchableOpacity, Keyboard, Text, KeyboardAvoidingView, Platform,} from "react-native";
 import images from '../constants/images'
 import Title from "../components/Title";
-import { Logininput } from "../components/Logininput";
+import { DefaultInput } from "../components/DefaultInput";
 import { SubmitButton } from "../components/SubmitButton";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { login } from "../lib/utils";
 import { useUserStore } from "../store/userStore";
+import { Configinput } from "../components/ConfigInput";
+import { PasswordInput } from "../components/PasswordInput";
 
 
 
@@ -69,18 +71,14 @@ export default function loginPage() {
 
         <images.logoparque width={400} height={142} />
 
-        <View className="flex lg:px-96 items-center mx-4 mt-2 gap-5">
-          <Logininput textHolder="CPF" value={CPF} onChangeText={setCPF}>
-            <images.user width="24px" height="24px"/>
-          </Logininput>
+        <View className="flex lg:px-96 items-center mx-4 mt-2 ">
 
-          <Logininput visible={visible} textHolder="Senha" value={password} onChangeText={setPassword}>
-            <TouchableOpacity
-              onPress={() => setVisible(!visible)}
-            >
-              <images.lock width="24px" height="24px"/>
-            </TouchableOpacity>
-          </Logininput>
+          <Configinput textHolder="CPF" value={CPF} onChangeText={setCPF} className="h-16 rounded-2xl">
+            <images.user width="24px" height="24px"/>
+          </Configinput>
+
+          <PasswordInput textHolder="Senha" password={password} setPassword={setPassword} className="h-16 rounded-2xl"/>
+          
           <Text className="text-red-500">{error}</Text>
         </View>
         

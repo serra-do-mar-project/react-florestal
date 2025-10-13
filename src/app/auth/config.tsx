@@ -2,10 +2,9 @@ import images from "@/src/constants/images";
 import { router } from "expo-router";
 import { useState } from "react";
 import { View, Text, TouchableOpacity, ImageBackground, Image, Pressable, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import {ChangePassword }from "@/src/components/ChangePassword"; // ajuste o caminho se necessário
+import {PasswordInput }from "@/src/components/PasswordInput"; // ajuste o caminho se necessário
 import { SubmitButton } from "@/src/components/SubmitButton";
-import { LeavePressable } from "@/src/components/LeavePressable";
+import { LeavePressable } from "@/src/components/configuration/LeavePressable";
 
 export default function ConfigPage() {
   const [isSelected, setIsSelected] = useState(false);
@@ -69,20 +68,20 @@ export default function ConfigPage() {
         lembre-se, a nova senha deve ser forte e única.
       </Text>
 
-      <View className="items-center w-full mt-5 px-3">
-        <ChangePassword
+      <View className="items-center w-full mt-5 px-3 gap-4">
+        <PasswordInput
           password={password}
           setPassword={setPassword}
           label="Senha atual"
         />
 
-        <ChangePassword
+        <PasswordInput
           password={newPassword}
           setPassword={setNewPassword}
           label="Senha nova"
         />
 
-        <ChangePassword
+        <PasswordInput
           password={confirmPassword}
           setPassword={setConfirmPassword}
           label="Confirmar nova senha"
