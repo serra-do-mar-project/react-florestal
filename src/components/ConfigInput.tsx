@@ -2,18 +2,18 @@ import { View, TextInput, Text, Platform, StyleSheet } from "react-native";
 import { cn } from "../lib/utils";
 
 interface props {
-  size?: "sm" | "lg";
   className?: string;
   children?: React.ReactNode;
   textHolder?: string;
-  visible?: boolean; // cuidado: se "visible" significa mostrar o texto, use secureTextEntry={!visible}
+  visible?: boolean; 
   value: string;
   onChangeText: (text: string) => void;
   label?: string;
+  error?: string;
 }
 
 export function Configinput({
-  size = "sm",
+
   children,
   textHolder,
   visible = true,
@@ -21,6 +21,7 @@ export function Configinput({
   onChangeText,
   label,
   className,
+  error,
 }: props) {
   return (
     <View className="w-full">
@@ -52,6 +53,7 @@ export function Configinput({
 
         {children && <View className="items-center justify-center">{children}</View>}
       </View>
+      {error && <Text className="w-full text-red-500 mt-1 pl-4 pb-2">{error}</Text>}
     </View>
   );
 }

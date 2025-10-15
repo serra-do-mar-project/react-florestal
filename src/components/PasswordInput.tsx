@@ -8,6 +8,7 @@ interface PasswordInputProps {
   textHolder?: string;
   label?: string;
   password: string;
+  error?: string
   setPassword: (value: string) => void;
 }
 
@@ -16,6 +17,7 @@ export function PasswordInput({
   textHolder,
   label,
   password,
+  error,
   setPassword,
 }: PasswordInputProps) {  
   
@@ -23,12 +25,13 @@ export function PasswordInput({
 
   return (
     <View className="w-full">
-      <Text className="w-full text-xl pb-2 font-medium">{label}</Text>
+      <Text className="w-full text-xl pb-2 font-semibold">{label}</Text>
       <Configinput
         className={className}
         visible={visible}
         textHolder={textHolder}
         value={password}
+        error={error}
         onChangeText={setPassword}
       >
        {visible ? <TouchableOpacity className="h-full justify-center pl-6 " onPress={() => setVisible(!visible)}>

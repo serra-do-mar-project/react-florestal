@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import { View, Button, Text, Image } from "react-native";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Pressable } from "react-native";
@@ -14,13 +14,16 @@ interface DatePickerProps {
   className?: string;
 }
 
-export default function DatePicker({ initialDate = new Date(), onDateChange, className, title, mode = 'date', showError = false, required = true }: DatePickerProps) {
+const DatePicker = forwardRef<any, DatePickerProps>(function DatePicker(
+  { onDateChange, className, title, mode = 'date', showError = false, required = true }: DatePickerProps,
+  ref
+) {
   const [date, setDate] = useState<Date | undefined | null>(undefined);
   const [pressed, setPressed] = useState<boolean>(false);
   const [show, setShow] = useState<boolean>(false);
-  const [localError, setLocalError] = useState(false); // Estado local para controlar o erro
+  const [localError, setLocalError] = useState(false);
 
-   useEffect(() => {
+  useEffect(() => {
     // Notifica o pai ao montar
     onDateChange?.(required ? undefined : null);
   }, []);
@@ -36,7 +39,6 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, cla
   const handleChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     setShow(false); // fecha no Android
     if (!selectedDate) {
-      // Se limpar a seleção
       if (required) {
         setDate(undefined);
         onDateChange?.(undefined);
@@ -49,11 +51,9 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, cla
     setDate(selectedDate);
     if (onDateChange) {
       if (mode === 'date') {
-        // Envia a data formatada no padrão DD/MM/YYYY (en-GB)
         const formatted = selectedDate.toLocaleDateString('en-GB');
         onDateChange(formatted);
       } else if (mode === 'time') {
-        // Envia apenas a hora no formato HH:mm
         const formatted = selectedDate.toLocaleTimeString(["en-GB"], { hour: '2-digit', minute: '2-digit', hour12: false });
         onDateChange(formatted);
       } else {
@@ -62,10 +62,15 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, cla
     }
   };
 
+  useImperativeHandle(ref, () => ({
+    open: () => setShow(true),
+    close: () => setShow(false),
+    getDate: () => date,
+  }), [date]);
+
   return (
     <View className={`flex-1 mb-4 ${className}`}>
-
-      {title&&
+      {title &&
         <Text className={`font-semibold text-xl ml-0.5 mt-1 mb-4`}>{title}</Text>
       }
       <Pressable
@@ -74,28 +79,24 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, cla
         onPressOut={() => setPressed(false)}
         onPress={() => setShow(true)}
       >
-        
-          <Text className="font-sans text-lg pb-1 pl-3 pt-2">
-           {date
-            ? mode === 'date'
+        <Text className="font-sans text-lg pb-1 pl-3 pt-2">
+         {date
+          ? mode === 'date'
             ? date.toLocaleDateString("en-GB")
             : date.toLocaleTimeString(["en-GB"], { hour: '2-digit', minute: '2-digit' })
-            : mode === 'date'
+          : mode === 'date'
             ? "DD/MM/AA"
             : "HH:MM"}
-          </Text>
-        
-          <View className='border-l px-2 flex-col h-full border-gray-900/30'>
+        </Text>
 
-              <View className=" flex-1 justify-center">
-                {mode === 'date' ? <images.calendar /> : <images.clock/>}
-              </View>
-     
+        <View className='border-l px-2 flex-col h-full border-gray-900/30'>
+          <View className=" flex-1 justify-center">
+            {mode === 'date' ? <images.calendar /> : <images.clock/>}
           </View>
-        
+        </View>
       </Pressable>
-       {localError && <Text className="text-red-500 font-sans text-sm mb-3 ml-0.5">{mode == "date"?  "Selecione uma data" : "Selecione um horário"}</Text>}
-      
+
+      {localError && <Text className="text-red-500 font-sans text-sm mb-3 ml-0.5">{mode == "date"?  "Selecione uma data" : "Selecione um horário"}</Text>}
 
       {show && (
         <DateTimePicker
@@ -105,7 +106,8 @@ export default function DatePicker({ initialDate = new Date(), onDateChange, cla
           onChange={handleChange}
         />
       )}
-      
     </View>
   );
-}
+});
+
+export default DatePicker;

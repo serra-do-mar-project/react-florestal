@@ -147,7 +147,7 @@ export default function ModerationPage() {
 
       {/* Título e botão */}
       <View className="w-full mt-12 pl-3 pr-2 flex-row items-center justify-between">
-        <Text className="text-3xl font-normal">Lista de usuários</Text>
+        <Text className="text-3xl font-sans">Lista de usuários</Text>
 
         <TouchableOpacity 
           className="py-2 px-2.5 w-fit bg-green-500 flex-row items-center justify-center rounded-lg" 

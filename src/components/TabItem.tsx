@@ -19,7 +19,7 @@ function TabItem({ label, icon, isFocused, onPress }: Props) {
       {icon}
       <Text
         className={`text-xs mt-0.5 ${
-          isFocused ? 'text-green-600 font-semibold' : 'text-gray-600'
+          isFocused ? 'text-green-600 font-semibold' : 'text-gray-600 font-sans'
         }`}
         numberOfLines={1}
         adjustsFontSizeToFit={true}

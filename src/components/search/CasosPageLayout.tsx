@@ -81,13 +81,13 @@ export default function ReusablePageLayout({
         {imageComponent}
         <View className={`absolute top-9 w-full flex-row items-center justify-between z-20 ${isOpen ? "opacity-0" : "opacity-100"} transition-opacity duration-300 ease-in-out`}>
           <TouchableOpacity
-            className="bg-white/70 h-12 justify-center items-center rounded-br-lg rounded-tr-lg px-4"
+            className="bg-white/90 h-12 justify-center items-center rounded-br-lg rounded-tr-lg px-4"
             onPress={() => router.push("/auth/search")}
           >
             <images.leftArrow width={30} height={30} style={{ resizeMode: "contain", opacity: 0.8  }} />
           </TouchableOpacity>
-          <View className="bg-white/70 h-12 justify-center items-center rounded-bl-lg rounded-tl-lg px-4">
-            <Text className="text-gray-900/80 text-2xl font-bold">{title}</Text>
+          <View className="bg-white/90 h-12 justify-center items-center rounded-bl-lg rounded-tl-lg px-4">
+            <Text className="text-gray-900/80 text-2xl font-BaiJamJuree_bold">{title}</Text>
           </View>
         </View>
       </Animated.View>

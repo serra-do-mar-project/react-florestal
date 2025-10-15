@@ -4,10 +4,11 @@ import { View, Text, TouchableOpacity } from "react-native";
 import CustomTabBar from '@/src/components/CustomTabBar';
 import { useUserStore } from "@/src/store/userStore";
 import images from "@/src/constants/images";
+import { cn } from "@/src/lib/utils";
 
-const TabIcon = ({ focused, icon, iconActive }: any) => {
+const TabIcon = ({ focused, icon, iconActive, className }: any) => {
   return (
-    <View className="items-center justify-center">
+    <View className={cn("items-center justify-center", className)}>
       {focused ? iconActive : icon}
     </View>
   );
@@ -54,27 +55,6 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="report"
-        options={{
-          title: "Relatório",
-          tabBarIcon: ({ focused }) => (
-            <TabIcon
-              icon={<images.note width={24} height={24} />}
-              iconActive={
-                <images.note
-                  width={24}
-                  height={24}
-                  stroke="green"
-                  strokeWidth={0.5}
-                />
-              }
-              name="Relatório"
-              focused={focused}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="infractions"
         options={{
           title: "Autos",
@@ -95,6 +75,29 @@ const TabsLayout = () => {
           ),
         }}
       />
+      <Tabs.Screen
+        name="report"
+        options={{
+          title: "Relatório",
+          tabBarIcon: ({ focused }) => (
+            <TabIcon
+              className="pb-0.5"
+              icon={<images.note width={24} height={22} />}
+              iconActive={
+                <images.note
+                  width={24}
+                  height={22}
+                  stroke="green"
+                  strokeWidth={0.5}
+                />
+              }
+              name="Relatório"
+              focused={focused}
+            />
+          ),
+        }}
+      />
+      
       {tipo === "Admin" ? (
         <Tabs.Screen
           name="moderation"

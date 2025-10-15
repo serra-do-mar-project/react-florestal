@@ -57,10 +57,10 @@ export default function loginPage() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <KeyboardAvoidingView
-        className="flex-1 items-center justify-between"
+        className="flex-1 items-center justify-around"
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <View className={`flex items-center w-full h-20 mt-5`} >
+        <View className={`flex items-center w-full h-20 mt-5 mb-2`} >
           <Title>
             <Text >Seja Bem-Vindo(a)</Text>        
           </Title>
@@ -69,20 +69,19 @@ export default function loginPage() {
           </Title>
         </View>
 
-        <images.logoparque width={400} height={142} />
+        <images.logoparque width={400} height={160} />
 
-        <View className="flex lg:px-96 items-center mx-4 mt-2 ">
+        <View className="flex w-full px-6 items-center mx-4 mt-4 ">
 
-          <Configinput textHolder="CPF" value={CPF} onChangeText={setCPF} className="h-16 rounded-2xl">
+          <Configinput textHolder="CPF" value={CPF} onChangeText={setCPF} className="h-16 rounded-2xl -mb-4">
             <images.user width="24px" height="24px"/>
           </Configinput>
 
-          <PasswordInput textHolder="Senha" password={password} setPassword={setPassword} className="h-16 rounded-2xl"/>
+          <PasswordInput textHolder="Senha" password={password} setPassword={setPassword} className="h-16 rounded-2xl" error={error}/>
           
-          <Text className="text-red-500">{error}</Text>
         </View>
         
-        <View className={`flex items-center w-full mt-14 mb-12`}>
+        <View className={`flex items-center w-full mb-14 ${keyboardOpen? 'mt-16' :'mt-5'}`}>
           <SubmitButton title="Login" 
             onPress={() => handleLogin()}
           />
