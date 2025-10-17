@@ -1,4 +1,3 @@
-import { Input } from "@/src/components/Input";
 import { TextInput, View, TouchableOpacity } from 'react-native';
 import images from "@/src/constants/images";
 

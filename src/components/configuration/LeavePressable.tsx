@@ -32,7 +32,7 @@ export function LeavePressable() {
             pressed ? "bg-red-500" : ""
           }`}>
           <Text
-            className={`text-2xl font-medium ${
+            className={`text-2xl font-semibold ${
               pressed ? "text-white" : "text-gray-900"
             }`}>
             Sair

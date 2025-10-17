@@ -1,0 +1,35 @@
+import React from 'react';
+import { View } from 'react-native';
+import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import TabItem from './TabItem';
+
+export default function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+  return (
+    <View className="flex-row  bg-white border-t border-gray-300 h-[60px] items-center px-2 gap-2">
+      {state.routes
+        .filter((r) => ((descriptors[r.key]?.options as any)?.href !== null))
+        .map((route) => {
+          const options = descriptors[route.key].options as any;
+          const routeIndex = state.routes.findIndex((r) => r.key === route.key);
+          const isFocused = state.index === routeIndex;
+
+          const icon = options.tabBarIcon?.({ focused: isFocused, color: '', size: 24 });
+
+          const onPress = () => {
+            const event = navigation.emit({ type: 'tabPress', target: route.key, canPreventDefault: true });
+            if (!isFocused && !event.defaultPrevented) navigation.navigate(route.name);
+          };
+
+          return (
+            <TabItem
+              key={route.key}
+              label={options.title ?? route.name}
+              icon={icon}
+              isFocused={isFocused}
+              onPress={onPress}
+            />
+          );
+        })}
+    </View>
+  );
+}

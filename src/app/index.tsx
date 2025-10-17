@@ -16,12 +16,32 @@ export default function Index() {
 
   return (
     <SafeAreaView className="flex-1 bg-white items-center">
-        <View className="mt-6 px-5 items-center gap-3 flex-[1/3]">
-          <images.logoparque width={300} height={80} />
-          <Text className="text-center text-2xl font-bold text-black leading-7">
-            MANUAL DE PROCEDIMENTOS{"\n"}
-            OPERACIONAIS E ADMINISTRATIVOS
+        <View className=" items-center gap-3 flex-[1/3]">
+          <images.logoparque width={200} height={120} />
+          <View className="items-center">
+
+            <Text 
+              className="w-full text-center font-semibold text-[#45503F] stroke-black leading-7" 
+              style={{fontSize: 26}}
+              numberOfLines={1}
+              adjustsFontSizeToFit={true}
+              minimumFontScale={0.8}>
+
+            Manual de Procedimentos
+
           </Text>
+
+          <Text 
+            className="w-full text-center font-semibold text-[#45503F] stroke-black leading-7"  
+            style={{fontSize: 19}}
+            numberOfLines={1}
+            adjustsFontSizeToFit={true}
+            minimumFontScale={0.8}>
+
+            Operacionais e Administrativos
+            
+          </Text>
+          </View>
         </View>
         
         <View className="w-full flex-1 relative mb-auto">

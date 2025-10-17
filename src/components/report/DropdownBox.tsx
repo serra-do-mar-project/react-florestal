@@ -66,7 +66,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
 
     return (
         
-        <View className="w-60 mb-5">
+        <View className="w-64 mb-5">
 
             {title&&
                 <View className={` ${disabled ? 'opacity-60' : ''}` }>
@@ -82,7 +82,11 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
                 onLongPress={!disabled && selected ? handleClear : undefined}
             >
                 <View className={`flex-row items-center`}>
-                    <Text className="flex-1 font-sans text-lg py-2 pl-3 pr-1">
+                    <Text 
+                        className="flex-1 font-sans text-lg py-2 pl-3 pr-1"
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                    >
                         {selected || "Selecione"}
                     </Text>
                     <View className='border-l h-full border-gray-900/30'>
@@ -100,7 +104,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
 
             {/* Lista de opções */}
             {isOpen && (
-                <View className="bg-[#EFEFEF] w-60 border border-t-0 border-gray-900/30 rounded-b-md">
+                <View className="bg-[#EFEFEF] w-64 border border-t-0 border-gray-900/30 rounded-b-md">
                     {options.map((option, idx) => (
                         <Pressable
                             key={option}

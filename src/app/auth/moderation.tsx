@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, TouchableOpacity, Modal, Pressable, Alert, Keyboard } from "react-native";
-import { ChangePassword } from "@/src/components/ChangePassword";
+import { PasswordInput } from "@/src/components/PasswordInput";
 import { SubmitButton } from "@/src/components/SubmitButton";
 import { CancelButton } from "@/src/components/CancelButton";
 import { Configinput } from "@/src/components/ConfigInput";
@@ -147,7 +147,7 @@ export default function ModerationPage() {
 
       {/* Título e botão */}
       <View className="w-full mt-12 pl-3 pr-2 flex-row items-center justify-between">
-        <Text className="text-3xl font-normal">Lista de usuários</Text>
+        <Text className="text-3xl font-sans">Lista de usuários</Text>
 
         <TouchableOpacity 
           className="py-2 px-2.5 w-fit bg-green-500 flex-row items-center justify-center rounded-lg" 
@@ -212,26 +212,26 @@ export default function ModerationPage() {
                         </Text>
                   
                         <ScrollView className="mt-6">
-                        <View className="w-full items-center">
-                          <ChangePassword
+                        <View className="flex-1 items-center gap-4">
+                          <PasswordInput
                             password={password}
                             setPassword={setPassword}
                             label="Senha de Moderador"
                           />
                   
-                          <ChangePassword
+                          <PasswordInput
                             password={newPassword}
                             setPassword={setNewPassword}
                             label="Senha nova"
                           />
                   
-                          <ChangePassword
+                          <PasswordInput
                             password={confirmPassword}
                             setPassword={setConfirmPassword}
                             label="Confirmar nova senha"
                           />
                   
-                          <View className="mt-10 mb-10 w-full flex-row justify-around px-14">
+                          <View className="mt-16 mb-10 w-full flex-row justify-around px-14">
                             <SubmitButton
                             classname="h-[3rem] w-[7rem] "
                             textClass="text-xl"
@@ -313,7 +313,7 @@ export default function ModerationPage() {
 
             </View>
               <ScrollView className="mt-6">
-                <View className="w-full items-center px-8">
+                <View className="flex-1 items-center px-8 gap-4">
                           <Configinput
                             value={newName}
                             onChangeText={setnNewName}
@@ -334,13 +334,13 @@ export default function ModerationPage() {
                          />
 
    
-                          <ChangePassword
+                          <PasswordInput
                             password={newPassword}
                             setPassword={setNewPassword}
                             label="Senha"
                           />
                   
-                          <ChangePassword
+                          <PasswordInput
                             password={confirmPassword}
                             setPassword={setConfirmPassword}
                             label="Confirmar senha"

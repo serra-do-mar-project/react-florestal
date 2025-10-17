@@ -8,7 +8,7 @@ interface props {
   onChangeText: (text: string) => void;
 }
 
-export function Logininput({children, textHolder, visible, value, onChangeText}: props){
+export function DefaultInput({children, textHolder, visible, value, onChangeText}: props){
   return (
   
     <View className="flex items-center justify-between flex-row w-full p-4 bg-gray-100 border border-green-600 rounded-2xl shadow-lg">

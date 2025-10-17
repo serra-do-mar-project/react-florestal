@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text } from "react-native";
 import DatePicker from "./DatePicker";
 
@@ -8,13 +8,16 @@ interface DateTimePickerProps {
   mode?: 'date' | 'time';
   showError?: boolean;
   required?: boolean;
+
 }
 
 export default function DateTimePicker({ onDateChange, title, mode = 'date', showError = false, required = true }: DateTimePickerProps) {
-  // internal values for date and time (strings or undefined)
+ 
   const [dateValue, setDateValue] = useState<string | undefined>(undefined);
   const [timeValue, setTimeValue] = useState<string | undefined>(undefined);
   const [localError, setLocalError] = useState<boolean>(false);
+  const timePickerRef = useRef<any>(null);
+  
 
   const handle = onDateChange ?? (() => {});
 
@@ -31,6 +34,9 @@ export default function DateTimePicker({ onDateChange, title, mode = 'date', sho
     
     setDateValue(val);
     handle([val, timeValue]);
+    if(val != undefined) {
+      setTimeout(() => timePickerRef.current.open(), 150);
+    }
   };
 
   const handleTimeChange = (val: any) => {
@@ -47,11 +53,12 @@ export default function DateTimePicker({ onDateChange, title, mode = 'date', sho
       <View className="h-fit w-full flex-row items-end mt-2">
 
         <DatePicker
-          className="w-44 mr-2"
+          className="w-44 pr-2"
           onDateChange={handleDateChange}
         />
 
         <DatePicker
+          ref={timePickerRef}
           className="w-32"
           mode="time"
           onDateChange={handleTimeChange}

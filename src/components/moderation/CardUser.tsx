@@ -16,7 +16,7 @@ export default function CardUser({ nome, cargo, onOptionsPress, isFirst }: CardU
     >
       <View className="px-6 pb-1">
         <Text className="text-xl font-semibold">{nome}</Text>
-        <Text className="text-lg ml-0.5">{cargo}</Text>
+        <Text className="text-lg font-sans ml-0.5">{cargo}</Text>
       </View>
       <TouchableOpacity
         className="h-full px-6 pb-1 justify-center"

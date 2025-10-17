@@ -3,34 +3,42 @@ import { Configinput } from "@/src/components/ConfigInput"; // ajuste o caminho 
 import images from "@/src/constants/images";
 import { useState } from "react";
 
-interface ChangePasswordProps {
+interface PasswordInputProps {
+  className?: string;
+  textHolder?: string;
   label?: string;
   password: string;
+  error?: string
   setPassword: (value: string) => void;
 }
 
-export function ChangePassword({
+export function PasswordInput({
+  className,
+  textHolder,
   label,
   password,
+  error,
   setPassword,
-}: ChangePasswordProps) {  
+}: PasswordInputProps) {  
   
   const [visible, setVisible] = useState(true);
 
   return (
     <View className="w-full">
-      <Text className="w-full text-xl pb-2 font-medium">{label}</Text>
+      <Text className="w-full text-xl pb-2 font-semibold">{label}</Text>
       <Configinput
+        className={className}
         visible={visible}
-        textHolder=""
+        textHolder={textHolder}
         value={password}
+        error={error}
         onChangeText={setPassword}
       >
-       {visible ? <TouchableOpacity className="h-full justify-center pl-6 pr-3" onPress={() => setVisible(!visible)}>
+       {visible ? <TouchableOpacity className="h-full justify-center pl-6 " onPress={() => setVisible(!visible)}>
         <images.eyeSlash width={24} height={24} />
         </TouchableOpacity>
           :  
-       <TouchableOpacity className="h-full justify-center pl-6 pr-3" onPress={() => setVisible(!visible)}>
+       <TouchableOpacity className="h-full justify-center pl-6 " onPress={() => setVisible(!visible)}>
           <images.eye width={24} height={24} />
         </TouchableOpacity>}
 

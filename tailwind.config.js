@@ -10,10 +10,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['BaiJamjuree-Regular', 'System'],
-        bold: ['BaiJamjuree-Bold',],
-        semibold: ['BaiJamjuree-SemiBold', 'System'],
-        italic: ['BaiJamjuree-Italic', 'System'],
+        sans: ['BaiJamjuree-Regular',],
+        BaiJamJuree_bold: ['BaiJamjuree-Bold',],
+        BaiJamJuree_Medium:['BaiJamjuree-Medium'],
+        semibold: ['BaiJamjuree-SemiBold',],
+        italic: ['BaiJamjuree-Italic',],
+        light: ['BaiJamjuree-Light']
         // adicione outros estilos se quiser
       },
       screens: {

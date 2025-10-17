@@ -2,10 +2,9 @@ import images from "@/src/constants/images";
 import { router } from "expo-router";
 import { useState } from "react";
 import { View, Text, TouchableOpacity, ImageBackground, Image, Pressable, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import {ChangePassword }from "@/src/components/ChangePassword"; // ajuste o caminho se necessário
+import {PasswordInput }from "@/src/components/PasswordInput"; // ajuste o caminho se necessário
 import { SubmitButton } from "@/src/components/SubmitButton";
-import { LeavePressable } from "@/src/components/LeavePressable";
+import { LeavePressable } from "@/src/components/configuration/LeavePressable";
 
 export default function ConfigPage() {
   const [isSelected, setIsSelected] = useState(false);
@@ -45,8 +44,8 @@ export default function ConfigPage() {
       </View>
       <View className="flex-1 h-32 pl-5 pr-3 justify-center items-center bg-white">
           <View className="min-w-60">
-            <Text className="text-2xl font-normal text-gray-900 mb-1">Nome de Usuário</Text>
-            <Text className="text-xl font-light text-gray-900 mb-1">guarda florestal </Text>
+            <Text className="text-2xl font-sans text-gray-900 mb-1">Nome de Usuário</Text>
+            <Text className="text-xl font-sans text-gray-900/80 mb-1">guarda florestal </Text>
           </View>
           
       </View> 
@@ -55,7 +54,7 @@ export default function ConfigPage() {
     <ScrollView className="" contentContainerStyle={{ flexGrow: 1 }}>
     <Pressable className={`w-full items-center justify-between flex-row mt-7 px-5 pb-4 ${isSelected ? "pb-0" : "border-b border-gray-900/20"}`} onPress={() => {
         setIsSelected(!isSelected)}}>
-    <Text className="text-2xl font-medium text-gray-900 " >Alterar senha</Text>
+    <Text className="text-2xl font-semibold text-gray-900 " >Alterar senha</Text>
     <Image
       source={images.arrow}
       className={`w-6 h-6 transition-transform duration-500 ${isSelected ? "rotate-180 " : ""}`}
@@ -65,24 +64,24 @@ export default function ConfigPage() {
     </Pressable>
       {isSelected && (
     <View className="px-5 transition-all duration-500 overflow-hidden opacity-100">
-      <Text className="w-full px-0.5">
+      <Text className="w-full font-sans px-0.5">
         lembre-se, a nova senha deve ser forte e única.
       </Text>
 
-      <View className="items-center w-full mt-5 px-3">
-        <ChangePassword
+      <View className="items-center w-full mt-5 px-3 gap-4">
+        <PasswordInput
           password={password}
           setPassword={setPassword}
           label="Senha atual"
         />
 
-        <ChangePassword
+        <PasswordInput
           password={newPassword}
           setPassword={setNewPassword}
           label="Senha nova"
         />
 
-        <ChangePassword
+        <PasswordInput
           password={confirmPassword}
           setPassword={setConfirmPassword}
           label="Confirmar nova senha"

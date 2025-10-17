@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Text, View, Pressable, Image, TouchableOpacity } from "react-native";
-import images from "../constants/images";
+import images from "@/src/constants/images";
 
 interface DropdownProps extends React.ComponentPropsWithoutRef<typeof View> {
   title: string;
