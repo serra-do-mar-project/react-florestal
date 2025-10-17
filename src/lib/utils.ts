@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { ExemploDeCaso } from "../db/schema";
+import { useUserStore } from "../store/userStore";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -35,6 +37,26 @@ export const login = async (
       }
     );
 
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const loadExemploDeCaso = async (
+  token: string
+): Promise<ExemploDeCaso[]> => {
+  try {
+    const response = await fetch(
+      "https://nest-florestal-fork.onrender.com/autoInfracao/exemploCaso",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     const data = await response.json();
     return data;
   } catch (error: any) {

@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "5d5cd3a2-c233-4598-a00c-1ed2e626e782",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "15598a22-38bd-4694-82a9-7cf8fc3e8c83",
+  "prevId": "5d5cd3a2-c233-4598-a00c-1ed2e626e782",
   "tables": {
     "exemplo_de_caso_table": {
       "name": "exemplo_de_caso_table",
@@ -21,8 +21,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "nome_compelto": {
-          "name": "nome_compelto",
+        "nome_completo": {
+          "name": "nome_completo",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -111,7 +111,9 @@
   "_meta": {
     "schemas": {},
     "tables": {},
-    "columns": {}
+    "columns": {
+      "\"exemplo_de_caso_table\".\"nome_compelto\"": "\"exemplo_de_caso_table\".\"nome_completo\""
+    }
   },
   "internal": {
     "indexes": {}

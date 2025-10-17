@@ -26,18 +26,20 @@ const renderers: Record<
       showError={showError}
     />
   ),
-  string : (def, key, setFieldDynamic, showError) => (
+  string: (def, key, setFieldDynamic, showError) => (
     <Forminput
       key={key}
       title={def.name ?? ""}
+      label={def?.description ?? ""}
       onChangeText={(value) => setFieldDynamic(def.id, value ?? undefined)}
       showError={showError}
     />
   ),
-  integer : (def, key, setFieldDynamic, showError) => (
+  integer: (def, key, setFieldDynamic, showError) => (
     <Forminput
       key={key}
       title={def.name ?? ""}
+      label={def?.description ?? ""}
       onChangeText={(value) => setFieldDynamic(def.id, value ?? undefined)}
       showError={showError}
       keyboardType="number-pad"
