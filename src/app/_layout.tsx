@@ -23,6 +23,7 @@ export default function MainLayout() {
     'BaiJamjuree-Bold': require('../../assets/fonts/BaiJamjuree-Bold.ttf'),
     'BaiJamjuree-Italic': require('../../assets/fonts/BaiJamjuree-Italic.ttf'),
     'BaiJamjuree-SemiBold': require('../../assets/fonts/BaiJamjuree-SemiBold.ttf'),
+    'BaiJamjuree-Medium': require('../../assets/fonts/BaiJamjuree-Medium.ttf'),
     // adicione outros estilos se quiser
   });
 
@@ -33,7 +34,7 @@ export default function MainLayout() {
     if (!success) return;
     (async () => {
       try {
-        await db.delete(ExemploDeCasoTable);
+        // await db.delete(ExemploDeCasoTable);
         if (token) {
           console.log(token)
           const exemploDeCaso = await loadExemploDeCaso(token);

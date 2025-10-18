@@ -25,6 +25,11 @@ export default function ProcedimentosPage() {
     }
   }, [params.id]);
 
+  useEffect(() => {
+    if(item)
+      console.log(item.modelo)
+  }, [item]);
+
   const { form, setDynamicField, handleSubmit, trowError } = useFormManager();
 
   return (
@@ -41,7 +46,7 @@ export default function ProcedimentosPage() {
             <Text className="text-gray-900/100 text-lg font-semibold">{item?.categoria ?? params.categoria}</Text>
           </View>
         </View>
-        <Text className="text-gray-900 font-semibold text-3xl ml-7 ">{item?.nome_resumo ?? params.nome}</Text>
+        <Text className="text-gray-900 font-semibold text-3xl mx-6" numberOfLines={2} adjustsFontSizeToFit={true} minimumFontScale={0.8}>{item?.nome_resumo ?? params.nome}</Text>
       </View>
 
 
@@ -95,8 +100,21 @@ export default function ProcedimentosPage() {
             onPress={() => {
               const isValid = handleSubmit();
               if (isValid) {
-                router.push('/auth/search')
-              }
+
+                const template = item?.modelo?.toString() ?? '';
+                let auto_gerado = template;
+
+                (form || []).forEach((f: any) => {
+                  const idx = f?.id;
+                  const val = (f?.value ?? '') as string;
+                  auto_gerado = auto_gerado.replace(new RegExp(`__${idx}__`, 'g'), val);
+                  auto_gerado = auto_gerado.replace(new RegExp(`\\{\\s*${idx}\\s*\\}`, 'g'), val);
+                });
+                auto_gerado = auto_gerado.replace(/[{}]/g, '');
+
+                console.log('auto_gerado:', auto_gerado);
+
+                             }
             }}
           />
         </ScrollView>
