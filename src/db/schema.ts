@@ -1,4 +1,5 @@
 import { sqliteTable, text, int } from "drizzle-orm/sqlite-core";
+import { sql } from "drizzle-orm";
 
 export interface ExemploDeCaso {
   id: number;
@@ -30,4 +31,23 @@ export const ExemploDeCasoTable = sqliteTable("exemplo_de_caso_table", {
   enq_adm: text().notNull(),
   modelo: text().notNull(),
   campos: text().notNull(),
+});
+
+
+export interface AutosDeInfracao{ 
+  id?: number;
+  nome_resumo: string;
+  data?: string;
+  tags?: string;
+  modelo: string;
+  categoria: string;
+}
+
+export const AutosDeInfracaoTable = sqliteTable("autos_de_infracao_table", {
+  id: int().primaryKey({ autoIncrement: true }),
+  nome_resumo: text().notNull(),
+  tags: text().notNull(),
+  modelo: text().notNull(),
+  data: text().notNull().default(sql`strftime('%d/%m/%Y %H:%M:%S','now')`),
+  categoria: text().notNull()
 });

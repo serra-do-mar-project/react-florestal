@@ -34,7 +34,7 @@ export default function MainLayout() {
     if (!success) return;
     (async () => {
       try {
-        // await db.delete(ExemploDeCasoTable);
+        await db.delete(ExemploDeCasoTable);
         if (token) {
           console.log(token)
           const exemploDeCaso = await loadExemploDeCaso(token);
