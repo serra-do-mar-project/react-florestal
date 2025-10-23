@@ -117,7 +117,7 @@ export default function ProcedimentosPage() {
             onPress={async () => {
               const isValid = handleSubmit();
               if (!isValid) return;
-              await useRegisterAuto({ item, form, onSuccess: () => router.back() });
+              await useRegisterAuto({ item, form, onSuccess: () => router.push("/auth/infractions") });
 
             }}
           />

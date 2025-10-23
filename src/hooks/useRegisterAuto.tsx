@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import db from "@/src/db/connection";
 import { AutosDeInfracaoTable, AutosDeInfracao, ExemploDeCaso } from "@/src/db/schema";
 
@@ -32,6 +31,7 @@ export default async function useRegisterAuto({ item, form, onSuccess }: Registe
                 modelo: auto_gerado,
                 tags: item.tags || "",
                 categoria: item.categoria,
+                data: new Date().toLocaleString(),
               };
 
               try {

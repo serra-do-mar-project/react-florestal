@@ -48,6 +48,6 @@ export const AutosDeInfracaoTable = sqliteTable("autos_de_infracao_table", {
   nome_resumo: text().notNull(),
   tags: text().notNull(),
   modelo: text().notNull(),
-  data: text().notNull().default(sql`strftime('%d/%m/%Y %H:%M:%S','now')`),
+  data: text().notNull(),
   categoria: text().notNull()
 });

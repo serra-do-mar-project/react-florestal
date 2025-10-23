@@ -14,6 +14,8 @@ import { SplashScreen } from 'expo-router'; // OU use expo-splash-screen
 import { loadExemploDeCaso } from '../lib/utils';
 import { useUserStore } from '../store/userStore';
 
+
+
 export default function MainLayout() {
   const { token } = useUserStore();
 
@@ -31,9 +33,18 @@ export default function MainLayout() {
   const { success, error } = useMigrations(db, migrations);
 
   useEffect(() => {
-    if (!success) return;
+  console.log("Migrations success:", success);
+}, [success]);
+ 
+  useEffect(() => {
+  if (error) console.error("Migration error:", error);
+}, [error]);
+
+  useEffect(() => {
+    if (!success) return console.log("Aguardando migrações...");
     (async () => {
       try {
+
         await db.delete(ExemploDeCasoTable);
         if (token) {
           console.log(token)
@@ -53,7 +64,7 @@ export default function MainLayout() {
               tipo_ocorrencia: item.tipo_ocorrencia,
               campos: item.campos,
             }
-          ]));
+          ])); 
         }
       } catch (error) {
         console.error("Error during migration:", error);
