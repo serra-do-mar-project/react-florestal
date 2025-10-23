@@ -5,19 +5,20 @@ import { useEffect, useState } from "react";
 export interface InfractionCardProps {
   title?: string;
   date?: string;
-  tags?: string[];
+  tag?: string | null;
   onPress?: () => void;
   onSelect?: () => void;
   onlongPress?: () => void;
   selectMode?: boolean;
-  groupSelect?: boolean;
+  isSelected?: boolean;
 }
 
 
-export default function InfractionCard({ title = "Abate ilegal de Animais Silvestres", date, tags = ["Com presença"], onPress, onSelect, onlongPress, selectMode, groupSelect }: InfractionCardProps) {
+export default function InfractionCard({ title = "Abate ilegal de Animais Silvestres", date, tag = "Com presença", onPress, onSelect, onlongPress, selectMode, isSelected }: InfractionCardProps) {
 
-    const [longPressed, setLongPressed] = useState(false);
-    const [selected, setSelected] = useState(false);
+  const [longPressed, setLongPressed] = useState(false);
+  const [selected, setSelected] = useState(false);
+  const tags = tag?.split(",") || [];
 
     function handleSelect() {
       setSelected(!selected);
@@ -30,18 +31,17 @@ export default function InfractionCard({ title = "Abate ilegal de Animais Silves
       }
     }, [selectMode]);
 
+    // sync selected with parent-controlled `isSelected` when provided
     useEffect(() => {
-      if (groupSelect !== undefined) {
-        setSelected(!!groupSelect);
+      if (typeof isSelected !== 'undefined') {
+        setSelected(!!isSelected);
       }
-    }, [groupSelect]);
+    }, [isSelected]);
 
   
     const handleLongPress = () => {
-      {
-        setLongPressed(true);
-        onlongPress && onlongPress();
-      }
+      setLongPressed(true);
+      onlongPress && onlongPress();
     }
 
 

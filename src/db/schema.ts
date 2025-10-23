@@ -34,19 +34,23 @@ export const ExemploDeCasoTable = sqliteTable("exemplo_de_caso_table", {
 });
 
 
-export interface AutosDeInfracao{ 
-  id?: number;
+export interface NewAutosDeInfracao { 
   nome_resumo: string;
-  data?: string;
-  tags?: string;
+  data: string;
+  tags?: string | null;
   modelo: string;
   categoria: string;
+}
+
+// Para dados lidos do banco (id sempre existe)
+export interface AutosDeInfracao extends NewAutosDeInfracao {
+  id: number;
 }
 
 export const AutosDeInfracaoTable = sqliteTable("autos_de_infracao_table", {
   id: int().primaryKey({ autoIncrement: true }),
   nome_resumo: text().notNull(),
-  tags: text().notNull(),
+  tags: text(),
   modelo: text().notNull(),
   data: text().notNull(),
   categoria: text().notNull()

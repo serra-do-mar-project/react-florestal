@@ -1,8 +1,11 @@
 import InfractionCard from "@/src/components/infractions/InfractionCard";
 import { useEffect, useState } from "react";
 import { View, Text, FlatList } from "react-native";
-import infractionsMock from '@/src/mock/infractions';
 import OptionsBar from "@/src/components/infractions/OptionsBar";
+import { AutosDeInfracaoTable, AutosDeInfracao } from "@/src/db/schema";
+import db from "@/src/db/connection";
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 function formatDate(iso?: string) {
   if (!iso) return '';
@@ -10,33 +13,47 @@ function formatDate(iso?: string) {
   return d.toLocaleString();
 }
 
+
 export default function Infractions() {
 
-  const [cardSelected, setCardSelected] = useState<string[]>([]);
+  const [cardSelected, setCardSelected] = useState<number[]>([]);
   const [longPressed, setlongPressed] = useState(false)
   const [selectAll, setSelectAll] = useState(false);
-  const [cancel, setCancel] = useState(false);
+  const [listData, setListData] = useState<AutosDeInfracao[]>([]);
+
+    useFocusEffect(
+      useCallback(() => {
+        (async () => {
+          try {
+            const rows: AutosDeInfracao[] = await db.select().from(AutosDeInfracaoTable);
+            if (rows && rows.length > 0) {
+              setListData(rows);
+            }
+          } catch (e) {
+            console.error('Erro ao carregar autos do DB:', e);
+          }
+        })();
+      }, [])
+    );
 
     useEffect(() => {
       console.log(cardSelected);
     }, [cardSelected]);
 
-    useEffect(() => {
-      if (selectAll) {
-        setCardSelected(infractionsMock.map((i) => i.id));
+    function handleSelectAll(value: boolean) {
+      setSelectAll(value);
+      if (value) {
+        setCardSelected(listData.map((item) => item.id));
       } else {
         setCardSelected([]);
       }
-    }, [selectAll]);
+    }
 
-    useEffect(() => {
-      if (cancel) {
-        setlongPressed(false);
-        setSelectAll(false);
-        setCardSelected([]);
-        setCancel(false);
-      }
-    }, [cancel]);
+    function handleCancel() {
+      setlongPressed(false);
+      setSelectAll(false);
+      setCardSelected([]);
+    }
 
   return(
     <View className="flex w-full h-full">
@@ -45,37 +62,40 @@ export default function Infractions() {
             </View>
             <Text className="text-gray-900 font-semibold text-3xl ml-7 ">Autos de infração</Text>
           </View>
-
+ 
           
             <FlatList
               className="flex-1 px-5"
               ListHeaderComponent={
                 <View className="mb-2 pt-8">
-                  {longPressed && <OptionsBar onSelectAll={(e) => setSelectAll(e)} numberSelected={cardSelected.length} onCancel={() => setCancel(true)} />}
+                  {longPressed && <OptionsBar onSelectAll={(e) => handleSelectAll(e)} numberSelected={cardSelected.length} onCancel={() => handleCancel()}  isAllSelected={cardSelected.length > 0 && cardSelected.length === listData.length}/>}
                 </View>
                 }
-              data={infractionsMock}
-              keyExtractor={(item) => item.id}
+              data={listData}
+              keyExtractor={(item) => String((item as any).id)}
               extraData={cardSelected}
               ItemSeparatorComponent={  () => <View className="h-4" /> }
-              renderItem={({ item }) => (
-
-                <InfractionCard
-                key={item.id} 
-                title={item.title}
-                date={formatDate(item.date)}
-                tags={item.tags}
-                onPress={() => console.log('open', item.id)}
-                onSelect={() => {
-                  setCardSelected((prev) =>
-                    prev.includes(item.id) ? prev.filter((id) => id !== item.id) : [...prev, item.id]
-                  );
-                }}
-                selectMode={longPressed || selectAll}
-                onlongPress={() => setlongPressed(true)}
-                groupSelect={selectAll}
-              />
-               )}
+              renderItem={({ item }) => {
+                 
+                return (
+                  <InfractionCard
+                    key={item.id}
+                    title={item.nome_resumo}
+                    date={item.data}
+                    tag={item.tags}
+                    onPress={() => console.log('open', item.id)}
+                    onSelect={() => {
+                      setCardSelected((prev) => (prev.includes(item.id) ? prev.filter((x) => x !== item.id) : [...prev, item.id]));
+                    }}
+                    isSelected={cardSelected.includes(item.id)}
+                    selectMode={longPressed || selectAll}
+                    onlongPress={() => {
+                      setlongPressed(true);
+                      setCardSelected((prev) => (prev.includes(item.id) ? prev : [...prev, item.id]));
+                    }}
+                  />
+                );
+              }}
                ListFooterComponent={<View className="h-10" />}
             />
             <View></View>

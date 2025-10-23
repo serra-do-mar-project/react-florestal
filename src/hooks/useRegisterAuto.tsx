@@ -1,5 +1,5 @@
 import db from "@/src/db/connection";
-import { AutosDeInfracaoTable, AutosDeInfracao, ExemploDeCaso } from "@/src/db/schema";
+import { AutosDeInfracaoTable, ExemploDeCaso, NewAutosDeInfracao } from "@/src/db/schema";
 
 type RegisterParams = {
   item: ExemploDeCaso | null;
@@ -26,10 +26,10 @@ export default async function useRegisterAuto({ item, form, onSuccess }: Registe
                 return;
               }
 
-              const novoAuto = {
+              const novoAuto: NewAutosDeInfracao = {
                 nome_resumo: item.nome_resumo,
                 modelo: auto_gerado,
-                tags: item.tags || "",
+                tags: item.tags ?? undefined,
                 categoria: item.categoria,
                 data: new Date().toLocaleString(),
               };
