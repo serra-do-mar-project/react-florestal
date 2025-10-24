@@ -19,6 +19,7 @@ export default function InfractionCard({ title = "Abate ilegal de Animais Silves
   const [longPressed, setLongPressed] = useState(false);
   const [selected, setSelected] = useState(false);
   const tags = tag?.split(",") || [];
+  const formattedDate = date&& date.replace(', ', ' às '); ;
 
     function handleSelect() {
       setSelected(!selected);
@@ -59,17 +60,17 @@ export default function InfractionCard({ title = "Abate ilegal de Animais Silves
               { selected && <images.check width={14} height={15} className=""/>}
             </View>}
         </View>
-  <Text className="text-gray-900/70">{date ?? ''}</Text>
+  <Text className="text-gray-900/70">{formattedDate?? ''}</Text>
         {tags[0] && (
-          <View className="bg-[#EFEFEF] rounded-lg px-2 pt-1 pb-1 mb-1.5 mt-3 flex flex-col border border-gray-900/30">
+          <View className="bg-[#EFEFEF] rounded-lg px-2 py-1 mb-1.5 mt-3 flex flex-col border border-gray-900/30">
             {tags.map((tag, index) => (
               <View className="flex flex-row items-center" key={index}>
                 <Image
                   source={images.pin}
-                  className="w-4 h-4 mb-1"
+                  className="w-4 h-4"
                   resizeMode="contain"
                 />
-                <Text key={index} className="text-black font-italic text-lg pl-1.5">{tag}</Text>
+                <Text key={index} className="text-black font-BaiJamJuree_Medium  pl-1.5">{tag}</Text>
               </View>
             ))}
           </View>

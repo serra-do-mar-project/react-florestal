@@ -6,12 +6,7 @@ import { AutosDeInfracaoTable, AutosDeInfracao } from "@/src/db/schema";
 import db from "@/src/db/connection";
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
-
-function formatDate(iso?: string) {
-  if (!iso) return '';
-  const d = new Date(iso);
-  return d.toLocaleString();
-}
+import { fetchAutos, deleteAutos } from '@/src/hooks/useAutos';
 
 
 export default function Infractions() {
@@ -21,20 +16,22 @@ export default function Infractions() {
   const [selectAll, setSelectAll] = useState(false);
   const [listData, setListData] = useState<AutosDeInfracao[]>([]);
 
-    useFocusEffect(
-      useCallback(() => {
-        (async () => {
-          try {
-            const rows: AutosDeInfracao[] = await db.select().from(AutosDeInfracaoTable);
-            if (rows && rows.length > 0) {
-              setListData(rows);
-            }
-          } catch (e) {
-            console.error('Erro ao carregar autos do DB:', e);
-          }
-        })();
-      }, [])
-    );
+  const handleDelete = useCallback(async (ids: number[]) => {
+    await deleteAutos(ids);
+    handleCancel();
+    refreshAutos();
+  }, []);
+
+  const refreshAutos = useCallback(async () => {
+    const autos = await fetchAutos();
+    setListData(autos);
+  }, []);
+
+  useFocusEffect(
+  useCallback(() => {
+    refreshAutos();
+    }, [refreshAutos]),
+  )
 
     useEffect(() => {
       console.log(cardSelected);
@@ -68,7 +65,15 @@ export default function Infractions() {
               className="flex-1 px-5"
               ListHeaderComponent={
                 <View className="mb-2 pt-8">
-                  {longPressed && <OptionsBar onSelectAll={(e) => handleSelectAll(e)} numberSelected={cardSelected.length} onCancel={() => handleCancel()}  isAllSelected={cardSelected.length > 0 && cardSelected.length === listData.length}/>}
+                  {longPressed && 
+                    <OptionsBar 
+                      onSelectAll={(e) => handleSelectAll(e)} 
+                      numberSelected={cardSelected.length} 
+                      onCancel={() => handleCancel()}  
+                      isAllSelected={cardSelected.length > 0 && cardSelected.length === listData.length}
+                      onDelete={() => handleDelete(cardSelected)}
+                    />
+                  }
                 </View>
                 }
               data={listData}

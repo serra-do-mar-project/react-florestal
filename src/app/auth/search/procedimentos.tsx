@@ -9,7 +9,7 @@ import { eq } from "drizzle-orm";
 import FormCard from "@/src/components/report/FormCard";
 import { Section } from "@/src/hooks/useDynamicForm";
 import {useFormManager} from "@/src/hooks/useFormManager";
-import useRegisterAuto from "@/src/hooks/useRegisterAuto";
+import {MountAuto, addAuto} from "@/src/hooks/useAutos";
 
 
 export default function ProcedimentosPage() {
@@ -117,7 +117,11 @@ export default function ProcedimentosPage() {
             onPress={async () => {
               const isValid = handleSubmit();
               if (!isValid) return;
-              await useRegisterAuto({ item, form, onSuccess: () => router.push("/auth/infractions") });
+
+               const newAuto = MountAuto({ item, form });
+              if (!newAuto) return;
+              
+              await addAuto({ newAuto, onSuccess: () => router.push("/auth/infractions") });
 
             }}
           />

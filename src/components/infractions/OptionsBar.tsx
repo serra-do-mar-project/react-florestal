@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 import { View, Text, Pressable, TouchableOpacity} from "react-native";
 
 export interface OptionsBarProps {
-  onSelectAll?: (selected: boolean) => void;
-  onCancel?: () => void;
+  onSelectAll: (selected: boolean) => void;
+  onCancel: () => void;
+  onDelete: () => void;
   numberSelected?: number;
   isAllSelected?: boolean;
 }
 
-export default function OptionsBar({ onSelectAll, numberSelected, onCancel, isAllSelected}: OptionsBarProps) {
+export default function OptionsBar({ onSelectAll, numberSelected, onCancel, onDelete ,isAllSelected}: OptionsBarProps) {
 
   const [selectedAll, setSelectedAll] = useState<boolean>(!!isAllSelected);
 
@@ -34,7 +35,7 @@ return(
         <Text className="font-medium">{numberSelected == 0 ? "Selecionar os items" : numberSelected == 1? "1 selecionado" : (numberSelected + " selecionados")}</Text>
       </View>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => onDelete()}>
         <Text className="font-medium" >Excluir</Text>
       </TouchableOpacity>
 
