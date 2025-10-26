@@ -1,12 +1,12 @@
 import InfractionCard from "@/src/components/infractions/InfractionCard";
-import { useEffect, useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import { useState } from "react";
+import { View, Text, FlatList, Modal } from "react-native";
 import OptionsBar from "@/src/components/infractions/OptionsBar";
-import { AutosDeInfracaoTable, AutosDeInfracao } from "@/src/db/schema";
-import db from "@/src/db/connection";
+import {AutosDeInfracao } from "@/src/db/schema";
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
 import { fetchAutos, deleteAutos } from '@/src/hooks/useAutos';
+import InfractionModal from "@/src/components/infractions/InfractionModal";
 
 
 export default function Infractions() {
@@ -15,6 +15,9 @@ export default function Infractions() {
   const [longPressed, setlongPressed] = useState(false)
   const [selectAll, setSelectAll] = useState(false);
   const [listData, setListData] = useState<AutosDeInfracao[]>([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<AutosDeInfracao>();
+
 
   const handleDelete = useCallback(async (ids: number[]) => {
     await deleteAutos(ids);
@@ -32,10 +35,6 @@ export default function Infractions() {
     refreshAutos();
     }, [refreshAutos]),
   )
-
-    useEffect(() => {
-      console.log(cardSelected);
-    }, [cardSelected]);
 
     function handleSelectAll(value: boolean) {
       setSelectAll(value);
@@ -88,7 +87,7 @@ export default function Infractions() {
                     title={item.nome_resumo}
                     date={item.data}
                     tag={item.tags}
-                    onPress={() => console.log('open', item.id)}
+                    onPress={() =>( setOpenModal(true), setSelectedItem(item))}
                     onSelect={() => {
                       setCardSelected((prev) => (prev.includes(item.id) ? prev.filter((x) => x !== item.id) : [...prev, item.id]));
                     }}
@@ -103,7 +102,9 @@ export default function Infractions() {
               }}
                ListFooterComponent={<View className="h-10" />}
             />
-            <View></View>
+            <InfractionModal item={selectedItem} visible={openModal} onClose={() => setOpenModal(false) }>
+              
+            </InfractionModal>
           </View>
   )
 }

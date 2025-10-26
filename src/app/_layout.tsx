@@ -8,9 +8,10 @@ import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import migrations from '../../drizzle/migrations';
 import { useEffect } from 'react';
 import { ExemploDeCasoTable } from '../db/schema';
+import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useFonts } from 'expo-font'; // ADICIONE ESTA LINHA
-import { SplashScreen } from 'expo-router'; // OU use expo-splash-screen
+import { useFonts } from 'expo-font';
+import { SplashScreen } from 'expo-router'; 
 import { loadExemploDeCaso } from '../lib/utils';
 import { useUserStore } from '../store/userStore';
 

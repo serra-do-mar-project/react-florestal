@@ -18,7 +18,7 @@ import images from "../../constants/images";
 
 const IMAGE_HEIGHT = 270;
 const MIN_IMAGE_HEIGHT = 80;
-const PANEL_OFFSET = 40;
+const PANEL_OFFSET = 50;
 
 export default function ReusablePageLayout({
   imageComponent,
@@ -38,14 +38,14 @@ export default function ReusablePageLayout({
 
   useEffect(() => {
     setPBottom(isOpen ? 160 : 320);
-    dragY.value = withTiming(isOpen ? 150 : 10, { duration: 200 });
+    dragY.value = withTiming(isOpen ? 150 : 0, { duration: 200 });
   }, [isOpen]);
 
   const contentAnimatedStyle = useAnimatedStyle(() => ({
     paddingTop: interpolate(
       dragY.value,
       [0, 150],
-      [IMAGE_HEIGHT + 20, 130],
+      [IMAGE_HEIGHT + 10, 130],
       Extrapolation.CLAMP
     ),
   }));

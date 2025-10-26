@@ -28,13 +28,6 @@ export default function ProcedimentosPage() {
     }
   }, [params.id]);
 
-  useEffect(() => {
-    if(item)
-      console.log(item.modelo)
-  }, [item]);
-
-
-
 
   const { form, setDynamicField, handleSubmit, trowError } = useFormManager();
 
@@ -106,7 +99,9 @@ export default function ProcedimentosPage() {
                     )
                   }
                 </View>
+
               </FormCard>
+              
               {item?.campos && JSON.parse(item?.campos).map((section: any, i: number) => (
                 <Section currentPage={i + 4} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0} key={i} section={section} setFieldDynamic={setDynamicField} showError={trowError} />
               ))}

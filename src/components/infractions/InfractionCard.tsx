@@ -48,7 +48,7 @@ export default function InfractionCard({ title = "Abate ilegal de Animais Silves
 
   return (
       <TouchableOpacity 
-        className="w-full py-4 px-5 bg-white border border-gray-800 rounded-xl"
+        className="w-full py-4 px-5 bg-white border-b-2 border-gray-800/80 border-x-hairline rounded-xl"
         onPress={() => {longPressed == true? handleSelect() : onPress && onPress()}}
         onLongPress={() => {handleLongPress()} }
         activeOpacity={0.6}
@@ -56,7 +56,7 @@ export default function InfractionCard({ title = "Abate ilegal de Animais Silves
         <View className="flex-row justify-between items-end">
           <Text className="font-semibold text-lg">{title}</Text>
           {longPressed && 
-            <View className={`w-6 h-6 border border-gray-800/80  rounded-sm ${selected ==true && 'bg-green-600 items-center justify-center'}`}>
+            <View className={`w-6 h-6 border border-gray-800/80 rounded-sm ${selected ==true && 'bg-green-600 items-center justify-center'}`}>
               { selected && <images.check width={14} height={15} className=""/>}
             </View>}
         </View>

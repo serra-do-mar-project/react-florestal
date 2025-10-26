@@ -46,14 +46,14 @@ type addAutos = {
 
 export async function addAuto({ newAuto, onSuccess }: addAutos) {
 
-        try {
-                await db.insert(AutosDeInfracaoTable).values(newAuto);
-                console.log("Auto salvo com sucesso");
-                if (onSuccess) onSuccess();
+  try {
+          await db.insert(AutosDeInfracaoTable).values(newAuto);
+          console.log("Auto salvo com sucesso");
+          if (onSuccess) onSuccess();
 
-              } catch (err) {
-                console.error("Erro ao salvar auto:", err);
-              }
+        } catch (err) {
+          console.error("Erro ao salvar auto:", err);
+        }
 }
 
 export async function fetchAutos(): Promise<AutosDeInfracao[]> {
