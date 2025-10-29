@@ -1,8 +1,8 @@
 // This file is required for Expo/React Native SQLite migrations - https://orm.drizzle.team/quick-sqlite/expo
 
 import journal from './meta/_journal.json';
-import m0000 from './0000_public_odin.sql';
-import m0001 from './0001_soft_darkhawk.sql';
+import m0000 from './0000_confused_shiver_man.sql';
+import m0001 from './0001_nappy_slyde.sql';
 
   export default {
     journal,

@@ -5,19 +5,21 @@ import { useEffect, useState } from "react";
 export interface InfractionCardProps {
   title?: string;
   date?: string;
-  tags?: string[];
+  tag?: string | null;
   onPress?: () => void;
   onSelect?: () => void;
   onlongPress?: () => void;
   selectMode?: boolean;
-  groupSelect?: boolean;
+  isSelected?: boolean;
 }
 
 
-export default function InfractionCard({ title = "Abate ilegal de Animais Silvestres", date, tags = ["Com presença"], onPress, onSelect, onlongPress, selectMode, groupSelect }: InfractionCardProps) {
+export default function InfractionCard({ title = "Abate ilegal de Animais Silvestres", date, tag = "Com presença", onPress, onSelect, onlongPress, selectMode, isSelected }: InfractionCardProps) {
 
-    const [longPressed, setLongPressed] = useState(false);
-    const [selected, setSelected] = useState(false);
+  const [longPressed, setLongPressed] = useState(false);
+  const [selected, setSelected] = useState(false);
+  const tags = tag?.split(",") || [];
+  const formattedDate = date&& date.replace(', ', ' às '); ;
 
     function handleSelect() {
       setSelected(!selected);
@@ -30,24 +32,23 @@ export default function InfractionCard({ title = "Abate ilegal de Animais Silves
       }
     }, [selectMode]);
 
+    // sync selected with parent-controlled `isSelected` when provided
     useEffect(() => {
-      if (groupSelect !== undefined) {
-        setSelected(!!groupSelect);
+      if (typeof isSelected !== 'undefined') {
+        setSelected(!!isSelected);
       }
-    }, [groupSelect]);
+    }, [isSelected]);
 
   
     const handleLongPress = () => {
-      {
-        setLongPressed(true);
-        onlongPress && onlongPress();
-      }
+      setLongPressed(true);
+      onlongPress && onlongPress();
     }
 
 
   return (
       <TouchableOpacity 
-        className="w-full py-4 px-5 bg-white border border-gray-800 rounded-xl"
+        className="w-full py-4 px-5 bg-white border-b-2 border-gray-800/80 border-x-hairline rounded-xl"
         onPress={() => {longPressed == true? handleSelect() : onPress && onPress()}}
         onLongPress={() => {handleLongPress()} }
         activeOpacity={0.6}
@@ -55,21 +56,21 @@ export default function InfractionCard({ title = "Abate ilegal de Animais Silves
         <View className="flex-row justify-between items-end">
           <Text className="font-semibold text-lg">{title}</Text>
           {longPressed && 
-            <View className={`w-6 h-6 border border-gray-800/80  rounded-sm ${selected ==true && 'bg-green-600 items-center justify-center'}`}>
+            <View className={`w-6 h-6 border border-gray-800/80 rounded-sm ${selected ==true && 'bg-green-600 items-center justify-center'}`}>
               { selected && <images.check width={14} height={15} className=""/>}
             </View>}
         </View>
-  <Text className="text-gray-900/70">{date ?? ''}</Text>
+  <Text className="text-gray-900/70">{formattedDate?? ''}</Text>
         {tags[0] && (
-          <View className="bg-[#EFEFEF] rounded-lg px-2 pt-1 pb-1 mb-1.5 mt-3 flex flex-col border border-gray-900/30">
+          <View className="bg-[#EFEFEF] rounded-lg px-2 py-1 mb-1.5 mt-3 flex flex-col border border-gray-900/30">
             {tags.map((tag, index) => (
               <View className="flex flex-row items-center" key={index}>
                 <Image
                   source={images.pin}
-                  className="w-4 h-4 mb-1"
+                  className="w-4 h-4"
                   resizeMode="contain"
                 />
-                <Text key={index} className="text-black font-italic text-lg pl-1.5">{tag}</Text>
+                <Text key={index} className="text-black font-BaiJamJuree_Medium  pl-1.5">{tag}</Text>
               </View>
             ))}
           </View>

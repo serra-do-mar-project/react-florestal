@@ -1,16 +1,22 @@
 import images from "@/src/constants/images";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, Pressable, TouchableOpacity} from "react-native";
 
 export interface OptionsBarProps {
-  onSelectAll?: (selected: boolean) => void;
-  onCancel?: () => void;
+  onSelectAll: (selected: boolean) => void;
+  onCancel: () => void;
+  onDelete: () => void;
   numberSelected?: number;
+  isAllSelected?: boolean;
 }
 
-export default function OptionsBar({ onSelectAll, numberSelected, onCancel}: OptionsBarProps) {
+export default function OptionsBar({ onSelectAll, numberSelected, onCancel, onDelete ,isAllSelected}: OptionsBarProps) {
 
-  const [selectedAll, setSelectedAll] = useState(false);
+  const [selectedAll, setSelectedAll] = useState<boolean>(!!isAllSelected);
+
+  useEffect(() => {
+    setSelectedAll(!!isAllSelected);
+  }, [isAllSelected]);
 
 return(
 
@@ -21,7 +27,7 @@ return(
         onPress={() =>( setSelectedAll(!selectedAll), onSelectAll && onSelectAll(!selectedAll))}
       >
         <Text className="text-sm">Todos</Text>
-        <View className={`w-4 h-4 border rounded-full ml-1 ${selectedAll&& " bg-green-600 items-center justify-center"}`} >
+        <View className={`w-4 h-4 border rounded-full ml-1${selectedAll ? " bg-green-600 items-center justify-center" : ""}`} >
           <images.check width={8} height={8} className={`${selectedAll ? 'visible' : 'invisible'}`}/>
         </View>
         </Pressable>
@@ -29,7 +35,7 @@ return(
         <Text className="font-medium">{numberSelected == 0 ? "Selecionar os items" : numberSelected == 1? "1 selecionado" : (numberSelected + " selecionados")}</Text>
       </View>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => onDelete()}>
         <Text className="font-medium" >Excluir</Text>
       </TouchableOpacity>
 

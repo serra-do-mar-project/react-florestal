@@ -4,17 +4,20 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import db from "@/src/db/connection";
-import { ExemploDeCasoTable, ExemploDeCaso } from "@/src/db/schema";
+import { ExemploDeCasoTable, ExemploDeCaso} from "@/src/db/schema";
 import { eq } from "drizzle-orm";
 import FormCard from "@/src/components/report/FormCard";
 import { Section } from "@/src/hooks/useDynamicForm";
 import {useFormManager} from "@/src/hooks/useFormManager";
+import {MountAuto, addAuto} from "@/src/hooks/useAutos";
+
 
 export default function ProcedimentosPage() {
   const router = useRouter();
   const params = useLocalSearchParams();
 
   const [item, setItem] = useState<ExemploDeCaso | null>(null);
+  const [titleLineCount, setTitleLineCount] = useState<number>(0);
 
   useEffect(() => {
     if (params.id) {
@@ -25,11 +28,12 @@ export default function ProcedimentosPage() {
     }
   }, [params.id]);
 
+
   const { form, setDynamicField, handleSubmit, trowError } = useFormManager();
 
   return (
     <View className="flex-1">
-      <View className="bg-[#fffdfd] pt-10 pb-5 border-b-1 border-gray-900/30 shadow shadow-black ">
+      <View className="bg-[#fffdfd] pt-10 pb-5 border border-gray-900/10 shadow shadow-black ">
         <View className="w-full flex-row items-center justify-between mb-3 px-5 ">
           <TouchableOpacity
             className="flex justify-center items-center rounded-br-lg rounded-lg"
@@ -41,7 +45,18 @@ export default function ProcedimentosPage() {
             <Text className="text-gray-900/100 text-lg font-semibold">{item?.categoria ?? params.categoria}</Text>
           </View>
         </View>
-        <Text className="text-gray-900 font-semibold text-3xl ml-7 ">{item?.nome_resumo ?? params.nome}</Text>
+        <Text
+          className={`text-gray-900 font-semibold ${titleLineCount <= 1 ? 'text-3xl' : 'text-2xl'} mx-6`}
+          numberOfLines={2}
+          adjustsFontSizeToFit={true}
+          minimumFontScale={1}
+          onTextLayout={(e) => {
+            const lines = e.nativeEvent.lines?.length ?? 0;
+            setTitleLineCount(lines);
+          }}
+        >
+          {item?.nome_resumo ?? params.nome}
+        </Text>
       </View>
 
 
@@ -55,7 +70,7 @@ export default function ProcedimentosPage() {
 
             <FormCard title="Nome completo" subTitle="" currentPage={1} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0}>
                 <View className="flex-1">
-                  <Text className="text-xl font-medium text-stone-900">
+                  <Text className="text-xl font-BaiJamJuree_Medium text-stone-900 -mt-4">
                     {item?.nome_completo}
                   </Text>
                 </View>
@@ -64,27 +79,29 @@ export default function ProcedimentosPage() {
 
               <FormCard title="Natureza do Dano" subTitle="" currentPage={2} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0}>
                 <View className="flex-1">
-                  <Text className="text-lg text-stone-900">
+                  <Text className="text-lg font-BaiJamJuree_Medium text-stone-900 -mt-4">
                     {item?.tipo_ocorrencia}
                   </Text>
                 </View>
               </FormCard>
 
               <FormCard title="Procedimentos Operacionais" subTitle="" currentPage={3} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0}>
-                  <View className="flex-1">
+                  <View className="flex-1 gap-5">
                   {(item?.proc_op ?? params.procedimento ?? "")
                     .toString()
                     .split("\n")
                     .map((step, idx) =>
                       step.trim() ? (
-                        <Text key={idx} className="text-xl text-stone-800 mb-2">
+                        <Text key={idx} className="text-xl font-BaiJamJuree_Medium text-stone-800">
                           {step.trim()}
                         </Text>
                       ) : null
                     )
                   }
                 </View>
+
               </FormCard>
+              
               {item?.campos && JSON.parse(item?.campos).map((section: any, i: number) => (
                 <Section currentPage={i + 4} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0} key={i} section={section} setFieldDynamic={setDynamicField} showError={trowError} />
               ))}
@@ -92,11 +109,15 @@ export default function ProcedimentosPage() {
           <SubmitButton
             classname="my-10"
             title="Enviar"
-            onPress={() => {
+            onPress={async () => {
               const isValid = handleSubmit();
-              if (isValid) {
-                router.push('/auth/search')
-              }
+              if (!isValid) return;
+
+               const newAuto = MountAuto({ item, form });
+              if (!newAuto) return;
+              
+              await addAuto({ newAuto, onSuccess: () => router.push("/auth/infractions") });
+
             }}
           />
         </ScrollView>

@@ -1,1 +1,0 @@
-ALTER TABLE `exemplo_de_caso_table` RENAME COLUMN "nome_compelto" TO "nome_completo";

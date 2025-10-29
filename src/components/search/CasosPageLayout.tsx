@@ -18,7 +18,7 @@ import images from "../../constants/images";
 
 const IMAGE_HEIGHT = 270;
 const MIN_IMAGE_HEIGHT = 80;
-const PANEL_OFFSET = 40;
+const PANEL_OFFSET = 50;
 
 export default function ReusablePageLayout({
   imageComponent,
@@ -38,14 +38,14 @@ export default function ReusablePageLayout({
 
   useEffect(() => {
     setPBottom(isOpen ? 160 : 320);
-    dragY.value = withTiming(isOpen ? 150 : 0, { duration: 300 });
+    dragY.value = withTiming(isOpen ? 150 : 0, { duration: 200 });
   }, [isOpen]);
 
   const contentAnimatedStyle = useAnimatedStyle(() => ({
     paddingTop: interpolate(
       dragY.value,
       [0, 150],
-      [IMAGE_HEIGHT + 20, 130],
+      [IMAGE_HEIGHT + 10, 130],
       Extrapolation.CLAMP
     ),
   }));
@@ -79,15 +79,15 @@ export default function ReusablePageLayout({
       >
         {/* Agora recebe o componente de imagem como children */}
         {imageComponent}
-        <View className={`absolute top-9 w-full flex-row items-center justify-between z-20 ${isOpen ? "opacity-0" : "opacity-100"} transition-opacity duration-300 ease-in-out`}>
+        <View className={`absolute top-9 w-full flex-row items-center justify-between z-20 ${isOpen ? "opacity-0" : "opacity-100"} transition-opacity duration-200 ease-in-out`}>
           <TouchableOpacity
             className="bg-white/90 h-12 justify-center items-center rounded-br-lg rounded-tr-lg px-4"
             onPress={() => router.push("/auth/search")}
           >
             <images.leftArrow width={30} height={30} style={{ resizeMode: "contain", opacity: 0.8  }} />
           </TouchableOpacity>
-          <View className="bg-white/90 h-12 justify-center items-center rounded-bl-lg rounded-tl-lg px-4">
-            <Text className="text-gray-900/80 text-2xl font-BaiJamJuree_bold">{title}</Text>
+          <View className="bg-white/90 h-12 max-w-72 justify-center items-center rounded-bl-lg rounded-tl-lg px-4">
+            <Text className="text-gray-900/80 text-2xl font-BaiJamJuree_bold" numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={1}>{title}</Text>
           </View>
         </View>
       </Animated.View>
@@ -104,8 +104,8 @@ export default function ReusablePageLayout({
               <TouchableOpacity onPress={() => router.push("/auth/search")}>
                 <images.leftArrow width={30} height={30} style={{ resizeMode: "contain", opacity: 0.9  }} />
               </TouchableOpacity>
-              <View className="bg-green-500/30 px-3.5 py-1.5 rounded-full">
-                <Text className="text-gray-900 text-xl font-bold">{title}</Text>
+              <View className="bg-green-500/30 px-3.5 pt-0.5 items-center justify-center rounded-full">
+                <Text className="text-gray-900 text-lg font-semibold">{title}</Text>
               </View>
             </View>
             <View className="ml-7"><Title>Exemplos de casos</Title></View>
@@ -128,7 +128,7 @@ export default function ReusablePageLayout({
         }}
         className="bg-gray-200"
       >
-        <View className="w-full px-8 gap-4">
+        <View className="w-full px-5 gap-4">
           {data.map((item, index) => (
             <Dropdown
               key={index}

@@ -18,24 +18,24 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia
       <Pressable className="pt-3 pb-4 px-5 flex flex-col" onPress={() => {
         setIsSelected(!isSelected);
       }}>
-        <View className="flex flex-row items-center justify-between w-full gap-1">
-          <Text numberOfLines={1} className="text-white font-semibold flex-1" style={{ fontSize: 20 }}>{title}</Text>
+        <View className="flex flex-row items-start justify-between w-full gap-1">
+          <Text numberOfLines={!isSelected? 1 : 2} adjustsFontSizeToFit={isSelected&& true} className="text-white font-semibold flex-1" style={{ fontSize: 20 }}>{title}</Text>
           <Image
             source={images.arrow}
-            className={`w-6 h-6  ${isSelected ? "rotate-180 " : ""}`}
+            className={`w-6 h-6 mt-2 ${isSelected ? "rotate-180 " : ""}`}
             resizeMode="contain"
           />
         </View>
         {tags[0] && (
           <View className="bg-[#DFDFDF] rounded-md px-3 pt-1 pb-1.5 mb-0.5 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
             {tags.map((tag, index) => (
-              <View className="flex flex-row items-center gap-1" key={index}>
+              <View className="flex-row items-center gap-1" key={index}>
                 <Image
                   source={images.pin}
                   className="w-4 h-4"
                   resizeMode="contain"
                 />
-                <Text key={index} className="text-black italic text-lg">{tag}</Text>
+                <Text key={index} className="text-black font-BaiJamJuree_Medium">{tag}</Text>
               </View>
             ))}
           </View>
@@ -44,14 +44,14 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia
       {isSelected && (
         <View className="flex flex-col py-4 px-5 pt-1 w-full">
           <Text className="text-white font-semibold text-lg">Natureza do Dano (Infração/Crime)</Text>
-          <View className="bg-[#DFDFDF] rounded-md p-3 py-5 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
-            <Text className="text-black text-md">{tipoOcorrencia}</Text>
+          <View className="bg-[#DFDFDF] rounded-md p-3 py-3 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
+            <Text className="text-black font-BaiJamJuree_Medium text-md">{tipoOcorrencia}</Text>
           </View>
           <TouchableOpacity
             className="bg-[#DFDFDF] rounded-xl p-1 mb-1 mt-6 mx-7 flex flex-row justify-center border-x-hairline border-b-2 border-gray-900/30"
             onPress={onPress}
           >
-            <Text className="text-black font-medium text-xl text-center pb-0.5">Selecionar</Text>
+            <Text className="text-black font-BaiJamJuree_Medium text-xl text-center pb-0.5">Selecionar</Text>
           </TouchableOpacity>
         </View>
       )}
