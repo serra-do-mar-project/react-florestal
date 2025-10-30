@@ -81,7 +81,7 @@ const TabsLayout = () => {
           title: "Relatório",
           tabBarIcon: ({ focused }) => (
             <TabIcon
-              className="pb-0.5"
+              className="pb-0.5 mt-0.5"
               icon={<images.note width={24} height={22} />}
               iconActive={
                 <images.note
@@ -134,11 +134,12 @@ const TabsLayout = () => {
           title: "Configurações",
           tabBarIcon: ({ focused }) => (
             <TabIcon
-              icon={<images.settings width={24} height={24} />}
+              className="mt-1"
+              icon={<images.settings width={22} height={22} />}
               iconActive={
                 <images.settings
-                  width={24}
-                  height={24}
+                  width={22}
+                  height={22}
                   stroke="green"
                   strokeWidth={0.5}
                 />

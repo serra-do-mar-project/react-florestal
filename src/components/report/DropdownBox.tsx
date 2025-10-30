@@ -1,4 +1,5 @@
 import images from '@/src/constants/images';
+import { cn } from '@/src/lib/utils';
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,9 +11,11 @@ interface DropdownBoxProps {
     required?: boolean; 
     showError?: boolean;
     disabled?: boolean;
+    className?: string;
+    optionsClassName?: string;
 }
 
-const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, required = true, showError = false, disabled = false }) => {
+const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, required = true, showError = false, disabled = false, className, optionsClassName }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [prevDisabled, setPrevDisabled] = useState<boolean>(false);
     const [selected, setSelected] = useState<string | undefined | null>(undefined);
@@ -66,7 +69,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
 
     return (
         
-        <View className="w-64 mb-5">
+        <View className="w-64 mb-4">
 
             {title&&
                 <View className={` ${disabled ? 'opacity-60' : ''}` }>
@@ -77,7 +80,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
             
             {/* Botão de abrir/fechar */}
             <Pressable
-                className={`bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen&& "rounded-b-none"} ${disabled ? 'opacity-60' : ''}`}
+                className={cn(`bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen&& "rounded-b-none"} ${disabled ? 'opacity-60' : ''}`, className)}
                 onPress={() => !disabled && setIsOpen(!isOpen)}
                 onLongPress={!disabled && selected ? handleClear : undefined}
             >
@@ -89,7 +92,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
                     >
                         {selected || "Selecione"}
                     </Text>
-                    <View className='border-l h-full border-gray-900/30'>
+                    <View className={cn('border-l h-full border-gray-900/30', className)}>
                         <View className='flex-1 justify-center'>
                             <Image
                                 source={images.arrow}
@@ -104,7 +107,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
 
             {/* Lista de opções */}
             {isOpen && (
-                <View className="bg-[#EFEFEF] w-64 border border-t-0 border-gray-900/30 rounded-b-md">
+                <View className={cn("bg-[#EFEFEF] w-64 border border-t-0 border-gray-900/30 rounded-b-md", optionsClassName)}>
                     {options.map((option, idx) => (
                         <Pressable
                             key={option}
