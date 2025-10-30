@@ -1,9 +1,11 @@
+
 import { useEffect, useState } from "react";
 import { Modal, ModalProps, Pressable, View, Dimensions, ScrollView } from "react-native";
 import { Gesture, GestureDetector, GestureHandlerRootView,  } from "react-native-gesture-handler";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { PasswordInput } from "./PasswordInput";
 import React from "react";
+
 
 export type DefaultModalProps = ModalProps & {
   visible: boolean;
