@@ -7,8 +7,13 @@ import { PasswordInput } from "../PasswordInput";
 import { SubmitButton } from "../SubmitButton";
 import { CancelButton } from "../CancelButton";
 
+interface User {
+  nome: string;
+  cargo: string;
+}
+
 type ModerationModalProps = DefaultModalProps & {
-  selectedUser: any;
+  selectedUser: User;
 }
 
 export default function UserModal({selectedUser, ...rest}: ModerationModalProps)  {
