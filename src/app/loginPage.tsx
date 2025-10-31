@@ -3,7 +3,6 @@
 import { View, Image, TouchableOpacity, Keyboard, Text, KeyboardAvoidingView, Platform,} from "react-native";
 import images from '../constants/images'
 import Title from "../components/Title";
-import { DefaultInput } from "../components/DefaultInput";
 import { SubmitButton } from "../components/SubmitButton";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
@@ -69,9 +68,9 @@ export default function loginPage() {
           </Title>
         </View>
 
-        <images.logoparque width={400} height={160} />
+        <images.logoparque width={keyboardOpen? 200 : 200} height={keyboardOpen? 100 : 160} />
 
-        <View className="flex w-full px-6 items-center mx-4 mt-4 ">
+        <View className="flex w-full px-6 items-center mx-4 mt-4">
 
           <Configinput textHolder="CPF" value={CPF} onChangeText={setCPF} className="h-16 rounded-2xl -mb-4">
             <images.user width="24px" height="24px"/>
@@ -81,7 +80,7 @@ export default function loginPage() {
           
         </View>
         
-        <View className={`flex items-center w-full mb-14 ${keyboardOpen? 'mt-16' :'mt-5'}`}>
+        <View className={`flex items-center w-full mb-12 ${keyboardOpen? 'mt-8' :'mt-10'}`}>
           <SubmitButton title="Login" 
             onPress={() => handleLogin()}
           />

@@ -12,7 +12,7 @@ export function Card({ text, onPress, src }: CardProps) {
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={onPress}
-      className="h-44 w-[45%] rounded-lg overflow-hidden bg-white border border-gray-900/30 shadow-md"
+      className="h-44 w-[45%] rounded-lg overflow-hidden bg-white border-b-2 border-x-hairline border-gray-900/30 shadow-md"
     >
       <View className="h-32">
         <Image

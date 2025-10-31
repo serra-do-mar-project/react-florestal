@@ -21,7 +21,7 @@ export function PasswordInput({
   setPassword,
 }: PasswordInputProps) {  
   
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   return (
     <View className="w-full">
