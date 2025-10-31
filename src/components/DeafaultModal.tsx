@@ -71,8 +71,11 @@ export function DefaultModal({visible, onClose, children, ...rest}: DefaultModal
           <Pressable className="flex-1" onPress={closeWithAnimation}  pointerEvents="box-only"/>
           
             <Animated.View
-              className={`w-full min-h-1/3 max-h-[${SCREEN_HEIGHT}] items-center bg-white mt-10`}
-              style={[animatedStyle, { borderTopLeftRadius: 24, borderTopRightRadius: 24, overflow: 'hidden',  zIndex: 10}]}
+              className="w-full min-h-1/3 items-center bg-white mt-10"
+              style={[
+                animatedStyle,
+                { borderTopLeftRadius: 24, borderTopRightRadius: 24, overflow: 'hidden', zIndex: 10, maxHeight: SCREEN_HEIGHT }
+              ]}
             >
               <GestureDetector gesture={panGesture}>
               <Pressable className="w-full h-14" onPress={closeWithAnimation}>
