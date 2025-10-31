@@ -4,13 +4,12 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import db from "@/src/db/connection";
-import { ExemploDeCasoTable, ExemploDeCaso} from "@/src/db/schema";
+import { ExemploDeCasoTable, ExemploDeCaso } from "@/src/db/schema";
 import { eq } from "drizzle-orm";
 import FormCard from "@/src/components/report/FormCard";
 import { Section } from "@/src/hooks/useDynamicForm";
-import {useFormManager} from "@/src/hooks/useFormManager";
-import {MountAuto, addAuto} from "@/src/hooks/useAutos";
-
+import { useFormManager } from "@/src/hooks/useFormManager";
+import { MountAuto, addAuto } from "@/src/hooks/useAutos";
 
 export default function ProcedimentosPage() {
   const router = useRouter();
@@ -29,7 +28,7 @@ export default function ProcedimentosPage() {
   }, [params.id]);
 
 
-  const { form, setDynamicField, handleSubmit, trowError } = useFormManager();
+  const { dynamicForm, setDynamicField, handleSubmit, trowError } = useFormManager();
 
   return (
     <View className="flex-1">
@@ -69,55 +68,56 @@ export default function ProcedimentosPage() {
           <View className="w-full pt-10 items-center px-4">
 
             <FormCard title="Nome completo" subTitle="" currentPage={1} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0}>
-                <View className="flex-1">
-                  <Text className="text-xl font-BaiJamJuree_Medium text-stone-900 -mt-4">
-                    {item?.nome_completo}
-                  </Text>
-                </View>
-              </FormCard>
- 
+              <View className="flex-1">
+                <Text className="text-xl font-BaiJamJuree_Medium text-stone-900 -mt-4">
+                  {item?.nome_completo}
+                </Text>
+              </View>
+            </FormCard>
 
-              <FormCard title="Natureza do Dano" subTitle="" currentPage={2} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0}>
-                <View className="flex-1">
-                  <Text className="text-lg font-BaiJamJuree_Medium text-stone-900 -mt-4">
-                    {item?.tipo_ocorrencia}
-                  </Text>
-                </View>
-              </FormCard>
 
-              <FormCard title="Procedimentos Operacionais" subTitle="" currentPage={3} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0}>
-                  <View className="flex-1 gap-5">
-                  {(item?.proc_op ?? params.procedimento ?? "")
-                    .toString()
-                    .split("\n")
-                    .map((step, idx) =>
-                      step.trim() ? (
-                        <Text key={idx} className="text-xl font-BaiJamJuree_Medium text-stone-800">
-                          {step.trim()}
-                        </Text>
-                      ) : null
-                    )
-                  }
-                </View>
+            <FormCard title="Natureza do Dano" subTitle="" currentPage={2} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0}>
+              <View className="flex-1">
+                <Text className="text-lg font-BaiJamJuree_Medium text-stone-900 -mt-4">
+                  {item?.tipo_ocorrencia}
+                </Text>
+              </View>
+            </FormCard>
 
-              </FormCard>
-              
-              {item?.campos && JSON.parse(item?.campos).map((section: any, i: number) => (
-                <Section currentPage={i + 4} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0} key={i} section={section} setFieldDynamic={setDynamicField} showError={trowError} />
-              ))}
+            <FormCard title="Procedimentos Operacionais" subTitle="" currentPage={3} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0}>
+              <View className="flex-1 gap-5">
+                {(item?.proc_op ?? params.procedimento ?? "")
+                  .toString()
+                  .split("\n")
+                  .map((step, idx) =>
+                    step.trim() ? (
+                      <Text key={idx} className="text-xl font-BaiJamJuree_Medium text-stone-800">
+                        {step.trim()}
+                      </Text>
+                    ) : null
+                  )
+                }
+              </View>
+
+            </FormCard>
+
+            {item?.campos && JSON.parse(item?.campos).map((section: any, i: number) => (
+              <Section currentPage={i + 4} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0} key={i} section={section} setFieldDynamic={setDynamicField} showError={trowError} />
+            ))}
           </View>
           <SubmitButton
             classname="my-10"
             title="Enviar"
             onPress={async () => {
               const isValid = handleSubmit();
+              console.log("Formulário válido:", isValid);
               if (!isValid) return;
 
-               const newAuto = MountAuto({ item, form });
+              const newAuto = MountAuto({ item, form: dynamicForm });
+              console.log("Novo auto gerado:", newAuto);
               if (!newAuto) return;
-              
-              await addAuto({ newAuto, onSuccess: () => router.push("/auth/infractions") });
 
+              await addAuto({ newAuto, onSuccess: () => router.push("/auth/infractions") });
             }}
           />
         </ScrollView>

@@ -1,81 +1,132 @@
 import { useState } from "react";
 
 export interface UseFormManagerProps {
-  onSubmitSuccess?: (form: any[]) => void;
-  onSubmitError?: (form: any[]) => void;
+  onSubmitSuccess?: (form: Record<string, any>) => void;
+  onSubmitError?: (form: Record<string, any>) => void;
 }
 
 export const useFormManager = ({ onSubmitSuccess, onSubmitError }: UseFormManagerProps = {}) => {
-  const [form, setForm] = useState<any[]>([]);
+  const [form, setForm] = useState<Record<string, any>>({});
+  const [dynamicForm, setDynamicForm] = useState<Array<Record<string, any>>>([]);
   const [trowError, setTrowError] = useState<boolean>(false);
+  const [requiredFields, setRequiredFields] = useState<Set<string>>(new Set());
 
   // (para formulários estáticos)
-  const setField = (fieldIndex: number, valueIndex: number, value: string | string[] | null | undefined) => {
-    const stringValue = Array.isArray(value) ? value.join(", ") : (value as string | null | undefined);
+  const setField = (fieldName: string, value: string | string[] | boolean | (string | boolean)[] | null | undefined, required: boolean = true) => {
+    // Sempre registra o campo como obrigatório ou não, independentemente do valor
+    // Isso garante que o campo seja rastreado desde a montagem
+    setRequiredFields(prevRequired => {
+      const newSet = new Set(prevRequired);
+      if (required) {
+        newSet.add(fieldName);
+      } else {
+        newSet.delete(fieldName);
+      }
+      return newSet;
+    });
+
+    // Atualiza o formulário
     setForm(prev => {
-      const next = Array.isArray(prev) ? [...prev] : [];
-      if (!next[fieldIndex]) next[fieldIndex] = { [fieldIndex]: [] } as any;
-      if (!next[fieldIndex][fieldIndex]) next[fieldIndex][fieldIndex] = [];
-      next[fieldIndex][fieldIndex][valueIndex] = stringValue;
+      const next = { ...prev };
+      
+      // Se o valor for null ou undefined, marca como vazio mas mantém no form
+      if (value === null || value === undefined) {
+        next[fieldName] = "";
+        return next;
+      }
+      
+      // Se o valor for booleano, mantém como booleano
+      if (typeof value === 'boolean') {
+        next[fieldName] = value;
+        return next;
+      }
+      
+      // Converte array para string
+      const stringValue = Array.isArray(value) ? value.join(", ") : value;
+      
+      // Adiciona o valor (mesmo que vazio)
+      next[fieldName] = stringValue;
+      
       return next;
     });
   };
 
   // (para formulários vindos do backend)
   const setDynamicField = (id: number, value: string | string[] | undefined) => {
-    setForm(prev => {
-      const next = [...prev];
-      const index = next.findIndex(f => f.id === id);
+    setDynamicForm(prev => {
+      const stringValue = Array.isArray(value) ? value.join(", ") : (value ?? "");
       
-      const stringValue = Array.isArray(value) ? value.join(", ") : (value ?? undefined);
+      // Busca se já existe um campo com este id
+      const existingIndex = prev.findIndex(field => field.id === id);
 
-      if (index !== -1) {
-        next[index] = { ...next[index], value: stringValue };
+      if (existingIndex !== -1) {
+        // Atualiza o campo existente
+        const updated = [...prev];
+        updated[existingIndex] = { id, value: stringValue };
+        return updated;
       } else {
-        next.push({ id, value: stringValue });
+        // Adiciona novo campo
+        return [...prev, { id, value: stringValue }];
       }
-      
-      return next;
     });
   };
 
-  const validateForm = (formData: any[]) => {
-    return formData.some(field => {
-      // caso antigo: estrutura aninhada
-      if (typeof field === "object" && Object.keys(field)[0]?.match(/^\d+$/)) {
-        const valores = Object.values(field)[0] as any[];
-        return valores?.some(v => v === undefined || v === "");
+  const validateForm = (formData: Record<string, any>) => {
+    // Verifica se todos os campos obrigatórios estão presentes e preenchidos
+    for (const fieldName of requiredFields) {
+      const fieldValue = formData[fieldName];
+      
+      // Verifica se o campo existe
+      if (!(fieldName in formData)) {
+        return true; // tem erro
       }
-      // caso novo: {id, type, value}
-      return !field.value || field.value.trim() === "";
-    });
+      
+      // Para booleanos, qualquer valor (true/false) é válido
+      if (typeof fieldValue === "boolean") {
+        continue; // campo válido
+      }
+      
+      // Para strings, verifica se não está vazio
+      if (typeof fieldValue === "string" && fieldValue.trim() === "") {
+        return true; // tem erro
+      }
+      
+      // Para outros tipos, verifica se não é null/undefined
+      if (fieldValue === null || fieldValue === undefined) {
+        return true; // tem erro
+      }
+    }
+    
+    return false; // sem erros
   };
 
   const handleSubmit = () => {
+    // Se dynamicForm tem dados, usa ele; senão, usa form
+    const formToSubmit = dynamicForm.length > 0 ? dynamicForm : form;
+    
     const hasUndefined = validateForm(form);
 
     if (hasUndefined) {
-      console.log("Erro: Existem campos undefined");
-      console.log(form);
       setTrowError(true);
-      onSubmitError?.(form);
+      onSubmitError?.(formToSubmit);
       return false;
     }
 
-    console.log("Formulário válido");
-    console.log(form);
     setTrowError(false);
-    onSubmitSuccess?.(form);
+    onSubmitSuccess?.(formToSubmit);
     return true;
   };
 
   const resetForm = () => {
-    setForm([]);
+    setForm({});
+    setDynamicForm([]);
+    setRequiredFields(new Set());
     setTrowError(false);
   };
 
   return {
     form,
+    dynamicForm,     // array para formulários dinâmicos
     setForm,
     setField,        // usado em forms estáticos
     setDynamicField, // usado em forms dinâmicos

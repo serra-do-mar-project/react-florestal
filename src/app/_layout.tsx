@@ -11,9 +11,17 @@ import { ExemploDeCasoTable } from '../db/schema';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useFonts } from 'expo-font';
-import { SplashScreen } from 'expo-router'; 
+import { SplashScreen } from 'expo-router';
 import { loadExemploDeCaso } from '../lib/utils';
 import { useUserStore } from '../store/userStore';
+
+// Desabilita o modo strict do Reanimated para evitar warnings
+import { configureReanimatedLogger, ReanimatedLogLevel } from 'react-native-reanimated';
+
+configureReanimatedLogger({
+  level: ReanimatedLogLevel.warn,
+  strict: false,
+});
 
 
 
@@ -34,12 +42,12 @@ export default function MainLayout() {
   const { success, error } = useMigrations(db, migrations);
 
   useEffect(() => {
-  console.log("Migrations success:", success);
-}, [success]);
- 
+    console.log("Migrations success:", success);
+  }, [success]);
+
   useEffect(() => {
-  if (error) console.error("Migration error:", error);
-}, [error]);
+    if (error) console.error("Migration error:", error);
+  }, [error]);
 
   useEffect(() => {
     if (!success) return console.log("Aguardando migrações...");
@@ -48,7 +56,6 @@ export default function MainLayout() {
 
         await db.delete(ExemploDeCasoTable);
         if (token) {
-          console.log(token)
           const exemploDeCaso = await loadExemploDeCaso(token);
           exemploDeCaso.map(async item => await db.insert(ExemploDeCasoTable).values([
             {
@@ -65,7 +72,7 @@ export default function MainLayout() {
               tipo_ocorrencia: item.tipo_ocorrencia,
               campos: item.campos,
             }
-          ])); 
+          ]));
         }
       } catch (error) {
         console.error("Error during migration:", error);
@@ -151,11 +158,11 @@ export default function MainLayout() {
   }, [success, error, token]);
 
   return (
-    
+
     <>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <Stack screenOptions={{ headerShown: false}}/>
-        <StatusBar translucent style="dark"/>
+        <Stack screenOptions={{ headerShown: false }} />
+        <StatusBar translucent style="dark" />
       </GestureHandlerRootView>
     </>
   );
