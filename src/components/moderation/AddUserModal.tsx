@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { DefaultModal, DefaultModalProps} from "../DeafaultModal";
+import { DefaultModal, DefaultModalProps} from "../DefaultModal";
 import { View, Text, Alert } from "react-native";
 import { PasswordInput } from "../PasswordInput";
 import { SubmitButton } from "../SubmitButton";
