@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { DefaultModal, DefaultModalProps} from "../DeafaultModal";
+import { DefaultModal, DefaultModalProps} from "../DefaultModal";
 import { View, Text,  Pressable, Alert } from "react-native";
 import images from "@/src/constants/images";
 import { PasswordInput } from "../PasswordInput";
