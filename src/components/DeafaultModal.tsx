@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Modal, ModalProps, Pressable, View, Dimensions, ScrollView } from "react-native";
 import { Gesture, GestureDetector, GestureHandlerRootView,  } from "react-native-gesture-handler";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
