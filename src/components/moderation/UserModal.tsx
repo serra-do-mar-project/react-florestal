@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { DefaultModal, DefaultModalProps} from "../DefaultModal";
+import { useState, } from "react";
+import { DefaultModal, DefaultModalProps, useModal} from "../DefaultModal";
 import { View, Text,  Pressable, Alert } from "react-native";
 import images from "@/src/constants/images";
 import { PasswordInput } from "../PasswordInput";
@@ -13,7 +13,7 @@ interface User {
 }
 
 type ModerationModalProps = DefaultModalProps & {
-  selectedUser: User;
+  selectedUser?: User;
 }
 
 export default function UserModal({selectedUser, ...rest}: ModerationModalProps)  {
@@ -29,13 +29,15 @@ export default function UserModal({selectedUser, ...rest}: ModerationModalProps)
 
   function UserOptionsModal() {
 
+    const { closeWithAnimation } = useModal();
+
      function handleDeleteUser() {
     Alert.alert(
       "Excluir usuário",
       `Tem certeza que deseja excluir ${selectedUser?.nome}?`,
       [
         { text: "Cancelar", style: "cancel" },
-        { text: "Excluir", style: "destructive", onPress: () => rest.onClose() },
+        { text: "Excluir", style: "destructive", onPress: () => closeWithAnimation() },
       ]
 
     );
@@ -67,7 +69,9 @@ export default function UserModal({selectedUser, ...rest}: ModerationModalProps)
 
     )};
 
-  function ChangePasswordModal({...rest}: DefaultModalProps) {
+  function ChangePasswordModal() {
+
+    const { closeWithAnimation } = useModal();
 
     const [password, setPassword] = useState("");      // Estado para senha
     const [newPassword, setNewPassword] = useState(""); 
@@ -76,7 +80,7 @@ export default function UserModal({selectedUser, ...rest}: ModerationModalProps)
       function handleCancel() {
         if (!password && !newPassword && !confirmPassword) {
           setChangePasswordOpen(false);
-          rest.onClose();
+          closeWithAnimation();
           return;
         }
         Alert.alert(
@@ -88,7 +92,7 @@ export default function UserModal({selectedUser, ...rest}: ModerationModalProps)
               text: "Sim",
               style: "destructive",
               onPress: () => {
-                rest.onClose();
+                closeWithAnimation();
                 setChangePasswordOpen(false);
                 setPassword("");
                 setNewPassword("");
@@ -140,7 +144,7 @@ export default function UserModal({selectedUser, ...rest}: ModerationModalProps)
                     classname="h-[3rem] w-[7rem] "
                     textClass="text-xl"
                     title="Salvar"
-                    onPress={() => Alert.alert("Senha alterada com sucesso!")}
+                    onPress={() => (closeWithAnimation(), Alert.alert("Senha alterada com sucesso!"))}
                   />
 
                   <CancelButton
@@ -160,16 +164,9 @@ export default function UserModal({selectedUser, ...rest}: ModerationModalProps)
 }
 
   return(
-    <DefaultModal
-      visible={rest.visible || changePasswordOpen}
-      onClose={handleClose}
-    >
-    {changePasswordOpen ? (
-    <ChangePasswordModal {...rest} />
-    ) : (
-    <UserOptionsModal {...rest} />
-    )}
-    </DefaultModal>
+    <DefaultModal visible={rest.visible} onClose={handleClose} >
+  {changePasswordOpen ? <ChangePasswordModal /> : <UserOptionsModal />}
+</DefaultModal>
     
   );
 

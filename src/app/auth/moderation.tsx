@@ -10,7 +10,7 @@ import AddUserModal from "@/src/components/moderation/AddUserModal";
 export default function ModerationPage() {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<{ nome: string; cargo: string } | null>(null);
+  const [selectedUser, setSelectedUser] = useState<{ nome: string; cargo: string }>();
 
 
   // Exemplo de lista de usuários
@@ -67,9 +67,14 @@ export default function ModerationPage() {
           ))}
         </ScrollView>
       </View>
-
-      <UserModal selectedUser={selectedUser} visible={editModalOpen} onClose={() => setEditModalOpen(false)}/>
-      <AddUserModal visible={addModalOpen}  onClose={() => setAddModalOpen(false)}/>
+       {
+        editModalOpen?
+        <UserModal selectedUser={selectedUser} visible={editModalOpen} onClose={() => setEditModalOpen(false)}/>
+        :
+        <AddUserModal visible={addModalOpen}  onClose={() => setAddModalOpen(false)}/>
+       }                   
+      
+      
 
     </View>
   );

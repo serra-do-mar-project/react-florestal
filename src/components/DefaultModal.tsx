@@ -1,15 +1,15 @@
-
-import { createContext, useContext, useEffect, useState } from "react";
-import { Modal, ModalProps, Pressable, View, Dimensions, ScrollView, Keyboard } from "react-native";
+import { createContext, useContext, useEffect,} from "react";
+import { Modal, ModalProps, Pressable, View, Dimensions, ScrollView } from "react-native";
 import { Gesture, GestureDetector, GestureHandlerRootView,  } from "react-native-gesture-handler";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { PasswordInput } from "./PasswordInput";
 import React from "react";
-
 
 export type DefaultModalProps = ModalProps & {
   visible: boolean;
   onClose: () => void;
   children?: React.ReactNode;
+  beforeClose?: () => void;
 }
 
 type ModalContextType = {
@@ -24,22 +24,13 @@ export const useModal = () => {
   return context;
 };
 
-export function DefaultModal({visible, onClose, children, ...rest}: DefaultModalProps) {
+export function DefaultModal({visible, onClose, children, beforeClose, ...rest}: DefaultModalProps) {
 
   const translateY = useSharedValue(0);
   const overlayOpacity = useSharedValue(0);
 
   const SCREEN_HEIGHT = Dimensions.get('window').height;
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
   
-  useEffect(() => {
-    const showSub = Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
-    const hideSub = Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
-    return () => {
-      showSub.remove();
-      hideSub.remove();
-    };
-  }, []);
 
   useEffect(() => {
     translateY.value = SCREEN_HEIGHT;
@@ -54,7 +45,10 @@ export function DefaultModal({visible, onClose, children, ...rest}: DefaultModal
     }
   }, [visible, overlayOpacity, translateY]);
 
+  
+
   function closeWithAnimation() {
+    beforeClose&& beforeClose();
     overlayOpacity.value = withTiming(0, { duration: 150 });
     translateY.value = withTiming(SCREEN_HEIGHT, { duration: 250 }, (finished) => {
       if (finished) runOnJS(onClose)();
@@ -85,15 +79,16 @@ export function DefaultModal({visible, onClose, children, ...rest}: DefaultModal
 
   return(
     // desativa animação nativa e animamos nós mesmos
-    <Modal className="flex-" statusBarTranslucent visible={visible} transparent animationType="none" onRequestClose={closeWithAnimation} {...rest} >
-      <ModalContext.Provider value={{ closeWithAnimation }}>
-      <GestureHandlerRootView style={{ flex: 1 }} >
+    <Modal className="flex-1" statusBarTranslucent visible={visible} transparent animationType="none" onRequestClose={closeWithAnimation} {...rest} >
+      
+      <GestureHandlerRootView style={{ flex: 1 }}>
         <View className="flex-1 bg-black/50" pointerEvents="box-none">
           <Pressable className="flex-1" onPress={closeWithAnimation}  pointerEvents="box-only"/>
-          
+          <ModalContext.Provider value={{ closeWithAnimation }} >
+
             <Animated.View
-              className={`w-full min-h-1/3 absolute bottom-0 ${keyboardVisible && "top-safe"} max-h-[${SCREEN_HEIGHT}] items-center bg-white z-10`}
-              style={[animatedStyle, { borderTopLeftRadius: 24, borderTopRightRadius: 24, overflow: 'hidden'}]}
+              className={`w-full min-h-1/3 max-h-[${SCREEN_HEIGHT}] items-center bg-white mt-10`}
+              style={[animatedStyle, { borderTopLeftRadius: 24, borderTopRightRadius: 24, overflow: 'hidden',  zIndex: 100}]}
             >
               <GestureDetector gesture={panGesture}>
               <Pressable className="w-full h-14" onPress={closeWithAnimation}>
@@ -103,16 +98,18 @@ export function DefaultModal({visible, onClose, children, ...rest}: DefaultModal
               />
               </Pressable>
               </GestureDetector>
-                <ScrollView className="w-full h-full z-20" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
-
+                <ScrollView className="w-full" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} >
+                  
                   {children}
+                  
                 </ScrollView>
+
                  
             </Animated.View>
-        
+            </ModalContext.Provider>
         </View>
       </GestureHandlerRootView>
-      </ModalContext.Provider>
+      
     </Modal>
  
    );

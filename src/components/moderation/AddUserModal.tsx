@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { DefaultModal, DefaultModalProps} from "../DefaultModal";
+import { DefaultModal, DefaultModalProps, useModal} from "../DefaultModal";
 import { View, Text, Alert } from "react-native";
 import { PasswordInput } from "../PasswordInput";
 import { SubmitButton } from "../SubmitButton";
@@ -20,42 +20,41 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
     const [newName, setnNewName] = useState("");
     const [newCpf, setNewCpf] = useState("");
     const [newCargo, setNewCargo] = useState("");
+    
+  function ModalContent() {
+    const { closeWithAnimation } = useModal();
 
-
-  function handleCreateUser() {
-
-    onCreateUser && onCreateUser(); 
-  }
-
-  function handleCancel() {
-    if (!newName && !newCpf && !newCargo && !newPassword && !confirmPassword) {
-      rest.onClose();
-      return;
+    function handleCreateUser() {
+      onCreateUser && onCreateUser(); 
     }
-    Alert.alert(
-      "Cancelar cadastro",
-      "Tem certeza que deseja cancelar o cadastro do novo usuário?",
-      [
-        { text: "Não", style: "cancel" },
-        {
-          text: "Sim",
-          style: "destructive",
-          onPress: () => {
-            rest.onClose();
-            setnNewName("");
-            setNewCpf("");
-            setNewCargo("");
-            setNewPassword("");
-            setConfirmPassword("");
+
+    function handleCancel() {
+      if (!newName && !newCpf && !newCargo && !newPassword && !confirmPassword) {
+        closeWithAnimation();
+        return;
+      }
+      Alert.alert(
+        "Cancelar cadastro",
+        "Tem certeza que deseja cancelar o cadastro do novo usuário?",
+        [
+          { text: "Não", style: "cancel" },
+          {
+            text: "Sim",
+            style: "destructive",
+            onPress: () => {
+              setnNewName("");
+              setNewCpf("");
+              setNewCargo("");
+              setNewPassword("");
+              setConfirmPassword("");
+              closeWithAnimation();
+            },
           },
-        },
-      ]
-    );
-  }
+        ]
+      );
+    }
 
-  return(
-
-    <DefaultModal {...rest}>
+    return (
       <View className="mb-16">
             <View className="px-5 mb-10">
                 <Text className="text-3xl font-semibold text-gray-900 px-3" >Adicionar Novo Usuário</Text>
@@ -115,9 +114,13 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
                       </View>
                 </View>
         </View>
-      
-    </DefaultModal>
+    );
+  }
 
+  return (
+    <DefaultModal {...rest}>
+      <ModalContent />
+    </DefaultModal>
   );
 
 };

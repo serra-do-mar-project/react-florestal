@@ -1,5 +1,5 @@
 import { AutosDeInfracao } from "@/src/db/schema";
-import { DefaultModal, DefaultModalProps} from "../DeafaultModal";
+import { DefaultModal, DefaultModalProps} from "../DefaultModal";
 import { View, Text, ScrollView } from "react-native";
 
 type InfractionModalProps = DefaultModalProps & {
