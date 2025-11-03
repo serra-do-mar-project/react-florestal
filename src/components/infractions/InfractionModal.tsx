@@ -7,13 +7,16 @@ type InfractionModalProps = DefaultModalProps & {
 }
 
 export default function InfractionModal({item, ...rest}: InfractionModalProps) {
+
+
   return (
     <DefaultModal {...rest}>
-      
-      <View className="flex-1 items-center justify-center px-6 mb-4">
+      <ScrollView>
+      <View className="items-center justify-center px-6 mb-20">
           <Text className="text-2xl text-center font-semibold">{item?.nome_resumo}</Text>
-          <Text className="text-lg text-center font-BaiJamJuree_Medium pt-4">{item?.modelo}</Text>
+          <Text className="text-lg text-center font-BaiJamJuree_Medium pt-10">{item?.modelo}</Text>
       </View>
+      </ScrollView>
       
     </DefaultModal>
 

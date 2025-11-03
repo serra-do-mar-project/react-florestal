@@ -48,7 +48,7 @@ export default function InfractionCard({ title = "Abate ilegal de Animais Silves
 
   return (
       <TouchableOpacity 
-        className="w-full py-4 px-5 bg-white border-b-2 border-gray-800/80 border-x-hairline rounded-xl"
+        className="w-full py-4 px-5 bg-white border border-gray-800/80  rounded-xl"
         onPress={() => {longPressed == true? handleSelect() : onPress && onPress()}}
         onLongPress={() => {handleLongPress()} }
         activeOpacity={0.6}

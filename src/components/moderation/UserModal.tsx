@@ -6,6 +6,7 @@ import images from "@/src/constants/images";
 import { PasswordInput } from "../PasswordInput";
 import { SubmitButton } from "../SubmitButton";
 import { CancelButton } from "../CancelButton";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface User {
   nome: string;
@@ -105,7 +106,7 @@ export default function UserModal({selectedUser, ...rest}: ModerationModalProps)
 
   return (
     
-
+      <ScrollView>
       <View className="mx-3 items-center mb-16">
     
           <View className="w-full items-center mb-10">
@@ -159,6 +160,7 @@ export default function UserModal({selectedUser, ...rest}: ModerationModalProps)
               </View>
                 
       </View> 
+      </ScrollView>
 
   );
 }

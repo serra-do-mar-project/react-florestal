@@ -10,11 +10,15 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@/src/components/report/DateTimePicker";
 import { useFormManager } from "@/src/hooks/useFormManager";
+import { AttachModal } from "@/src/components/report/AttachModal";
+import { DefaultModal } from "@/src/components/DefaultModal";
 
 
 export default function ReportPage() {
   const [vtr, setVtr] = useState<boolean>(true);
-  
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [attachedInfractions, setAttachedInfractions] = useState<number[]>([]);
+
   const { 
     form, 
     setField, 
@@ -22,7 +26,8 @@ export default function ReportPage() {
     trowError 
   } = useFormManager({
     onSubmitSuccess: (formData) => {
-      // Aqui você pode adicionar lógica específica de sucesso
+      
+      
       console.log("Formulário enviado com sucesso!");
     },
     onSubmitError: (formData) => {
@@ -313,6 +318,10 @@ export default function ReportPage() {
           <SubmitButton classname="my-10" title="enviar" onPress={() => handleSubmit()} />
         </View>
       </ScrollView>
+
+      <DefaultModal visible={openModal} onClose={() => setOpenModal(false)}>
+          <AttachModal visible={openModal} onSelect={setAttachedInfractions} />
+      </DefaultModal>
     </View>
   );
 }

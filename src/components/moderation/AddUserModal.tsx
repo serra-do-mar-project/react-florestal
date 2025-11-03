@@ -21,16 +21,12 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
     const [newCpf, setNewCpf] = useState("");
     const [newCargo, setNewCargo] = useState("");
     
-  function ModalContent() {
-    const { closeWithAnimation } = useModal();
-
     function handleCreateUser() {
       onCreateUser && onCreateUser(); 
     }
 
     function handleCancel() {
       if (!newName && !newCpf && !newCargo && !newPassword && !confirmPassword) {
-        closeWithAnimation();
         return;
       }
       Alert.alert(
@@ -47,7 +43,7 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
               setNewCargo("");
               setNewPassword("");
               setConfirmPassword("");
-              closeWithAnimation();
+              rest.onClose();
             },
           },
         ]
@@ -55,6 +51,7 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
     }
 
     return (
+      <DefaultModal beforeClose={handleCancel} {...rest}>
       <View className="mb-16">
             <View className="px-5 mb-10">
                 <Text className="text-3xl font-semibold text-gray-900 px-3" >Adicionar Novo Usuário</Text>
@@ -114,13 +111,6 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
                       </View>
                 </View>
         </View>
+        </DefaultModal>
     );
   }
-
-  return (
-    <DefaultModal {...rest}>
-      <ModalContent />
-    </DefaultModal>
-  );
-
-};

@@ -4,13 +4,15 @@ import { View, Text, Pressable, TouchableOpacity} from "react-native";
 
 export interface OptionsBarProps {
   onSelectAll: (selected: boolean) => void;
+  cancelOption?: boolean;
+  deleteOption?: boolean;
   onCancel: () => void;
   onDelete: () => void;
   numberSelected?: number;
   isAllSelected?: boolean;
 }
 
-export default function OptionsBar({ onSelectAll, numberSelected, onCancel, onDelete ,isAllSelected}: OptionsBarProps) {
+export default function OptionsBar({ onSelectAll, numberSelected, onCancel, onDelete ,isAllSelected, deleteOption, cancelOption}: OptionsBarProps) {
 
   const [selectedAll, setSelectedAll] = useState<boolean>(!!isAllSelected);
 
@@ -20,8 +22,7 @@ export default function OptionsBar({ onSelectAll, numberSelected, onCancel, onDe
 
 return(
 
-   <View className="w-full flex-row h-12 items-center justify-between px-2">
-      <View className="h-full flex-row items-center gap-4">
+   <View className="flex-1 flex-row h-12 items-center justify-between px-2">
         <Pressable 
         className="flex-row items-center h-full"
         onPress={() =>( setSelectedAll(!selectedAll), onSelectAll && onSelectAll(!selectedAll))}
@@ -33,15 +34,21 @@ return(
         </Pressable>
 
         <Text className="font-medium">{numberSelected == 0 ? "Selecionar os items" : numberSelected == 1? "1 selecionado" : (numberSelected + " selecionados")}</Text>
-      </View>
+      
 
-      <TouchableOpacity onPress={() => onDelete()}>
+
+      {deleteOption &&
+        <TouchableOpacity onPress={() => onDelete()}>
         <Text className="font-medium" >Excluir</Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      }
 
+      {cancelOption && 
+      
       <TouchableOpacity onPress={() => ( onCancel && onCancel())}>
         <Text className="font-medium" >Cancelar</Text>
       </TouchableOpacity>
+      }
 
     </View>
 );

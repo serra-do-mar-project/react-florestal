@@ -4,12 +4,14 @@ import { Gesture, GestureDetector, GestureHandlerRootView,  } from "react-native
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { PasswordInput } from "./PasswordInput";
 import React from "react";
+import { cn } from "../lib/utils";
 
 export type DefaultModalProps = ModalProps & {
   visible: boolean;
   onClose: () => void;
   children?: React.ReactNode;
   beforeClose?: () => void;
+  scrollClassName?: string;
 }
 
 type ModalContextType = {
@@ -24,7 +26,7 @@ export const useModal = () => {
   return context;
 };
 
-export function DefaultModal({visible, onClose, children, beforeClose, ...rest}: DefaultModalProps) {
+export function DefaultModal({visible, onClose, children, beforeClose, scrollClassName, ...rest}: DefaultModalProps) {
 
   const translateY = useSharedValue(0);
   const overlayOpacity = useSharedValue(0);
@@ -98,12 +100,8 @@ export function DefaultModal({visible, onClose, children, beforeClose, ...rest}:
               />
               </Pressable>
               </GestureDetector>
-                <ScrollView className="w-full" keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} >
                   
                   {children}
-                  
-                </ScrollView>
-
                  
             </Animated.View>
             </ModalContext.Provider>
