@@ -14,7 +14,7 @@ export default function Infractions() {
   
  useFocusEffect(
    useCallback(() => {
-      listRef.current?.refreshFromParent();
+      listRef.current?.refresh();
     }, [])
 );
 
@@ -33,13 +33,11 @@ export default function Infractions() {
           </View>
 
           <View className="flex-1 px-5">
-            <InfractionsList ref={listRef} onSelect={handleSelect}  /> 
+            <InfractionsList ref={listRef} onSelect={handleSelect} listFooterComponent={<View className="h-20"/>} className="pt-10" /> 
           </View>
         
-            
-            <InfractionModal item={selectedItem} visible={openModal} onClose={() => setOpenModal(false)} >
-              
-            </InfractionModal>
+            <InfractionModal item={selectedItem} visible={openModal} onClose={() => setOpenModal(false)} />
+
           </View>
   )
 }

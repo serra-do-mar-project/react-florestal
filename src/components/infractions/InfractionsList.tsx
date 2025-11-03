@@ -1,155 +1,178 @@
-import { useEffect, useState, useCallback, forwardRef, useImperativeHandle } from "react";
-import { View, FlatList } from "react-native";
+import {useState, useCallback, forwardRef, useImperativeHandle} from "react";
+import { View, FlatList, ActivityIndicator, FlatListProps } from "react-native";
 import InfractionCard from "@/src/components/infractions/InfractionCard";
 import OptionsBar from "@/src/components/infractions/OptionsBar";
 import { AutosDeInfracao } from "@/src/db/schema";
 import { fetchAutos, deleteAutos } from "@/src/hooks/useAutos";
+import { cn } from "@/src/lib/utils";
 
 export type InfractionsListProps = {
   onSelect?: (item: AutosDeInfracao) => void;
   pressedMode?: boolean;
   cancelOption?: boolean;
   deleteOption?: boolean;
-  onSelectChange?: (ids: number[]) => void;
+  className?: string;
+  listFooterComponent?: FlatListProps<AutosDeInfracao>['ListFooterComponent'];
 };
 
 export type InfractionsListHandle = {
-  refreshFromParent: () => Promise<void>;
-  selectAllByDefault: () => void;
+  refresh: () => Promise<AutosDeInfracao[]>;
+  selectAll: () => void;
+  clearSelection: () => void;
+  getSelected: () => AutosDeInfracao[];
   refreshAndSelectAll: () => Promise<void>;
 };
 
 export const InfractionsList = forwardRef<InfractionsListHandle, InfractionsListProps>(
-  ({ onSelect, pressedMode, cancelOption = true, deleteOption = true, onSelectChange }, ref) => {
-
-    // -------------------------------
-    // Estados
-    // -------------------------------
-    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  ({ onSelect, pressedMode, cancelOption = true, deleteOption = true, className, listFooterComponent = <View className="h-10"/>}, ref) => {
+    
+    const [selectedItems, setSelectedItems] = useState<AutosDeInfracao[]>([]);
     const [isSelectionMode, setIsSelectionMode] = useState(false);
-    const [selectAll, setSelectAll] = useState(false);
     const [listData, setListData] = useState<AutosDeInfracao[]>([]);
+    const [loading, setLoading] = useState(true);
 
     // -------------------------------
     // Funções principais
     // -------------------------------
     const loadAutos = useCallback(async () => {
-      try {
-        const autos = await fetchAutos();
-        setListData(autos);
-        return autos;
-      } catch (err) {
-        console.error("Erro ao carregar autos:", err);
-        setListData([]);
-        return [] as AutosDeInfracao[];
-      }
+      setLoading(true);
+      const autos = await fetchAutos();
+      setListData(autos);
+      setLoading(false);
+      return autos;
     }, []);
 
-    const handleDelete = useCallback(async (ids: number[]) => {
-      await deleteAutos(ids);
-      resetSelection();
-      await loadAutos();
-    }, [loadAutos]);
-
-    const handleSelectAll = useCallback((value: boolean) => {
-      setSelectAll(value);
-      setSelectedIds(value ? listData.map((item) => item.id) : []);
-    }, [listData]);
-
-    const resetSelection = useCallback(() => {
-      setIsSelectionMode(false);
-      setSelectAll(false);
-      setSelectedIds([]);
-    }, []);
-
-    // -------------------------------
-    // Comunicação com componente pai via ref
-    // -------------------------------
-    useImperativeHandle(ref, () => ({
-      refreshFromParent: async () => {
+    const handleDelete = useCallback(
+      async (items: AutosDeInfracao[]) => {
+        const ids = items.map((i) => i.id);
+        await deleteAutos(ids);
+        resetSelection();
         await loadAutos();
       },
-      selectAllByDefault: () => {
-        handleSelectAll(true);
+      [loadAutos]
+    );
+
+     const handleSelectAll = useCallback(
+      (value: boolean) => {
+        if (value && listData.length > 0) {
+          setSelectedItems([...listData]);
+          setIsSelectionMode(true);
+        } else {
+          setSelectedItems([]);
+          setIsSelectionMode(false);
+        }
       },
-      refreshAndSelectAll: async () => {
-        const autos = await loadAutos();
-        const ids = autos.map((a) => a.id);
-        setSelectedIds(ids);
-        setSelectAll(ids.length > 0);
-      },
-    }), [loadAutos, handleSelectAll]);
+      [listData]
+    );
+
+    const resetSelection = useCallback(() => {
+      setSelectedItems([]);
+      setIsSelectionMode(false);
+    }, []);
 
     // -------------------------------
-    // Atualiza o pai quando seleção muda
+    // Métodos disponíveis para o pai
     // -------------------------------
-    useEffect(() => {
-      onSelectChange?.(selectedIds);
-    }, [selectedIds, onSelectChange]);
+    useImperativeHandle(
+      ref,
+      () => ({
+        refresh: loadAutos,
+        refreshAndSelectAll: async () => {
+          const autos = await loadAutos();      
+          setSelectedItems([...autos]);          
+          setIsSelectionMode(autos.length > 0); 
+        },
+        selectAll: () => handleSelectAll(true),
+        clearSelection: resetSelection,
+        getSelected: () => selectedItems,
+      }),
+      [loadAutos, handleSelectAll, resetSelection, selectedItems]
+    );
 
     // -------------------------------
     // Cabeçalho com barra de opções
     // -------------------------------
-    const renderHeader = () => (
-      <View className="mb-2 mt-4">
-        {(isSelectionMode || pressedMode) && (
+    const renderHeader = () => {
+      const isAllSelected =
+        selectedItems.length > 0 && selectedItems.length === listData.length;
+
+      if (!(isSelectionMode || pressedMode)) return null;
+
+      return (
+        <View className="mb-2">
           <OptionsBar
             deleteOption={deleteOption}
             cancelOption={cancelOption}
-            onSelectAll={handleSelectAll}
-            numberSelected={selectedIds.length}
+            onSelectAll={() => handleSelectAll(!isAllSelected)}
+            numberSelected={selectedItems.length}
             onCancel={resetSelection}
-            isAllSelected={
-              selectedIds.length > 0 &&
-              selectedIds.length === listData.length
-            }
-            onDelete={() => handleDelete(selectedIds)}
+            isAllSelected={isAllSelected}
+            onDelete={() => handleDelete(selectedItems)}
           />
-        )}
-      </View>
-    );
+        </View>
+      );
+    };
 
     // -------------------------------
-    // Renderiza cada card de infração
+    // Renderiza cada card
     // -------------------------------
-    const renderItem = ({ item }: { item: AutosDeInfracao }) => (
-      <InfractionCard
-        key={item.id}
-        title={item.nome_resumo}
-        date={item.data}
-        tag={item.tags}
-        onPress={() => onSelect?.(item)}
-        onSelect={() => {
-          setSelectedIds((prev) =>
-            prev.includes(item.id)
-              ? prev.filter((x) => x !== item.id)
-              : [...prev, item.id]
+    const renderItem = useCallback(
+      ({ item }: { item: AutosDeInfracao }) => {
+        const isSelected = selectedItems.some((i) => i.id === item.id);
+
+        const toggleSelect = () => {
+          setSelectedItems((prev) =>
+            prev.some((i) => i.id === item.id)
+              ? prev.filter((x) => x.id !== item.id)
+              : [...prev, item]
           );
-        }}
-        isSelected={selectedIds.includes(item.id)}
-        selectMode={pressedMode || isSelectionMode || selectAll}
-        onlongPress={() => {
+        };
+
+        const handleLongPress = () => {
           setIsSelectionMode(true);
-          setSelectedIds((prev) =>
-            prev.includes(item.id) ? prev : [...prev, item.id]
+          setSelectedItems((prev) =>
+            prev.some((i) => i.id === item.id) ? prev : [...prev, item]
           );
-        }}
-      />
+        };
+
+        return (
+          <InfractionCard
+            title={item.nome_resumo}
+            date={item.data}
+            tag={item.tags}
+            onPress={() => onSelect?.(item)}
+            onSelect={toggleSelect}
+            onlongPress={handleLongPress}
+            isSelected={isSelected}
+            selectMode={pressedMode || isSelectionMode}
+          />
+        );
+      },
+      [selectedItems, isSelectionMode, pressedMode, onSelect]
     );
 
     // -------------------------------
     // Render principal
     // -------------------------------
+    if (loading) {
+      return (
+        <View className="flex-1 justify-center items-center mt-10">
+          <ActivityIndicator size="large" />
+        </View>
+      );
+    }
+
     return (
       <FlatList
         data={listData}
         keyExtractor={(item) => String(item.id)}
         showsVerticalScrollIndicator={false}
-        className="w-full"
+        className={cn("w-full", className)}
         ListHeaderComponent={renderHeader}
         renderItem={renderItem}
         ItemSeparatorComponent={() => <View className="h-4" />}
-        ListFooterComponent={<View className="h-10" />}
+        ListFooterComponent={listFooterComponent}
+        extraData={selectedItems}
       />
     );
   }

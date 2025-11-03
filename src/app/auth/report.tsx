@@ -12,12 +12,13 @@ import DateTimePicker from "@/src/components/report/DateTimePicker";
 import { useFormManager } from "@/src/hooks/useFormManager";
 import { AttachModal } from "@/src/components/report/AttachModal";
 import { DefaultModal } from "@/src/components/DefaultModal";
+import { AutosDeInfracao } from "@/src/db/schema";
 
 
 export default function ReportPage() {
   const [vtr, setVtr] = useState<boolean>(true);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [attachedInfractions, setAttachedInfractions] = useState<number[]>([]);
+  const [attachedInfractions, setAttachedInfractions] = useState<AutosDeInfracao[]>([]);
 
   const { 
     form, 
@@ -315,12 +316,12 @@ export default function ReportPage() {
 
           
 
-          <SubmitButton classname="my-10" title="enviar" onPress={() => handleSubmit()} />
+          <SubmitButton classname="my-10" title="enviar" onPress={() => setOpenModal(true)} />
         </View>
       </ScrollView>
 
       <DefaultModal visible={openModal} onClose={() => setOpenModal(false)}>
-          <AttachModal visible={openModal} onSelect={setAttachedInfractions} />
+          <AttachModal visible={openModal} onSelect={(e) => (setAttachedInfractions(e), setOpenModal(false))} />
       </DefaultModal>
     </View>
   );

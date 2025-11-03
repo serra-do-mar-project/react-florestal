@@ -2,23 +2,33 @@ import { View, Text } from "react-native";
 import {InfractionsList, InfractionsListHandle } from "@/src/components/infractions/InfractionsList";
 import { useEffect, useRef, useState } from "react";
 import { SubmitButton } from "../SubmitButton";
+import { AutosDeInfracao } from "@/src/db/schema";
 
 type AttachModalProps = {
   visible: boolean;
-  onSelect: (selectedIds: number[]) => void;
+  onSelect: (selectedItems: AutosDeInfracao[]) => void;
 };
 
 export function AttachModal({ visible , onSelect}: AttachModalProps) {
 
    const listRef = useRef<InfractionsListHandle | null>(null);
-   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
-  useEffect(() => {
-    if (!visible) return;
-    (async () => {
-      await listRef.current?.refreshAndSelectAll?.();
-    })();
-  }, [visible]);
+    useEffect(() => {
+      if (!visible) return;
+
+      const prepareList = async () => {
+        await listRef.current?.refreshAndSelectAll();
+      };
+
+      prepareList();
+    }, [visible]);
+
+  function handleSelect() {
+    const selectedItems = listRef.current?.getSelected() || [];
+    console.log("Selected items:", selectedItems);
+    onSelect(selectedItems);
+  }
+  
 
   return (
       <View className="w-full px-5">
@@ -27,13 +37,13 @@ export function AttachModal({ visible , onSelect}: AttachModalProps) {
             Selecione os Autos que deseja inserir no relatório
           </Text>
       
-          <View className="-max-h-screen-safe-offset-44 pb-8">
-              <InfractionsList ref={listRef} pressedMode={visible} deleteOption={false} cancelOption={false} onSelectChange={setSelectedIds}/>
+          <View className="-max-h-screen-safe-offset-44 pb-8 pt-4">
+              <InfractionsList ref={listRef} pressedMode={visible} deleteOption={false} cancelOption={false} />
           </View>
             
 
           <View className="w-full items-center pb-10">
-            <SubmitButton title="Finalizar" onPress={() => onSelect(selectedIds)} />
+            <SubmitButton title="Finalizar" onPress={handleSelect} />
           </View>
 
       </View>
