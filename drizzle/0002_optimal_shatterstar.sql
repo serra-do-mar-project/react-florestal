@@ -1,0 +1,1 @@
+ALTER TABLE `autos_de_infracao_table` ADD `id_exemplocaso` integer NOT NULL;

@@ -66,6 +66,7 @@ export const loadExemploDeCaso = async (
 
 export const EnviarRelatorio = async (token: string, formData: any): Promise<void> => {
   try {
+    console.log(formData)
     const response = await fetch(
       "https://nest-florestal-fork.onrender.com/autoInfracao/relatorio",
       {
@@ -84,6 +85,7 @@ export const EnviarRelatorio = async (token: string, formData: any): Promise<voi
       throw new Error("Erro ao enviar relatório");
     }
   } catch (error: any) {
+    console.log(error)
     throw new Error(error.message);
   }
 }

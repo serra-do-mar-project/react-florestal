@@ -29,8 +29,9 @@ export function MountAuto({ item, form }: MountParams) {
   }
 
   const newAuto: NewAutosDeInfracao = {
+    id_exemplocaso: item.id,
     nome_resumo: item.nome_resumo,
-    modelo: auto_gerado,
+    descricao: auto_gerado,
     tags: item.tags ?? undefined,
     categoria: item.categoria,
     data: new Date().toLocaleString(),

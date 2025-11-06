@@ -35,10 +35,11 @@ export const ExemploDeCasoTable = sqliteTable("exemplo_de_caso_table", {
 
 
 export interface NewAutosDeInfracao { 
+  id_exemplocaso: number;
   nome_resumo: string;
   data: string;
   tags?: string | null;
-  modelo: string;
+  descricao: string;
   categoria: string;
 }
 
@@ -49,9 +50,10 @@ export interface AutosDeInfracao extends NewAutosDeInfracao {
 
 export const AutosDeInfracaoTable = sqliteTable("autos_de_infracao_table", {
   id: int().primaryKey({ autoIncrement: true }),
+  id_exemplocaso: int().notNull(),
   nome_resumo: text().notNull(),
   tags: text(),
-  modelo: text().notNull(),
+  descricao: text().notNull(),
   data: text().notNull(),
   categoria: text().notNull()
 });

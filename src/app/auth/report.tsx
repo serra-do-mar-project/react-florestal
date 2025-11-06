@@ -31,22 +31,20 @@ export default function ReportPage() {
     resetForm
   } = useFormManager({
     onSubmitSuccess: async (formData) => {
-      if (formData.outros_equipe.length > 0) {
+      if (formData?.outros_equipe && formData.outros_equipe.length > 0) {
         formData.equipe_em_atuacao = formData.equipe_em_atuacao + ', ' + formData.outros_equipe;
       }
+      delete formData.outros_equipe;
       formData.autoinfracao = autosSelected;
       await EnviarRelatorio(token as string, formData);
       console.log("Formulário enviado com sucesso!");
     },
     onSubmitError: (formData) => {
-      console.log(formData)
       console.log("Erro no envio do formulário");
     }
   });
 
-  const totalPages = 6;
-
-  console.log('🔍 Estado autosDeInfracao:', autosDeInfracao);
+  const totalPages = 7;
 
   return (
     <View className="flex w-full h-full">
@@ -222,7 +220,7 @@ export default function ReportPage() {
             <TextArea
               title="Outras atividades"
               label="NÃO RELACIONADAS à fiscalização"
-              onChangeText={(res) => setField("outras_atividades  ", res, false)}
+              onChangeText={(res) => setField("outras_atividades", res, false)}
               showError={trowError}
               required={false}
             />
@@ -313,8 +311,8 @@ export default function ReportPage() {
             <RadioButton
               title="Veículos Abordados (tipo)"
               options={[
-                { valor: "motocicleta", nome: "Motocicleta" },
-                { valor: "automovel", nome: "Automóvel" },
+                { valor: "moto", nome: "Motocicleta" },
+                { valor: "carro", nome: "Carro" },
                 { valor: "caminhao", nome: "Caminhão" },
                 { valor: "onibusVan", nome: "Ônibus/Vã" }
               ]}
@@ -338,7 +336,7 @@ export default function ReportPage() {
 
             <DurationInput
               title="Horas (em Viatura e a pé)"
-              onChangeText={(res) => setField("horas", res)}
+              onChangeText={(res) => setField("horas_percorridas", res)}
               showError={trowError}
             />
           </FormCard>
@@ -346,9 +344,7 @@ export default function ReportPage() {
           <FormCard title="Autos de Infração" currentPage={7} totalPages={totalPages}>
             <TouchableOpacity
               onPress={() => {
-                console.log('📱 Abrindo modal, estado atual:', autosDeInfracao);
                 setAutosDeInfracao(!autosDeInfracao);
-                console.log('📱 Novo estado:', !autosDeInfracao);
               }}
             >
               <Text>Selecionar Autos de Infração</Text>

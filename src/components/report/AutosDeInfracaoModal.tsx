@@ -48,7 +48,14 @@ export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected }: { vis
             <View className="my-4">
               <TouchableOpacity
                 onPress={() => {
-                  setSelected(listData.filter((item) => cardSelected.includes(item.id)));
+                  const selectedReduced = listData
+                    .filter((item) => cardSelected.includes(item.id))
+                    .map((item) => ({
+                      id_exemplocaso: item.id_exemplocaso,
+                      data: item.data,
+                      descricao: item.descricao,
+                    }));
+                  setSelected(selectedReduced as any);
                   setVisible(false);
                 }}
                 className="bg-green-500 py-3 px-6 rounded-lg items-center"

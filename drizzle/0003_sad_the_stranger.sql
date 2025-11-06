@@ -1,0 +1,1 @@
+ALTER TABLE `autos_de_infracao_table` RENAME COLUMN "modelo" TO "descricao";
