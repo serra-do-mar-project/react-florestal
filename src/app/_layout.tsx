@@ -11,7 +11,6 @@ import { ExemploDeCasoTable } from '../db/schema';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useFonts } from 'expo-font';
-import { SplashScreen } from 'expo-router';
 import { loadExemploDeCaso } from '../lib/utils';
 import { useUserStore } from '../store/userStore';
 
