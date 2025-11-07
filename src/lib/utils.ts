@@ -1,8 +1,10 @@
 import { type ClassValue, clsx } from "clsx";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { ExemploDeCaso } from "../db/schema";
+import { AutosDeInfracaoTable, ExemploDeCaso } from "../db/schema";
 import { useUserStore } from "../store/userStore";
+import db from "../db/connection";
+import { inArray } from "drizzle-orm";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -64,9 +66,8 @@ export const loadExemploDeCaso = async (
   }
 };
 
-export const EnviarRelatorio = async (token: string, formData: any): Promise<void> => {
+export const EnviarRelatorio = async (token: string, formData: any, autos: any): Promise<{ success: boolean }> => {
   try {
-    console.log(formData)
     const response = await fetch(
       "https://nest-florestal-fork.onrender.com/autoInfracao/relatorio",
       {
@@ -80,10 +81,17 @@ export const EnviarRelatorio = async (token: string, formData: any): Promise<voi
     );
 
     const responseData = await response.json();
-    console.log(responseData);
+    
+    if (responseData.status === "success") {
+      await db.delete(AutosDeInfracaoTable).where(inArray(AutosDeInfracaoTable.id, autos.map((item: any) => item.id)));
+      return { success: true };
+    }
+    
     if (!response.ok) {
       throw new Error("Erro ao enviar relatório");
     }
+
+    return { success: false };
   } catch (error: any) {
     console.log(error)
     throw new Error(error.message);

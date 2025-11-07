@@ -36,7 +36,6 @@ const TabsLayout = () => {
         name="search"
         options={{
           title: "Pesquisar",
-          href: "/auth/search",
           tabBarIcon: ({ focused }) => (
             <TabIcon
               icon={<images.search width={24} height={24} />}
@@ -97,7 +96,7 @@ const TabsLayout = () => {
           ),
         }}
       />
-      
+
       {tipo === "Admin" ? (
         <Tabs.Screen
           name="moderation"

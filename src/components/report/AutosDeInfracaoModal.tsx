@@ -5,11 +5,9 @@ import InfractionModal from "../infractions/InfractionModal";
 import { fetchAutos } from "@/src/hooks/useAutos";
 import InfractionCard from "../infractions/InfractionCard";
 
-export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected }: { visible: boolean, setVisible: (visible: boolean) => void, setSelected: (selected: AutosDeInfracao[]) => void }) => {
+export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected, resetKey }: { visible: boolean, setVisible: (visible: boolean) => void, setSelected: (selected: AutosDeInfracao[]) => void, resetKey?: number }) => {
   const [cardSelected, setCardSelected] = useState<number[]>([]);
   const [listData, setListData] = useState<AutosDeInfracao[]>([]);
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<AutosDeInfracao>();
 
   const refreshAutos = useCallback(async () => {
     const autos = await fetchAutos();
@@ -22,6 +20,13 @@ export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected }: { vis
       refreshAutos();
     }
   }, [visible, refreshAutos]);
+
+  // If parent signals a reset (via resetKey), clear selections
+  useEffect(() => {
+    if (typeof resetKey !== 'undefined') {
+      setCardSelected([]);
+    }
+  }, [resetKey]);
 
   return (
     <Modal
@@ -48,14 +53,8 @@ export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected }: { vis
             <View className="my-4">
               <TouchableOpacity
                 onPress={() => {
-                  const selectedReduced = listData
-                    .filter((item) => cardSelected.includes(item.id))
-                    .map((item) => ({
-                      id_exemplocaso: item.id_exemplocaso,
-                      data: item.data,
-                      descricao: item.descricao,
-                    }));
-                  setSelected(selectedReduced as any);
+                  const selected = listData.filter((item) => cardSelected.includes(item.id))
+                  setSelected(selected);
                   setVisible(false);
                 }}
                 className="bg-green-500 py-3 px-6 rounded-lg items-center"
@@ -88,9 +87,6 @@ export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected }: { vis
           }}
           ListFooterComponent={<View className="h-10" />}
         />
-        <InfractionModal item={selectedItem} visible={openModal} onClose={() => setOpenModal(false)}>
-
-        </InfractionModal>
       </View>
     </Modal>
   )

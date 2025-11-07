@@ -22,6 +22,8 @@ export default function ReportPage() {
   const [vtr, setVtr] = useState<boolean>(true);
   const [autosDeInfracao, setAutosDeInfracao] = useState<boolean>(false);
   const [autosSelected, setAutosSelected] = useState<AutosDeInfracao[]>([]);
+  // key used to force remount of form children so internal component state resets
+  const [formKey, setFormKey] = useState<number>(0);
 
   const {
     form,
@@ -35,9 +37,21 @@ export default function ReportPage() {
         formData.equipe_em_atuacao = formData.equipe_em_atuacao + ', ' + formData.outros_equipe;
       }
       delete formData.outros_equipe;
-      formData.autoinfracao = autosSelected;
-      await EnviarRelatorio(token as string, formData);
-      console.log("Formulário enviado com sucesso!");
+      formData.autoinfracao = autosSelected.map((item) => ({
+        id_exemplocaso: item.id_exemplocaso,
+        data: item.data,
+        descricao: item.descricao,
+      }));
+      const status = await EnviarRelatorio(token as string, formData, autosSelected);
+      if (status.success) {
+        // successful submit: reset form state and local UI state
+        resetForm();
+        setAutosSelected([]);
+        setVtr(true);
+        setAutosDeInfracao(false);
+        // bump key to remount children (clears internal component state like DropdownBox)
+        setFormKey((k) => k + 1);
+      }
     },
     onSubmitError: (formData) => {
       console.log("Erro no envio do formulário");
@@ -52,7 +66,7 @@ export default function ReportPage() {
         <Text className="text-gray-900 font-semibold text-3xl ml-7">Relátorio diário</Text>
       </View>
       <ScrollView className="flex-1">
-        <View className="pt-10 items-center px-4">
+        <View key={formKey} className="pt-10 items-center px-4">
           {/* Equipe */}
           <FormCard title="Equipe" currentPage={1} totalPages={totalPages}>
             <DropdownBox
@@ -342,15 +356,33 @@ export default function ReportPage() {
           </FormCard>
 
           <FormCard title="Autos de Infração" currentPage={7} totalPages={totalPages}>
-            <TouchableOpacity
-              onPress={() => {
-                setAutosDeInfracao(!autosDeInfracao);
-              }}
-            >
-              <Text>Selecionar Autos de Infração</Text>
-            </TouchableOpacity>
+            {autosSelected.length === 0 ? (
+              <TouchableOpacity
+                onPress={() => setAutosDeInfracao(true)}
+                className="bg-green-500 py-3 px-6 rounded-lg items-center border border-green-500"
+              >
+                <Text className="text-white font-semibold">Selecionar Autos de Infração</Text>
+              </TouchableOpacity>
+            ) : (
+              <View className="w-full">
+                <TouchableOpacity
+                  onPress={() => setAutosDeInfracao(true)}
+                  className="bg-white py-3 px-6 rounded-lg items-center mb-2 border border-green-500"
+                >
+                  <Text className="text-black font-semibold">Editar Autos de Infração ({autosSelected.length})</Text>
+                </TouchableOpacity>
+
+                <View className="flex-row items-center justify-between px-2">
+                  <Text className="text-sm text-gray-700">{autosSelected.length} selecionado(s)</Text>
+                </View>
+              </View>
+            )}
           </FormCard>
-          <SubmitButton classname="my-10" title="enviar" onPress={() => handleSubmit()} />
+          <SubmitButton
+            classname="my-10"
+            title="enviar"
+            onPress={handleSubmit}
+          />
         </View>
       </ScrollView>
 
@@ -358,6 +390,7 @@ export default function ReportPage() {
         visible={autosDeInfracao}
         setVisible={setAutosDeInfracao}
         setSelected={setAutosSelected}
+        resetKey={formKey}
       />
     </View>
   );

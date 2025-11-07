@@ -1,6 +1,6 @@
 import { SubmitButton } from "@/src/components/SubmitButton";
 import images from "@/src/constants/images";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { useRouter, useLocalSearchParams, useFocusEffect } from "expo-router";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import db from "@/src/db/connection";
@@ -28,7 +28,7 @@ export default function ProcedimentosPage() {
   }, [params.id]);
 
 
-  const { dynamicForm, setDynamicField, handleSubmit, trowError } = useFormManager();
+  const { dynamicForm, setDynamicField, handleSubmit, trowError, resetForm } = useFormManager();
 
   return (
     <View className="flex-1">
@@ -114,10 +114,13 @@ export default function ProcedimentosPage() {
               if (!isValid) return;
 
               const newAuto = MountAuto({ item, form: dynamicForm });
-              console.log("Novo auto gerado:", newAuto);
               if (!newAuto) return;
 
-              await addAuto({ newAuto, onSuccess: () => router.push("/auth/infractions") });
+              await addAuto({
+                newAuto, onSuccess: () => {
+                  router.replace("/auth/search");
+                }
+              });
             }}
           />
         </ScrollView>
