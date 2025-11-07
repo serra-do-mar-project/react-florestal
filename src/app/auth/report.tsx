@@ -316,7 +316,7 @@ export default function ReportPage() {
 
           
 
-          <SubmitButton classname="my-10" title="enviar" onPress={() => setOpenModal(true)} />
+          <SubmitButton classname="w-full my-10" title="Enviar" onPress={() => setOpenModal(true)} />
         </View>
       </ScrollView>
 

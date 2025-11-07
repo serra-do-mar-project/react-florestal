@@ -13,7 +13,7 @@ type AddUserModalProps = DefaultModalProps & {
 }
 
 
-export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)  {
+export default function AddUserModal({onCreateUser,}: AddUserModalProps)  {
 
    const [newPassword, setNewPassword] = useState(""); 
     const [confirmPassword, setConfirmPassword] = useState(""); 
@@ -43,7 +43,7 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
               setNewCargo("");
               setNewPassword("");
               setConfirmPassword("");
-              rest.onClose();
+              
             },
           },
         ]
@@ -51,7 +51,7 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
     }
 
     return (
-      <DefaultModal beforeClose={handleCancel} {...rest}>
+     
       <View className="mb-16">
             <View className="px-5 mb-10">
                 <Text className="text-3xl font-semibold text-gray-900 px-3" >Adicionar Novo Usuário</Text>
@@ -111,6 +111,6 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
                       </View>
                 </View>
         </View>
-        </DefaultModal>
+        
     );
   }

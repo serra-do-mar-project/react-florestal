@@ -43,7 +43,7 @@ export function AttachModal({ visible , onSelect}: AttachModalProps) {
             
 
           <View className="w-full items-center pb-10">
-            <SubmitButton title="Finalizar" onPress={handleSelect} />
+            <SubmitButton classname="w-full" title="Finalizar" onPress={handleSelect} />
           </View>
 
       </View>

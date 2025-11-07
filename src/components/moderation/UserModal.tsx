@@ -13,17 +13,15 @@ interface User {
   cargo: string;
 }
 
-type ModerationModalProps = DefaultModalProps & {
+type ModerationModalProps = {
   selectedUser?: User;
 }
 
-export default function UserModal({selectedUser, ...rest}: ModerationModalProps)  {
+export default function UserModal({selectedUser}: ModerationModalProps)  {
 
     const [changePasswordOpen, setChangePasswordOpen] = useState<boolean>(false);
 
-    function handleClose() {
-       
-    rest.onClose();             
+    function handleClose() {             
     setChangePasswordOpen(false);
     }
 
@@ -166,10 +164,10 @@ export default function UserModal({selectedUser, ...rest}: ModerationModalProps)
 }
 
   return(
-    <DefaultModal visible={rest.visible} onClose={handleClose} >
-  {changePasswordOpen ? <ChangePasswordModal /> : <UserOptionsModal />}
-</DefaultModal>
-    
+  
+  <View className=" w-full items-center justify-center">
+      {changePasswordOpen ? <ChangePasswordModal/> : <UserOptionsModal />}
+  </View>
   );
 
 };

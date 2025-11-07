@@ -1,5 +1,6 @@
-import { Text, Pressable } from "react-native";
+import { Text, Pressable, StyleSheet, PixelRatio } from "react-native";
 import { useState } from "react";
+import { cn } from "../lib/utils";
 
 
 interface ButtonProps {
@@ -17,9 +18,15 @@ export function SubmitButton({ title, onPress, classname, textClass }: ButtonPro
       onPress={onPress}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
-      className={`flex items-center justify-center w-44 h-14 pb-0.5 rounded-2xl border-x-hairline border-b-2 border-stone-700 shadow-xl ${
-        pressed ? "bg-green-900" : "bg-green-500"
-      } ${classname}`}
+      className={cn(`
+        items-center justify-center w-44 h-14 pb-0.5 rounded-2xl
+        border-b-2 border-stone-700 shadow-xl
+        ${pressed ? "bg-green-900" : "bg-green-500"}
+      `, classname)}
+      style={{
+        borderLeftWidth: StyleSheet.hairlineWidth,
+        borderRightWidth: StyleSheet.hairlineWidth,
+      }}
     >
       <Text
         className={`w-full text-center text-white text-2xl font-semibold ${textClass}`}
