@@ -1,6 +1,6 @@
 import { SubmitButton } from "@/src/components/SubmitButton";
 import images from "@/src/constants/images";
-import { useRouter, useLocalSearchParams, useFocusEffect } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import db from "@/src/db/connection";
