@@ -28,7 +28,7 @@ export default function ProcedimentosPage() {
   }, [params.id]);
 
 
-  const { dynamicForm, setDynamicField, handleSubmit, trowError, resetForm } = useFormManager();
+  const { dynamicForm, setDynamicField, handleSubmit, trowError } = useFormManager();
 
   return (
     <View className="flex-1">
