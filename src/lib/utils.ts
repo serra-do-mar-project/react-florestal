@@ -80,15 +80,15 @@ export const EnviarRelatorio = async (token: string, formData: any, autos: any):
       }
     );
 
+    if (!response.ok) {
+      throw new Error("Erro ao enviar relatório");
+    }
+
     const responseData = await response.json();
     
     if (responseData.status === "success") {
       await db.delete(AutosDeInfracaoTable).where(inArray(AutosDeInfracaoTable.id, autos.map((item: any) => item.id)));
       return { success: true };
-    }
-    
-    if (!response.ok) {
-      throw new Error("Erro ao enviar relatório");
     }
 
     return { success: false };
