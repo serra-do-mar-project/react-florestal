@@ -1,7 +1,6 @@
 import { AutosDeInfracao } from "@/src/db/schema";
 import { useCallback, useEffect, useState } from "react";
 import { FlatList, Modal, Text, TouchableOpacity, View } from "react-native"
-import InfractionModal from "../infractions/InfractionModal";
 import { fetchAutos } from "@/src/hooks/useAutos";
 import InfractionCard from "../infractions/InfractionCard";
 
