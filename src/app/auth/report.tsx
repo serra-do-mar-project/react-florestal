@@ -1,318 +1,396 @@
 import DropdownBox from "@/src/components/report/DropdownBox";
 import FormCard from "@/src/components/report/FormCard";
 import { Forminput } from "@/src/components/report/FormInput";
-import  {DurationInput} from "@/src/components/report/DurationInput";
+import { DurationInput } from "@/src/components/report/DurationInput";
 import RadioButton from "@/src/components/report/RadioButton";
 import TextArea from "@/src/components/report/TextArea";
 import { SubmitButton } from "@/src/components/SubmitButton";
-import { useState } from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@/src/components/report/DateTimePicker";
 import { useFormManager } from "@/src/hooks/useFormManager";
+import { AutosDeInfracao } from "@/src/db/schema";
+import { AutosDeInfracaoModal } from "@/src/components/report/AutosDeInfracaoModal";
+import { EnviarRelatorio } from "@/src/lib/utils";
+import { useUserStore } from "@/src/store/userStore";
 
 
 export default function ReportPage() {
+  const { token } = useUserStore();
+
   const [vtr, setVtr] = useState<boolean>(true);
-  
-  const { 
-    form, 
-    setField, 
-    handleSubmit, 
-    trowError 
+  const [autosDeInfracao, setAutosDeInfracao] = useState<boolean>(false);
+  const [autosSelected, setAutosSelected] = useState<AutosDeInfracao[]>([]);
+  // key used to force remount of form children so internal component state resets
+  const [formKey, setFormKey] = useState<number>(0);
+
+  const {
+    setField,
+    handleSubmit,
+    trowError,
+    resetForm
   } = useFormManager({
-    onSubmitSuccess: (formData) => {
-      // Aqui você pode adicionar lógica específica de sucesso
-      console.log("Formulário enviado com sucesso!");
+    onSubmitSuccess: async (formData) => {
+      if (formData?.outros_equipe && formData.outros_equipe.length > 0) {
+        formData.equipe_em_atuacao = formData.equipe_em_atuacao + ', ' + formData.outros_equipe;
+      }
+      delete formData.outros_equipe;
+      formData.autoinfracao = autosSelected.map((item) => ({
+        id_exemplocaso: item.id_exemplocaso,
+        data: item.data,
+        descricao: item.descricao,
+      }));
+      const status = await EnviarRelatorio(token as string, formData, autosSelected);
+      if (status.success) {
+        // successful submit: reset form state and local UI state
+        resetForm();
+        setAutosSelected([]);
+        setVtr(true);
+        setAutosDeInfracao(false);
+        // bump key to remount children (clears internal component state like DropdownBox)
+        setFormKey((k) => k + 1);
+      }
     },
     onSubmitError: (formData) => {
-      // Aqui você pode adicionar lógica específica de erro
       console.log("Erro no envio do formulário");
     }
   });
 
-  const totalPages = 6;
- 
-        
-  return ( 
+  const totalPages = 7;
+
+  return (
     <View className="flex w-full h-full">
       <View className="bg-[#fffdfd] pt-10 pb-5 shadow shadow-black">
         <Text className="text-gray-900 font-semibold text-3xl ml-7">Relátorio diário</Text>
       </View>
       <ScrollView className="flex-1">
-        <View className="pt-10 items-center px-4">
+        <View key={formKey} className="pt-10 items-center px-4">
           {/* Equipe */}
           <FormCard title="Equipe" currentPage={1} totalPages={totalPages}>
             <DropdownBox
               title="Nome da equipe"
-              options={["Charlie Sede Diurno", "Charlie RP Diurno", "Charlie RP Noturno", "Delta Sede Diurno", "Delta RP Diurno", "Delta RP Noturno"]}
-              onSelect={(option) => setField(0, 0, option)}
+              options={[
+                { valor: "charlie_sede_diurno", nome: "Charlie Sede Diurno" },
+                { valor: "charlie_rp_diurno", nome: "Charlie RP Diurno" },
+                { valor: "charlie_rp_noturno", nome: "Charlie RP Noturno" },
+                { valor: "delta_sede_diurno", nome: "Delta Sede Diurno" },
+                { valor: "delta_rp_diurno", nome: "Delta RP Diurno" },
+                { valor: "delta_rp_noturno", nome: "Delta RP Noturno" }
+              ]}
+              onSelect={(option) => setField("equipe", option, true)}
               showError={trowError}
             />
             <RadioButton
               title="Equipe em Atuação"
-              options={["Miguel Nema Neto", "Alvimar de Melo Amorim", "William Fonseca Celestino da Silva", 
-                          "Alex Roberto dos Santos", "Paulo Sérgio Farias", "Alexandro dos Santos", "Luciano José da Silva",
-                          "Valdenei Esbruzzi", "Alef Irmão de Moura", "Leonardo Sant'Anna Martins", "Genivaldo Duque da Silva",
-                          "Brian Luiz Gomes Mortensen Ferreira", "Lucas Tomi Assai", "Maurilio Costa Ramos", "João Leonardo",
-                          "Elson da Silva", "Renilson Luiz", "Jenifer de Magalhães luz", "Davidson Fernandes Raimundo", "Vanessa Trally Bard",
-                          "Fabio Henrique Paiva de Souza", "Ailton Silva Souza", "Anthony Elias Galdino Ramos", "Marcos Antônio Ramos Lima"]}
-              onSelect={(option) => setField(1, 0, option)}
+              options={["Miguel Nema Neto", "Alvimar de Melo Amorim", "William Fonseca Celestino da Silva",
+                "Alex Roberto dos Santos", "Paulo Sérgio Farias", "Alexandro dos Santos", "Luciano José da Silva",
+                "Valdenei Esbruzzi", "Alef Irmão de Moura", "Leonardo Sant'Anna Martins", "Genivaldo Duque da Silva",
+                "Brian Luiz Gomes Mortensen Ferreira", "Lucas Tomi Assai", "Maurilio Costa Ramos", "João Leonardo",
+                "Elson da Silva", "Renilson Luiz", "Jenifer de Magalhães luz", "Davidson Fernandes Raimundo", "Vanessa Trally Bard",
+                "Fabio Henrique Paiva de Souza", "Ailton Silva Souza", "Anthony Elias Galdino Ramos", "Marcos Antônio Ramos Lima"]}
+              onSelect={(option) => setField("equipe_em_atuacao", option)}
               showError={trowError}
             />
             <TextArea
               title="Outros"
-              onChangeText={(option) => setField(1, 1, option)}
+              onChangeText={(option) => setField("outros_equipe", option, false)}
               showError={trowError}
               required={false}
             />
           </FormCard>
 
           <FormCard title="Dados da Ação" currentPage={2} totalPages={totalPages}>
-              <TextArea 
-                title="Órgãos e Instituições envolvidas" 
-                label="Preencher com os nomes e pelo menos um documento (RG, CPF, RE, Matrícula, etc...) - PAMB, Bombeiros, Polícia Rodoviária, CETESB, Prefeitura, etc."
-                onChangeText={(res) => setField(2, 0, res)} 
-                required={true}
-                showError={trowError}
-              />
+            <TextArea
+              title="Órgãos e Instituições envolvidas"
+              label="Preencher com os nomes e pelo menos um documento (RG, CPF, RE, Matrícula, etc...) - PAMB, Bombeiros, Polícia Rodoviária, CETESB, Prefeitura, etc."
+              onChangeText={(res) => setField("orgaos_e_instituicoes_envolvadas", res)}
+              required={true}
+              showError={trowError}
+            />
 
-              <Forminput 
-                title="Responsável pelo preenchimento" 
-                label="(Nome e CNV)" 
-                onChangeText={(res) => setField(3, 0, res)} 
-                showError={trowError}/>
+            <Forminput
+              title="Responsável pelo preenchimento"
+              label="(Nome e CNV)"
+              onChangeText={(res) => setField("responsavel", res)}
+              showError={trowError} />
 
-             <DateTimePicker 
-                title="Data e hora do início da ação"
-                showError={trowError}
-                onDateChange={(res) => {
-                  res.map((item, index) => (setField(4, index, item)));
-               }}
-              />
+            <DateTimePicker
+              title="Data e hora do início da ação"
+              showError={trowError}
+              onDateChange={(res) => {
+                setField("data_hora_inicio_acao", res.join(" "));
+              }}
+            />
 
-              <DateTimePicker 
-                title="Data e hora do término da ação"
-                showError={trowError}
-                onDateChange={(res) => {
-                  res.map((item, index) => (setField(5, index, item)));
-               }}
-              />
+            <DateTimePicker
+              title="Data e hora do término da ação"
+              showError={trowError}
+              onDateChange={(res) => {
+                setField("data_hora_termino_acao", res.join(" "));
+              }}
+            />
 
+            <DropdownBox
+              title="Origem da Ação"
+              options={[
+                { valor: "rotina", nome: "Rotina" },
+                { valor: "planejamento_SIMUC", nome: "Planejamento SIM-UC" },
+                { valor: "dejem_SIMUC", nome: "DEJEM SIM-UC" },
+                { valor: "denuncia", nome: "Denúncia" },
+                { valor: "atendimento_orgaos_externos", nome: "Atendimento a Órgãos Externos" },
+                { valor: "demanda_solicitacao_interna", nome: "Demanda Solicitação Interna" }
+              ]}
+              onSelect={(res) => setField("origem", res)}
+              showError={trowError}
+            />
 
-              <DropdownBox
-                title="Origem da Ação" 
-                options={["Rotina", "Planejamento SIM-UC", "DEJEM SIM-UC", "Denúnica", "Atendimento a Órgãos Externos", "Demanda Solicitação Interna" ]}
-                onSelect={(res) => setField(6, 0, res)}
-                showError={trowError}
-                
-              />
-
-              <RadioButton
-                title="Registro de ocorrência"
-                multiSelect={false}
-                options={["Sim", "Não"]}
-                onSelect={(res) => setField(7, 0, res)}
-                showError={trowError}
-              />
-              
-
-            </FormCard>
-
-            <FormCard title="Localização" currentPage={3} totalPages={totalPages}>
-              
             <RadioButton
-                title="Área Fiscalizada Na Área Protegida"
-                multiSelect={false}
-                options={["Dentro", "Entorno (Zona de Amortecimento)"]}
-                onSelect={(res) => setField(8, 0, res)} 
-                showError={trowError}
-              />
-              
-              <RadioButton
-                title="Município(s)"
-                multiSelect={false}
-                options={["Caraguatatuba", "Paraibuna", "Natividade da Serra"]}
-                onSelect={(res) => setField(9, 0, res)}
-                showError={trowError}
-              />
+              title="Registro de ocorrência"
+              multiSelect={false}
+              options={[
+                { valor: true, nome: "Sim" },
+                { valor: false, nome: "Não" }
+              ]}
+              onSelect={(res) => setField("registro_ocorrencia", res)}
+              showError={trowError}
+            />
+          </FormCard>
 
-              <Forminput 
-                title="Rua/Estrada/Trilha"
-                label="Ex: Estrada do Pouso Alto"
-                onChangeText={(res) => setField(10, 0, res)}
-                showError={trowError}
-              />
-              <Forminput 
-                title="Número/Quilômetro"
-                label="Ex: Km 04"
-                onChangeText={(res) => setField(10, 1, res)}
-                showError={trowError}
-              />
+          <FormCard title="Localização" currentPage={3} totalPages={totalPages}>
+            <RadioButton
+              title="Área Fiscalizada Na Área Protegida"
+              multiSelect={false}
+              options={[
+                { valor: true, nome: "Dentro" },
+                { valor: false, nome: "Entorno (Zona de Amortecimento)" }
+              ]}
+              onSelect={(res) => setField("area_fiscalizada", res)}
+              showError={trowError}
+            />
 
-              <Forminput 
-                title="Bairro"
-                label="Ex: Bairro Rio Negro"
-                onChangeText={(res) => setField(10, 2, res)}
-                showError={trowError}
-              />
+            <RadioButton
+              title="Município(s)"
+              multiSelect={false}
+              options={[
+                { valor: "caraguatatuba", nome: "Caraguatatuba" },
+                { valor: "paraibuna", nome: "Paraibuna" },
+                { valor: "natividade_da_serra", nome: "Natividade da Serra" }
+              ]}
+              onSelect={(res) => setField("municipios", res)}
+              showError={trowError}
+            />
 
-              <RadioButton
-                title="Setores Fiscalizados"
-                options={["Caraguatatuba Norte", "Caraguatatuba Sul", "Alto da Serra Norte", "Alto da Serra Sul"]}
-                onSelect={(res) => setField(11, 0, res)}
-                showError={trowError}
-              />
+            {/* <Forminput
+              title="Rua/Estrada/Trilha"
+              label="Ex: Estrada do Pouso Alto"
+              onChangeText={(res) => setField("rua_estrada_trilha", res)}
+              showError={trowError}
+            />
 
-              <Forminput 
-                title="Especificação do Local"
-                label="Ex.: Posse abandonada, Trilha em meio à mata, Rodovia Estadual, Estrada que liga Caraguatatuba à Salesópolis, etc."
-                onChangeText={(res) => setField(12, 0, res)}
-                showError={trowError}
-              />
+            <Forminput
+              title="Número/Quilômetro"
+              label="Ex: Km 04"
+              onChangeText={(res) => setField("numero_km", res)}
+              showError={trowError}
+            />
 
-            </FormCard>
+            <Forminput
+              title="Bairro"
+              label="Ex: Bairro Rio Negro"
+              onChangeText={(res) => setField("bairro", res)}
+              showError={trowError}
+            /> */}
 
-            <FormCard title="Fizcalização" currentPage={4} totalPages={totalPages}>
-            <TextArea 
-                title="Relatório de Fiscalização"
-                onChangeText={(res) => setField(13, 0, res)}
-                showError={trowError}
-                textHolder="Descrever de forma bem objetiva todas as atividade de fiscalização realizadas no período. Somente Fiscalização. Inserir relatório por área fiscalizada."
-              />
+            <RadioButton
+              title="Setores Fiscalizados"
+              options={[
+                { valor: "caraguatatuba_norte", nome: "Caraguatatuba Norte" },
+                { valor: "caraguatatuba_sul", nome: "Caraguatatuba Sul" },
+                { valor: "alto_da_serra_norte", nome: "Alto da Serra Norte" },
+                { valor: "alto_da_serra_sul", nome: "Alto da Serra Sul" }
+              ]}
+              onSelect={(res) => setField("setores", res)}
+              showError={trowError}
+            />
 
-              <TextArea 
-                title="Outras atividades"
-                label="NÃO RELACIONADAS à fiscalização"
-                onChangeText={(res) => setField(14, 0, res)}
-                showError={trowError}
-                required={false}
-              />
- 
-              <Forminput
-                title="Coordenadas geográficas"
-                label="Ex: -23,70916 / -45,544281"
-                onChangeText={(res) => setField(15, 0, res)}
-                showError={trowError}
-              />
+            <Forminput
+              title="Especificação do Local"
+              label="Ex.: Posse abandonada, Trilha em meio à mata, Rodovia Estadual, Estrada que liga Caraguatatuba à Salesópolis, etc."
+              onChangeText={(res) => setField("especificacao_local", res)}
+              showError={trowError}
+            />
+          </FormCard>
 
-              <Forminput
-                title="Referência da coordenada"
-                label="Ex: Guarita Base RP"
-                onChangeText={(res) => setField(15, 1, res)}
-                showError={trowError}
-              />
+          <FormCard title="Fizcalização" currentPage={4} totalPages={totalPages}>
+            <TextArea
+              title="Relatório de Fiscalização"
+              onChangeText={(res) => setField("relatorio", res)}
+              showError={trowError}
+              textHolder="Descrever de forma bem objetiva todas as atividade de fiscalização realizadas no período. Somente Fiscalização. Inserir relatório por área fiscalizada."
+            />
 
-            </FormCard>
+            <TextArea
+              title="Outras atividades"
+              label="NÃO RELACIONADAS à fiscalização"
+              onChangeText={(res) => setField("outras_atividades", res, false)}
+              showError={trowError}
+              required={false}
+            />
 
-            <FormCard title="Dados da VTR" currentPage={5} totalPages={totalPages}>
+            <Forminput
+              title="Coordenadas geográficas"
+              label="Ex: -23,70916 / -45,544281"
+              onChangeText={(res) => setField("coordenadas", res)}
+              showError={trowError}
+            />
 
-              <RadioButton
-                title="Foi feito uso de VTR?"
-                options={["Sim", "Não"]}
-                multiSelect={false}
-                onSelect={(selectedOption) => setVtr(selectedOption === "Sim")}
-              />
+            {/* <Forminput
+              title="Referência da coordenada"
+              label="Ex: Guarita Base RP"
+              onChangeText={(res) => setField("referencia_coordenada", res)}
+              showError={trowError}
+            /> */}
+          </FormCard>
 
-              <Forminput
-                  title="Placa do veículo"
-                  onChangeText={(res) => setField(16, 0, res)}
-                  showError={trowError}
-                  disabled={!vtr}
-                  required={vtr}
-                />
-              <Forminput
-                  title="KM Inicial"
-                  label="Colocar somente números"
-                  onChangeText={(res) => setField(17, 0, res)}
-                  showError={trowError}
-                  disabled={!vtr}
-                  required={vtr}
-                />
-              <Forminput
-                  title="KM Final"
-                  label="Colocar somente números"
-                  onChangeText={(res) => setField(18, 0, res)}
-                  disabled={!vtr}
-                  showError={trowError}
-                  required={vtr}
-                />
-              <Forminput
-                  title="Condições da VTR"
-                  label="Em caso de problemas mecânicos, troca de VTR ou impossibilidade trafegar"
-                  onChangeText={(res) => setField(19, 0, res)}
-                  showError={trowError}
-                  disabled={!vtr}
-                  required={false}
-                />
-              
-            </FormCard>
+          <FormCard title="Dados da VTR" currentPage={5} totalPages={totalPages}>
+            <RadioButton
+              title="Foi feito uso de VTR?"
+              options={[
+                { valor: true, nome: "Sim" },
+                { valor: false, nome: "Não" }
+              ]}
+              multiSelect={false}
+              onSelect={(selectedOption) => setVtr(selectedOption === true)}
+            />
 
-              <FormCard title="Detalhamento da Fiscalização" currentPage={6} totalPages={totalPages}>
-                   <RadioButton
-                      title="Tipos de Ação"
-                      options={["Incurssão em Viatura", "Incursão a Pé", "Fiscalização Embarcada",
-                                "Sobrevoo", "Fiscalização com Drone", "Bloqueio" ]}
-                      onSelect={(res) => setField(20, 0, res)}
-                      showError={trowError}
-                   />
+            <Forminput
+              title="Placa do veículo"
+              onChangeText={(res) => setField("placa_vtr", res, vtr)}
+              showError={trowError}
+              disabled={!vtr}
+              required={vtr}
+            />
+            <Forminput
+              title="KM Inicial"
+              label="Colocar somente números"
+              onChangeText={(res) => setField("km_inicio", res, vtr)}
+              showError={trowError}
+              disabled={!vtr}
+              required={vtr}
+            />
+            <Forminput
+              title="KM Final"
+              label="Colocar somente números"
+              onChangeText={(res) => setField("km_final", res, vtr)}
+              disabled={!vtr}
+              showError={trowError}
+              required={vtr}
+            />
+            <Forminput
+              title="Condições da VTR"
+              label="Em caso de problemas mecânicos, troca de VTR ou impossibilidade trafegar"
+              onChangeText={(res) => setField("condicoes_vtr", res, false)}
+              showError={trowError}
+              disabled={!vtr}
+              required={false}
+            />
 
-                   <TextArea 
-                    title="Veículos Abordados em caso de Bloqueios"
-                    label="colocar todas as informações dos veículos abordados (tipo, modelo, placa, origem e destino)"
-                    onChangeText={(res) => setField(21, 0, res)}
-                    showError={trowError}
-                    required={false}
-                    />
+          </FormCard>
 
-                    <Forminput
-                      title="KM Percorridos (Viatura)"
-                      label="Ex: 62km"
-                      onChangeText={(res) => setField(22, 0, res? res +" (viatura)" : res)}
-                      showError={trowError}
-                    />
+          <FormCard title="Detalhamento da Fiscalização" currentPage={6} totalPages={totalPages}>
+            <RadioButton
+              title="Tipos de Ação"
+              options={[
+                { valor: "incursao_viatura", nome: "Incursão em Viatura" },
+                { valor: "incursao_pe", nome: "Incursão a Pé" },
+                { valor: "fiscalizacao_embarcada", nome: "Fiscalização Embarcada" },
+                { valor: "sobrevoo", nome: "Sobrevoo" },
+                { valor: "fiscalizacao_drone", nome: "Fiscalização com Drone" },
+                { valor: "bloqueio", nome: "Bloqueio" }
+              ]}
+              onSelect={(res) => setField("tipo_acao", res)}
+              showError={trowError}
+            />
 
-                    <Forminput
-                      title="KM Percorridos (a pé)"
-                      label="Ex: 4km"
-                      onChangeText={(res) => setField(22, 1, res? res +"(a pé)" : res)}
-                      showError={trowError}
-                    />
+            <TextArea
+              title="Veículos Abordados em caso de Bloqueios"
+              label="colocar todas as informações dos veículos abordados (tipo, modelo, placa, origem e destino)"
+              onChangeText={(res) => setField("veiculos_abordados", res, false)}
+              showError={trowError}
+              required={false}
+            />
 
-                    <DurationInput
-                     title="Horas em viatura"
-                     onChangeText={(res) => setField(23, 0, res? res +" (viatura)" : res)}
-                     showError={trowError}
-                    />
+            <RadioButton
+              title="Veículos Abordados (tipo)"
+              options={[
+                { valor: "moto", nome: "Motocicleta" },
+                { valor: "carro", nome: "Carro" },
+                { valor: "caminhao", nome: "Caminhão" },
+                { valor: "onibusVan", nome: "Ônibus/Vã" }
+              ]}
+              onSelect={(res) => setField("tipo_veiculo_abordado", res, false)}
+              required={false}
+            />
 
-                    <DurationInput
-                     title="Horas a Pé"
-                     onChangeText={(res) => setField(23, 1, res? res +" (a pé)" : res)}
-                      showError={trowError}
-                    />
+            <TextArea
+              title="Descrição dos veículos abordados"
+              label="Modelo/Placa/Origem/Destino/Descrição"
+              onChangeText={(res) => setField("descricao_veiculos", res, false)}
+              required={false}
+            />
 
-                    <RadioButton
-                      title="Veículos Abordados (tipo)"
-                      options={["Motocicleta", "Automóvel", "Caminhão",
-                                " Onibus/Vã",]}
-                      onSelect={(res) => setField(24, 0, res)}
-                      required={false}
-                   />
+            <Forminput
+              title="KM Percorridos (Viatura e a pé)"
+              label="Ex: 62km"
+              onChangeText={(res) => setField("km_percorrido", res)}
+              showError={trowError}
+            />
 
-                   <TextArea
-                    title="Descrição dos veículos abordados"
-                    label="Modelo/Placa/Origem/Destino/Descrição"
-                    onChangeText={(res) => setField(25, 0, res)}
-                    required={false}
-                   />
+            <DurationInput
+              title="Horas (em Viatura e a pé)"
+              onChangeText={(res) => setField("horas_percorridas", res)}
+              showError={trowError}
+            />
+          </FormCard>
 
-              </FormCard>
+          <FormCard title="Autos de Infração" currentPage={7} totalPages={totalPages}>
+            {autosSelected.length === 0 ? (
+              <TouchableOpacity
+                onPress={() => setAutosDeInfracao(true)}
+                className="bg-green-500 py-3 px-6 rounded-lg items-center border border-green-500"
+              >
+                <Text className="text-white font-semibold">Selecionar Autos de Infração</Text>
+              </TouchableOpacity>
+            ) : (
+              <View className="w-full">
+                <TouchableOpacity
+                  onPress={() => setAutosDeInfracao(true)}
+                  className="bg-white py-3 px-6 rounded-lg items-center mb-2 border border-green-500"
+                >
+                  <Text className="text-black font-semibold">Editar Autos de Infração ({autosSelected.length})</Text>
+                </TouchableOpacity>
 
-          
-
-          <SubmitButton classname="my-10" title="enviar" onPress={() => handleSubmit()} />
+                <View className="flex-row items-center justify-between px-2">
+                  <Text className="text-sm text-gray-700">{autosSelected.length} selecionado(s)</Text>
+                </View>
+              </View>
+            )}
+          </FormCard>
+          <SubmitButton
+            classname="my-10"
+            title="enviar"
+            onPress={handleSubmit}
+          />
         </View>
       </ScrollView>
+
+      <AutosDeInfracaoModal
+        visible={autosDeInfracao}
+        setVisible={setAutosDeInfracao}
+        setSelected={setAutosSelected}
+        resetKey={formKey}
+      />
     </View>
   );
 }

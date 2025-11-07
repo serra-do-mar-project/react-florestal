@@ -4,38 +4,40 @@ import { eq } from "drizzle-orm";
 
 type MountParams = {
   item: ExemploDeCaso | null;
-  form: any[] | undefined;
+  form: Record<string, any> | any[] | undefined;
 };
 
 
-export function MountAuto({ item, form}: MountParams) {
-        const template = item?.modelo?.toString() ?? "";
-            let auto_gerado = template;
+export function MountAuto({ item, form }: MountParams) {
+  const template = item?.modelo?.toString() ?? "";
+  let auto_gerado = template;
+  console.log(form);
 
-              (form || []).forEach((f: any) => {
-                const idx = f?.id;
-                const val = (f?.value ?? "") as string;
-                auto_gerado = auto_gerado.replace(new RegExp(`__${idx}__`, "g"), val);
-                auto_gerado = auto_gerado.replace(new RegExp(`\\{\\s*${idx}\\s*\\}`, "g"), val);
-              });
-              auto_gerado = auto_gerado.replace(/[{}]/g, "");
+  (form || []).forEach((f: any) => {
+    const idx = f?.id;
+    const val = (f?.value ?? "") as string;
+    auto_gerado = auto_gerado.replace(new RegExp(`__${idx}__`, "g"), val);
+    auto_gerado = auto_gerado.replace(new RegExp(`\\{\\s*${idx}\\s*\\}`, "g"), val);
+  });
+  auto_gerado = auto_gerado.replace(/[{}]/g, "");
 
-              console.log("auto_gerado:", auto_gerado);
 
-              if (!item) {
-                console.warn("Item não carregado");
-                return;
-              }
 
-              const newAuto: NewAutosDeInfracao = {
-                nome_resumo: item.nome_resumo,
-                modelo: auto_gerado,
-                tags: item.tags ?? undefined,
-                categoria: item.categoria,
-                data: new Date().toLocaleString(),
-              };
+  if (!item) {
+    console.warn("Item não carregado");
+    return;
+  }
 
-              return newAuto;
+  const newAuto: NewAutosDeInfracao = {
+    id_exemplocaso: item.id,
+    nome_resumo: item.nome_resumo,
+    descricao: auto_gerado,
+    tags: item.tags ?? undefined,
+    categoria: item.categoria,
+    data: new Date().toLocaleString(),
+  };
+
+  return newAuto;
 }
 
 
@@ -47,13 +49,13 @@ type addAutos = {
 export async function addAuto({ newAuto, onSuccess }: addAutos) {
 
   try {
-          await db.insert(AutosDeInfracaoTable).values(newAuto);
-          console.log("Auto salvo com sucesso");
-          if (onSuccess) onSuccess();
+    await db.insert(AutosDeInfracaoTable).values(newAuto);
+    console.log("Auto salvo com sucesso");
+    if (onSuccess) onSuccess();
 
-        } catch (err) {
-          console.error("Erro ao salvar auto:", err);
-        }
+  } catch (err) {
+    console.error("Erro ao salvar auto:", err);
+  }
 }
 
 export async function fetchAutos(): Promise<AutosDeInfracao[]> {
