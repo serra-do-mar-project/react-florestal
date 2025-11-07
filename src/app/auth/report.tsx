@@ -26,7 +26,6 @@ export default function ReportPage() {
   const [formKey, setFormKey] = useState<number>(0);
 
   const {
-    form,
     setField,
     handleSubmit,
     trowError,
