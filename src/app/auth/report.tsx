@@ -5,20 +5,23 @@ import  {DurationInput} from "@/src/components/report/DurationInput";
 import RadioButton from "@/src/components/report/RadioButton";
 import TextArea from "@/src/components/report/TextArea";
 import { SubmitButton } from "@/src/components/SubmitButton";
-import { useState } from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { useEffect, useState, useRef } from "react";
+import { View, Text, Alert} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@/src/components/report/DateTimePicker";
 import { useFormManager } from "@/src/hooks/useFormManager";
 import { AttachModal } from "@/src/components/report/AttachModal";
 import { DefaultModal } from "@/src/components/DefaultModal";
 import { AutosDeInfracao } from "@/src/db/schema";
+import SendStatusModal from "@/src/components/report/sendStatusModal";
 
 
 export default function ReportPage() {
   const [vtr, setVtr] = useState<boolean>(true);
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const [attachedInfractions, setAttachedInfractions] = useState<AutosDeInfracao[]>([]);
+  const [openAttachModal, setOpenAttachModal] = useState<boolean>(false);
+  const [openSendStatusModal, setOpenSendStatusModal] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [sendSuccess, setSendSuccess] = useState<boolean>(false);
 
   const { 
     form, 
@@ -27,17 +30,44 @@ export default function ReportPage() {
     trowError 
   } = useFormManager({
     onSubmitSuccess: (formData) => {
-      
-      
+      setOpenAttachModal(true)
       console.log("Formulário enviado com sucesso!");
     },
     onSubmitError: (formData) => {
-      // Aqui você pode adicionar lógica específica de erro
+      setSubmitError("Erro ao enviar o formulário. Verifique os campos destacados.");
       console.log("Erro no envio do formulário");
     }
   });
 
   const totalPages = 6;
+
+  async function handleSendReport(autos: AutosDeInfracao[]) {
+    setOpenAttachModal(false);
+    setOpenSendStatusModal(true);
+    
+   setTimeout(() => {
+      console.log("Relatório enviado com autos de infração:", autos);
+      console.log("Dados do formulário:", form);
+      setSendSuccess(true);
+    }, 3000);
+
+}
+
+
+const timeoutRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    
+    timeoutRef.current = setTimeout(() => {
+    timeoutRef.current = null;
+    if (!openSendStatusModal && sendSuccess) {
+     
+        Alert.alert("O relatório foi enviado com sucesso!");
+        setSendSuccess(false);
+     
+    }}, 2000) as unknown as number;
+
+  }, [openSendStatusModal, sendSuccess]);
  
         
   return ( 
@@ -46,7 +76,7 @@ export default function ReportPage() {
         <Text className="text-gray-900 font-semibold text-3xl ml-7">Relátorio diário</Text>
       </View>
       <ScrollView className="flex-1">
-        <View className="pt-10 items-center px-4">
+        <View className="pt-10 items-center px-3">
           {/* Equipe */}
           <FormCard title="Equipe" currentPage={1} totalPages={totalPages}>
             <DropdownBox
@@ -316,12 +346,22 @@ export default function ReportPage() {
 
           
 
-          <SubmitButton classname="w-full my-10" title="Enviar" onPress={() => setOpenModal(true)} />
+          <SubmitButton classname="w-5/6 mt-10" title="Enviar" onPress={handleSubmit} />
+          {submitError?
+              <Text className="text-red-600 font-sans text-sm mt-2 pb-10 mx-10">{submitError}</Text>
+              :
+              <View className="mb-10"/>
+    }
         </View>
       </ScrollView>
 
-      <DefaultModal visible={openModal} onClose={() => setOpenModal(false)}>
-          <AttachModal visible={openModal} onSelect={(e) => (setAttachedInfractions(e), setOpenModal(false))} />
+      <DefaultModal visible={openAttachModal || openSendStatusModal} onClose={() => (setOpenAttachModal(false), setSendSuccess(false), setOpenSendStatusModal(false))} >
+          {openAttachModal? 
+            <AttachModal visible={openAttachModal} onSelect={handleSendReport}/>
+            :
+            <SendStatusModal success={sendSuccess} />
+          }
+          
       </DefaultModal>
     </View>
   );

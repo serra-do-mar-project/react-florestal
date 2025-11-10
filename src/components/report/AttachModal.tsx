@@ -25,7 +25,6 @@ export function AttachModal({ visible , onSelect}: AttachModalProps) {
 
   function handleSelect() {
     const selectedItems = listRef.current?.getSelected() || [];
-    console.log("Selected items:", selectedItems);
     onSelect(selectedItems);
   }
   
@@ -42,7 +41,7 @@ export function AttachModal({ visible , onSelect}: AttachModalProps) {
           </View>
             
 
-          <View className="w-full items-center pb-10">
+          <View className="w-full px-5 items-center pb-10">
             <SubmitButton classname="w-full" title="Finalizar" onPress={handleSelect} />
           </View>
 
