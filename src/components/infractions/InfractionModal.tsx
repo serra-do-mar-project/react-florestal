@@ -1,29 +1,30 @@
 import { AutosDeInfracao } from "@/src/db/schema";
-import { DefaultModal, DefaultModalProps} from "../DefaultModal";
+import { DefaultModal, DefaultModalProps, useModal} from "../DefaultModal";
 import { View, Text, ScrollView } from "react-native";
 import { SubmitButton } from "../SubmitButton";
 
-type InfractionModalProps = DefaultModalProps & {
+type InfractionModalProps = {
   item?: AutosDeInfracao;
 }
 
-export default function InfractionModal({item, ...rest}: InfractionModalProps) {
+export default function InfractionModal({item}: InfractionModalProps) {
 
+  const { closeWithAnimation } = useModal();
 
   return (
-    <DefaultModal {...rest}>
+    
       <ScrollView>
       <View className="items-center justify-center px-6 mb-8">
           <Text className="text-2xl text-center font-semibold">{item?.nome_resumo}</Text>
           <Text className="text-lg text-center font-BaiJamJuree_Medium pt-10">{item?.modelo}</Text>
-          <SubmitButton classname="w-full mt-12" onPress={rest.onClose} title="Voltar" />
+          <SubmitButton classname="w-5/6 mt-12" onPress={closeWithAnimation} title="Voltar" />
       </View>
       
       </ScrollView>
 
       
       
-    </DefaultModal>
+    
 
   );
 }

@@ -7,19 +7,22 @@ import { SubmitButton } from "../SubmitButton";
 import { CancelButton } from "../CancelButton";
 import { Configinput } from "../ConfigInput";
 import DropdownBox from "../report/DropdownBox";
+import { ScrollView } from "react-native-gesture-handler";
 
 type AddUserModalProps = DefaultModalProps & {
  onCreateUser?: () => void;
 }
 
 
-export default function AddUserModal({onCreateUser,}: AddUserModalProps)  {
+export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)  {
 
    const [newPassword, setNewPassword] = useState(""); 
     const [confirmPassword, setConfirmPassword] = useState(""); 
     const [newName, setnNewName] = useState("");
     const [newCpf, setNewCpf] = useState("");
     const [newCargo, setNewCargo] = useState("");
+
+    const { closeWithAnimation } = useModal();
     
     function handleCreateUser() {
       onCreateUser && onCreateUser(); 
@@ -43,6 +46,7 @@ export default function AddUserModal({onCreateUser,}: AddUserModalProps)  {
               setNewCargo("");
               setNewPassword("");
               setConfirmPassword("");
+              rest.onClose();
               
             },
           },
@@ -52,7 +56,8 @@ export default function AddUserModal({onCreateUser,}: AddUserModalProps)  {
 
     return (
      
-      <View className="mb-16">
+      <ScrollView>
+            <View className="mb-8">
             <View className="px-5 mb-10">
                 <Text className="text-3xl font-semibold text-gray-900 px-3" >Adicionar Novo Usuário</Text>
             </View>
@@ -94,23 +99,25 @@ export default function AddUserModal({onCreateUser,}: AddUserModalProps)  {
                         label="Confirmar senha"
                       />
                   
-                      <View className="mt-10 w-full flex-row justify-around px-7">
-                          <SubmitButton
-                            classname="h-[3rem] w-[7rem] "
-                            textClass="text-xl"
-                            title="Salvar"
-                            onPress={handleCreateUser}
-                          />
+                      <View className="mt-16 h-14 w-full flex-row justify-around gap-4">
+                  
+                      <CancelButton
+                        classname="flex-1"
+                        textClass="text-xl"
+                        title="Cancelar"
+                        onPress={handleCancel}
+                      />
 
-                          <CancelButton
-                            classname="h-[3rem] w-[7rem] "
-                            textClass="text-xl"
-                            title="Cancelar"
-                            onPress={handleCancel}
-                          />
-                      </View>
+                      <SubmitButton
+                        classname="flex-1"
+                        textClass="text-xl"
+                        title="Salvar"
+                        onPress={() => (closeWithAnimation(), Alert.alert("Senha alterada com sucesso!"))}
+                      />
+                  </View>
                 </View>
-        </View>
+                </View>
+        </ScrollView>
         
     );
   }

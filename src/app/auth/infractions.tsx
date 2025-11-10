@@ -4,6 +4,7 @@ import {InfractionsList, InfractionsListHandle } from "@/src/components/infracti
 import { useState, useRef, useCallback } from "react";
 import { AutosDeInfracao } from "@/src/db/schema";
 import { useFocusEffect } from '@react-navigation/native';
+import { DefaultModal } from "@/src/components/DefaultModal";
 
 
 export default function Infractions() {
@@ -35,9 +36,11 @@ export default function Infractions() {
           <View className="flex-1 px-5">
             <InfractionsList ref={listRef} onSelect={handleSelect} listFooterComponent={<View className="h-20"/>} className="pt-10" /> 
           </View>
-        
-            <InfractionModal item={selectedItem} visible={openModal} onClose={() => setOpenModal(false)} />
 
+          
+            <DefaultModal visible={openModal} onClose={() => setOpenModal(false)} >
+            <InfractionModal item={selectedItem} />
+            </DefaultModal>
           </View>
   )
 }

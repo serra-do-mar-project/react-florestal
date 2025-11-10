@@ -43,7 +43,7 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia
       </Pressable>
       {isSelected && (
         <View className="flex flex-col py-4 px-5 pt-1 w-full">
-          <Text className="text-white font-semibold text-lg">Natureza do Dano (Infração/Crime)</Text>
+          <Text className="text-white font-semibold text-xl">Natureza do Dano (Infração/Crime)</Text>
           <View className="bg-[#DFDFDF] rounded-md p-3 py-3 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
             <Text className="text-black font-BaiJamJuree_Medium text-md">{tipoOcorrencia}</Text>
           </View>

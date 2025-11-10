@@ -1,12 +1,12 @@
 
 import { useState, } from "react";
 import { DefaultModal, DefaultModalProps, useModal} from "../DefaultModal";
-import { View, Text,  Pressable, Alert } from "react-native";
+import { View, Text,  Pressable, Alert, ScrollView } from "react-native";
 import images from "@/src/constants/images";
 import { PasswordInput } from "../PasswordInput";
 import { SubmitButton } from "../SubmitButton";
 import { CancelButton } from "../CancelButton";
-import { ScrollView } from "react-native-gesture-handler";
+
 
 interface User {
   nome: string;
@@ -20,11 +20,6 @@ type ModerationModalProps = {
 export default function UserModal({selectedUser}: ModerationModalProps)  {
 
     const [changePasswordOpen, setChangePasswordOpen] = useState<boolean>(false);
-
-    function handleClose() {             
-    setChangePasswordOpen(false);
-    }
-
 
   function UserOptionsModal() {
 
@@ -74,7 +69,8 @@ export default function UserModal({selectedUser}: ModerationModalProps)  {
 
     const [password, setPassword] = useState("");      // Estado para senha
     const [newPassword, setNewPassword] = useState(""); 
-    const [confirmPassword, setConfirmPassword] = useState(""); 
+    const [confirmPassword, setConfirmPassword] = useState("");
+    
     
       function handleCancel() {
         if (!password && !newPassword && !confirmPassword) {
@@ -105,7 +101,7 @@ export default function UserModal({selectedUser}: ModerationModalProps)  {
   return (
     
       <ScrollView>
-      <View className="mx-3 items-center mb-16">
+      <View className="flex-1 mx-3 mb-8">
     
           <View className="w-full items-center mb-10">
             <Text className="text-xl font-semibold">{selectedUser?.nome}</Text>
@@ -117,9 +113,9 @@ export default function UserModal({selectedUser}: ModerationModalProps)  {
                 <Text className="w-full">
                   lembre-se, a nova senha deve ser forte e única.
                 </Text>
+          <View/>
           
-                <View className="mt-6 h-fit justify-between">
-                <View className="items-center gap-4">
+                <View className="items-center gap-4 mt-6">
                   <PasswordInput
                     password={password}
                     setPassword={setPassword}
@@ -137,27 +133,29 @@ export default function UserModal({selectedUser}: ModerationModalProps)  {
                     setPassword={setConfirmPassword}
                     label="Confirmar nova senha"
                   />
-                  </View>
-                  <View className="mt-16 w-full flex-row justify-around px-14">
-                    <SubmitButton
-                    classname="h-[3rem] w-[7rem] "
-                    textClass="text-xl"
-                    title="Salvar"
-                    onPress={() => (closeWithAnimation(), Alert.alert("Senha alterada com sucesso!"))}
-                  />
+                  
+                  <View className="mt-16 h-14 w-full flex-row justify-around gap-4">
+                  
+                      <CancelButton
+                        classname="flex-1"
+                        textClass="text-xl"
+                        title="Cancelar"
+                        onPress={handleCancel}
+                      />
 
-                  <CancelButton
-                    classname="h-[3rem] w-[7rem] "
-                    textClass="text-xl"
-                    title="Cancelar"
-                    onPress={handleCancel}
-                  />
+                      <SubmitButton
+                        classname="flex-1"
+                        textClass="text-xl"
+                        title="Salvar"
+                        onPress={() => (closeWithAnimation(), Alert.alert("Senha alterada com sucesso!"))}
+                      />
+                  </View>
                   </View>
                   
-                </View>
+                
               </View>
                 
-      </View> 
+             </View> 
       </ScrollView>
 
   );
@@ -165,9 +163,9 @@ export default function UserModal({selectedUser}: ModerationModalProps)  {
 
   return(
   
-  <View className=" w-full items-center justify-center">
+  <>
       {changePasswordOpen ? <ChangePasswordModal/> : <UserOptionsModal />}
-  </View>
+  </>
   );
 
 };
