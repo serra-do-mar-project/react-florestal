@@ -1,4 +1,4 @@
-import { View, TextInput, Text, Platform, StyleSheet, KeyboardTypeOptions } from "react-native";
+import { View, TextInput, Text, KeyboardTypeOptions } from "react-native";
 import { cn } from "../lib/utils";
 
 interface props {
