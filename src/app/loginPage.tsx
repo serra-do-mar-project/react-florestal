@@ -20,13 +20,8 @@ export default function loginPage() {
   const { login: userLogin, token } = useUserStore()
 
   // Extrair apenas as imagens usadas nesta página
-  const images = useMemo(() => ({
-    logoparque: allImages.logoparque,
-    user: allImages.user,
-    ifspLogo: allImages.ifspLogo,
-    ffLogo: allImages.ffLogo,
-    semilLogo: allImages.semilLogo
-  }), []);
+  const { logoparque, user, ifspLogo, ffLogo, semilLogo } = allImages;
+  const images = { logoparque, user, ifspLogo, ffLogo, semilLogo };
 
   if (token)
     return <Redirect href="/auth/search" />
