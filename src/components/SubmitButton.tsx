@@ -1,36 +1,51 @@
-import { Text, Pressable } from "react-native";
+import { Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useState } from "react";
 
 
 interface ButtonProps {
   title: string;
-  onPress: () => void;
+  onPress: () => void | Promise<void>;
   classname?: string;
   textClass?: string;
+  showLoading?: boolean;
 }
 
-export function SubmitButton({ title, onPress, classname, textClass }: ButtonProps) {
-  const [pressed, setPressed] = useState(false);
+export function SubmitButton({ title, onPress, classname, textClass, showLoading = true }: ButtonProps) {
+  const [loading, setLoading] = useState(false);
+
+  const handlePress = async () => {
+    if (loading) return;
+
+    if (!showLoading) {
+      onPress();
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await onPress();
+    } catch (error) {
+      console.error('Error in SubmitButton:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <Pressable
-      onPress={onPress}
-      onPressIn={() => setPressed(true)}
-      onPressOut={() => setPressed(false)}
-      className={`flex items-center justify-center w-44 h-14 pb-0.5 rounded-2xl border-x-hairline border-b-2 border-stone-700 shadow-xl ${
-        pressed ? "bg-green-900" : "bg-green-500"
-      } ${classname}`}
+    <TouchableOpacity
+      onPress={handlePress}
+      disabled={loading}
+      className={`flex items-center justify-center w-44 h-14 rounded-2xl bg-green-500 ${classname}`}
     >
-      <Text
-        className={`w-full text-center text-white text-2xl font-semibold ${textClass}`}
-        style={{
-          textShadowColor: '#45503F',
-          textShadowOffset: { width: 2, height: 2 },
-          textShadowRadius: 2,
-        }}
-      >
-        {title}
-      </Text>
-    </Pressable>
+      {loading ? (
+        <ActivityIndicator size="large" color="#ffffff" />
+      ) : (
+        <Text
+          className={`w-full text-center text-white text-2xl font-semibold ${textClass}`}
+        >
+          {title}
+        </Text>
+      )}
+    </TouchableOpacity>
   );
 }

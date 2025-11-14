@@ -4,19 +4,19 @@ import images from "@/src/constants/images";
 
 interface CardUserProps {
   nome: string;
-  cargo: string;
+  tipo: string;
   onOptionsPress?: () => void;
   isFirst?: boolean; // Adicione esta prop
 }
 
-export default function CardUser({ nome, cargo, onOptionsPress, isFirst }: CardUserProps) {
+export default function CardUser({ nome, tipo, onOptionsPress, isFirst }: CardUserProps) {
   return (
     <View
       className={`h-24 mx-3 my-2 flex-row items-center justify-between bg-white border border-gray-900/20 rounded-xl`}
     >
       <View className="px-6 pb-1">
         <Text className="text-xl font-semibold">{nome}</Text>
-        <Text className="text-lg font-sans ml-0.5">{cargo}</Text>
+        <Text className="text-lg font-sans ml-0.5">{tipo}</Text>
       </View>
       <TouchableOpacity
         className="h-full px-6 pb-1 justify-center"

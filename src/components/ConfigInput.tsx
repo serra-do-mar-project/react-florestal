@@ -1,15 +1,17 @@
-import { View, TextInput, Text, Platform, StyleSheet } from "react-native";
+import { View, TextInput, Text, Platform, StyleSheet, KeyboardTypeOptions } from "react-native";
 import { cn } from "../lib/utils";
 
 interface props {
   className?: string;
   children?: React.ReactNode;
   textHolder?: string;
-  visible?: boolean; 
+  visible?: boolean;
   value: string;
   onChangeText: (text: string) => void;
   label?: string;
   error?: string;
+  keyboardType?: KeyboardTypeOptions;
+  maxLength?: number;
 }
 
 export function Configinput({
@@ -22,6 +24,8 @@ export function Configinput({
   label,
   className,
   error,
+  keyboardType,
+  maxLength,
 }: props) {
   return (
     <View className="w-full">
@@ -40,9 +44,11 @@ export function Configinput({
           placeholder={textHolder}
           placeholderTextColor="#6B7280"
           className="flex-1 text-black text-lg font-semibold"
+          keyboardType={keyboardType}
+          maxLength={maxLength}
           // estilos inline que garantem centralização do placeholder no Android/iOS
           style={{
-            height: 26, 
+            height: 26,
             paddingVertical: 0,
             textAlignVertical: "center",
             lineHeight: 26

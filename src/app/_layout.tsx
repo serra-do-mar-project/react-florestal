@@ -2,7 +2,6 @@ import './global.css'
 import { Stack } from 'expo-router';
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StatusBar as HiddenBar } from 'react-native';
 import db from '../db/connection';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import migrations from '../../drizzle/migrations';
@@ -22,8 +21,6 @@ configureReanimatedLogger({
   strict: false,
 });
 
-
-
 export default function MainLayout() {
   const { token } = useUserStore();
 
@@ -36,7 +33,6 @@ export default function MainLayout() {
     'BaiJamjuree-Medium': require('../../assets/fonts/BaiJamjuree-Medium.ttf'),
     // adicione outros estilos se quiser
   });
-
 
   const { success, error } = useMigrations(db, migrations);
 
@@ -81,7 +77,6 @@ export default function MainLayout() {
   }, [success, error, token]);
 
   return (
-
     <>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Stack screenOptions={{ headerShown: false }} />

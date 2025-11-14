@@ -1,32 +1,38 @@
-'use client'
-
-import { View, Image, TouchableOpacity, Keyboard, Text, KeyboardAvoidingView, Platform,} from "react-native";
-import images from '../constants/images'
+import { View, Image, Keyboard, Text, KeyboardAvoidingView, Platform } from "react-native";
 import Title from "../components/Title";
 import { SubmitButton } from "../components/SubmitButton";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "expo-router";
+import React, { useEffect, useState, useMemo } from "react";
+import { Redirect, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { login } from "../lib/utils";
 import { useUserStore } from "../store/userStore";
 import { Configinput } from "../components/ConfigInput";
 import { PasswordInput } from "../components/PasswordInput";
-
-
-
+import allImages from '../constants/images';
 
 export default function loginPage() {
   const router = useRouter();
   const [CPF, setCPF] = useState("");
   const [password, setPassword] = useState("");
-  const [visible, setVisible] = useState(true);
   const [keyboardOpen, setKeyboardOpen] = useState(false);
   const [error, setError] = useState("")
 
-  const { login: userLogin } = useUserStore()
+  const { login: userLogin, token } = useUserStore()
+
+  // Extrair apenas as imagens usadas nesta página
+  const images = useMemo(() => ({
+    logoparque: allImages.logoparque,
+    user: allImages.user,
+    ifspLogo: allImages.ifspLogo,
+    ffLogo: allImages.ffLogo,
+    semilLogo: allImages.semilLogo
+  }), []);
+
+  if (token)
+    return <Redirect href="/auth/search" />
 
   useEffect(() => {
-    if (error != "") setError("")
+    if (error) setError("")
   }, [password, CPF])
 
   useEffect(() => {
@@ -39,7 +45,7 @@ export default function loginPage() {
   }, []);
 
   const handleLogin = async () => {
-    if (CPF == "" || password == "") {
+    if (!CPF.trim() || !password.trim()) {
       setError("CPF e senha precisam estar preenchidos")
       return
     }
@@ -61,33 +67,31 @@ export default function loginPage() {
       >
         <View className={`flex items-center w-full h-20 mt-5 mb-2`} >
           <Title>
-            <Text >Seja Bem-Vindo(a)</Text>        
+            <Text >Seja Bem-Vindo(a)</Text>
           </Title>
           <Title>
             <Text >ao MPOA!</Text>
           </Title>
         </View>
 
-        <images.logoparque width={keyboardOpen? 200 : 200} height={keyboardOpen? 100 : 160} />
+        <images.logoparque width={200} height={keyboardOpen ? 100 : 160} />
+
 
         <View className="flex w-full px-6 items-center mx-4 mt-4">
-
           <Configinput textHolder="CPF" value={CPF} onChangeText={setCPF} className="h-16 rounded-2xl -mb-4">
-            <images.user width="24px" height="24px"/>
+            <images.user width="24px" height="24px" />
           </Configinput>
-
-          <PasswordInput textHolder="Senha" password={password} setPassword={setPassword} className="h-16 rounded-2xl" error={error}/>
-          
+          <PasswordInput textHolder="Senha" password={password} setPassword={setPassword} className="h-16 rounded-2xl" error={error} />
         </View>
-        
-        <View className={`flex items-center w-full mb-12 ${keyboardOpen? 'mt-8' :'mt-10'}`}>
-          <SubmitButton title="Login" 
+
+        <View className={`flex items-center w-full mb-12 ${keyboardOpen ? 'mt-8' : 'mt-10'}`}>
+          <SubmitButton title="Login"
             onPress={() => handleLogin()}
           />
         </View>
       </KeyboardAvoidingView>
 
-      <View className={`justify-around flex-row ${keyboardOpen? 'hidden': ''}`}>
+      <View className={`justify-around flex-row ${keyboardOpen ? 'hidden' : ''}`}>
         <View className="items-center justify-center w-24 h-24 bg-transparent">
           <Image
             source={images.ifspLogo}
@@ -97,7 +101,7 @@ export default function loginPage() {
         <View className="items-center justify-center w-24 h-24 bg-transparent">
           <Image
             source={images.ffLogo}
-            style={{ width: 100, height:100, resizeMode: "contain" }}
+            style={{ width: 100, height: 100, resizeMode: "contain" }}
           />
         </View>
         <View className="items-center justify-center w-24 h-24 bg-transparent">
