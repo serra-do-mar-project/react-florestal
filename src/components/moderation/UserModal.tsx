@@ -110,7 +110,7 @@ export default function UserModal({ selectedUser, ...rest }: ModerationModalProp
       }
 
       const result = await ChangeOtherUserPassword(token, password, newPassword, selectedUser.id);
-      if (result.status == "success") {
+      if (result.status === "success") {
         rest.onClose();
         setChangePasswordOpen(false);
         setPassword("");
