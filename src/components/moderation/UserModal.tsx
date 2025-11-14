@@ -117,7 +117,7 @@ export default function UserModal({ selectedUser, ...rest }: ModerationModalProp
         setNewPassword("");
         setConfirmPassword("");
       } else {
-        setError(result.message)
+        setError(result.message);
       }
     }
 
