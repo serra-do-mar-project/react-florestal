@@ -31,7 +31,6 @@ export function DefaultModal({ visible, onClose, children, ...rest }: DefaultMod
   }, [visible, overlayOpacity, translateY]);
 
   function closeWithAnimation() {
-    console.log("teste")
     overlayOpacity.value = withTiming(0, { duration: 150 });
     translateY.value = withTiming(SCREEN_HEIGHT, { duration: 250 }, (finished) => {
       if (finished) runOnJS(onClose)();
