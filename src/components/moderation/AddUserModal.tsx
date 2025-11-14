@@ -70,7 +70,7 @@ export default function AddUserModal({ ...rest }: DefaultModalProps) {
 
     setError("");
     const response = await CreateUser(token, { nome: newName, cpf: newCpf.replace(/\D/g, ''), tipo: newCargo, senha: newPassword });
-    if (response.status == "success") {
+    if (response.status === "success") {
       rest.onClose();
       setNewName("");
       setNewCpf("");
