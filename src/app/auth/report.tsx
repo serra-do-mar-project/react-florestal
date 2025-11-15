@@ -5,8 +5,8 @@ import { DurationInput } from "@/src/components/report/DurationInput";
 import RadioButton from "@/src/components/report/RadioButton";
 import TextArea from "@/src/components/report/TextArea";
 import { SubmitButton } from "@/src/components/SubmitButton";
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import DateTimePicker from "@/src/components/report/DateTimePicker";
 import { useFormManager } from "@/src/hooks/useFormManager";
@@ -14,6 +14,9 @@ import { AutosDeInfracao } from "@/src/db/schema";
 import { AutosDeInfracaoModal } from "@/src/components/report/AutosDeInfracaoModal";
 import { EnviarRelatorio } from "@/src/lib/utils";
 import { useUserStore } from "@/src/store/userStore";
+import { AttachModal } from "@/src/components/report/AttachModal";
+import { DefaultModal } from "@/src/components/DefaultModal";
+import SendStatusModal from "@/src/components/report/sendStatusModal";
 
 
 export default function ReportPage() {
@@ -22,6 +25,10 @@ export default function ReportPage() {
   const [vtr, setVtr] = useState<boolean>(true);
   const [autosDeInfracao, setAutosDeInfracao] = useState<boolean>(false);
   const [autosSelected, setAutosSelected] = useState<AutosDeInfracao[]>([]);
+  const [openAttachModal, setOpenAttachModal] = useState<boolean>(false);
+  const [openSendStatusModal, setOpenSendStatusModal] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [sendSuccess, setSendSuccess] = useState<boolean>(false);
   // key used to force remount of form children so internal component state resets
   const [formKey, setFormKey] = useState<number>(0);
 

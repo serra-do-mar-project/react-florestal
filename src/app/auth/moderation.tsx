@@ -6,11 +6,12 @@ import { ScrollView } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
 import UserModal from "@/src/components/moderation/UserModal";
 import AddUserModal from "@/src/components/moderation/AddUserModal";
+import { DefaultModal } from "@/src/components/DefaultModal";
 
 export default function ModerationPage() {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<{ nome: string; cargo: string } | null>(null);
+  const [selectedUser, setSelectedUser] = useState<{ nome: string; cargo: string }>();
 
 
   // Exemplo de lista de usuários
@@ -68,9 +69,24 @@ export default function ModerationPage() {
         </ScrollView>
       </View>
 
-      <UserModal selectedUser={selectedUser} visible={editModalOpen} onClose={() => setEditModalOpen(false)}/>
-      <AddUserModal visible={addModalOpen}  onClose={() => setAddModalOpen(false)}/>
+      <DefaultModal visible={editModalOpen || addModalOpen} onClose={() =>(setEditModalOpen(false), setAddModalOpen(false))} >
+        {editModalOpen? 
+          <UserModal selectedUser={selectedUser} /> 
+          :
+          <AddUserModal visible={addModalOpen}  onClose={() => setAddModalOpen(false)}/>}
+      </DefaultModal>
 
+
+
+
+       {/* {
+        editModalOpen?
+        <UserModal selectedUser={selectedUser} visible={editModalOpen} onClose={() => setEditModalOpen(false)}/>
+        :
+        <AddUserModal visible={addModalOpen}  onClose={() => setAddModalOpen(false)}/>
+       }                    */}
+      
     </View>
+    
   );
 }

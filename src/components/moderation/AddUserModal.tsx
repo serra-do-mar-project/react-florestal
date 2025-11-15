@@ -1,12 +1,13 @@
 
 import { useState } from "react";
-import { DefaultModal, DefaultModalProps} from "../DefaultModal";
+import { DefaultModal, DefaultModalProps, useModal} from "../DefaultModal";
 import { View, Text, Alert } from "react-native";
 import { PasswordInput } from "../PasswordInput";
 import { SubmitButton } from "../SubmitButton";
 import { CancelButton } from "../CancelButton";
 import { Configinput } from "../ConfigInput";
 import DropdownBox from "../report/DropdownBox";
+import { ScrollView } from "react-native-gesture-handler";
 
 type AddUserModalProps = DefaultModalProps & {
  onCreateUser?: () => void;
@@ -21,42 +22,42 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
     const [newCpf, setNewCpf] = useState("");
     const [newCargo, setNewCargo] = useState("");
 
-
-  function handleCreateUser() {
-
-    onCreateUser && onCreateUser(); 
-  }
-
-  function handleCancel() {
-    if (!newName && !newCpf && !newCargo && !newPassword && !confirmPassword) {
-      rest.onClose();
-      return;
+    const { closeWithAnimation } = useModal();
+    
+    function handleCreateUser() {
+      onCreateUser && onCreateUser(); 
     }
-    Alert.alert(
-      "Cancelar cadastro",
-      "Tem certeza que deseja cancelar o cadastro do novo usuário?",
-      [
-        { text: "Não", style: "cancel" },
-        {
-          text: "Sim",
-          style: "destructive",
-          onPress: () => {
-            rest.onClose();
-            setnNewName("");
-            setNewCpf("");
-            setNewCargo("");
-            setNewPassword("");
-            setConfirmPassword("");
+
+    function handleCancel() {
+      if (!newName && !newCpf && !newCargo && !newPassword && !confirmPassword) {
+        return;
+      }
+      Alert.alert(
+        "Cancelar cadastro",
+        "Tem certeza que deseja cancelar o cadastro do novo usuário?",
+        [
+          { text: "Não", style: "cancel" },
+          {
+            text: "Sim",
+            style: "destructive",
+            onPress: () => {
+              setnNewName("");
+              setNewCpf("");
+              setNewCargo("");
+              setNewPassword("");
+              setConfirmPassword("");
+              rest.onClose();
+              
+            },
           },
-        },
-      ]
-    );
-  }
+        ]
+      );
+    }
 
-  return(
-
-    <DefaultModal {...rest}>
-      <View className="mb-16">
+    return (
+     
+      <ScrollView>
+            <View className="mb-8">
             <View className="px-5 mb-10">
                 <Text className="text-3xl font-semibold text-gray-900 px-3" >Adicionar Novo Usuário</Text>
             </View>
@@ -98,26 +99,25 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
                         label="Confirmar senha"
                       />
                   
-                      <View className="mt-10 w-full flex-row justify-around px-7">
-                          <SubmitButton
-                            classname="h-[3rem] w-[7rem] "
-                            textClass="text-xl"
-                            title="Salvar"
-                            onPress={handleCreateUser}
-                          />
+                      <View className="mt-16 h-14 w-full flex-row justify-around gap-4">
+                  
+                      <CancelButton
+                        classname="flex-1"
+                        textClass="text-xl"
+                        title="Cancelar"
+                        onPress={handleCancel}
+                      />
 
-                          <CancelButton
-                            classname="h-[3rem] w-[7rem] "
-                            textClass="text-xl"
-                            title="Cancelar"
-                            onPress={handleCancel}
-                          />
-                      </View>
+                      <SubmitButton
+                        classname="flex-1"
+                        textClass="text-xl"
+                        title="Salvar"
+                        onPress={() => (closeWithAnimation(), Alert.alert("Senha alterada com sucesso!"))}
+                      />
+                  </View>
                 </View>
-        </View>
-      
-    </DefaultModal>
-
-  );
-
-};
+                </View>
+        </ScrollView>
+        
+    );
+  }
