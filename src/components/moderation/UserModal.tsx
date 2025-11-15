@@ -1,13 +1,13 @@
-
+import { DefaultModal, DefaultModalProps, useModal} from "../DefaultModal";
+import { View, Text,  Pressable, Alert, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
-import { DefaultModal, DefaultModalProps } from "../DefaultModal";
-import { View, Text, Pressable, Alert } from "react-native";
 import images from "@/src/constants/images";
 import { PasswordInput } from "../PasswordInput";
 import { SubmitButton } from "../SubmitButton";
 import { CancelButton } from "../CancelButton";
 import { ChangeOtherUserPassword, DeleteUser } from "@/src/lib/utils";
 import { useUserStore } from "@/src/store/userStore";
+
 
 interface User {
   id: number;
@@ -19,7 +19,7 @@ type ModerationModalProps = DefaultModalProps & {
   selectedUser: User | null;
 }
 
-export default function UserModal({ selectedUser, ...rest }: ModerationModalProps) {
+export default function UserModal({selectedUser}: ModerationModalProps)  {
 
   const [changePasswordOpen, setChangePasswordOpen] = useState<boolean>(false);
 
@@ -45,7 +45,7 @@ export default function UserModal({ selectedUser, ...rest }: ModerationModalProp
 
               const result = await DeleteUser(token, selectedUser.id);
               if (result.status === "success") {
-                rest.onClose();
+                closeWithAnimation()
                 setChangePasswordOpen(false);
               } else {
                 Alert.alert("Erro", "Não foi possível excluir o usuário.");
@@ -111,7 +111,7 @@ export default function UserModal({ selectedUser, ...rest }: ModerationModalProp
 
       const result = await ChangeOtherUserPassword(token, password, newPassword, selectedUser.id);
       if (result.status === "success") {
-        rest.onClose();
+        closeWithAnimation();
         setChangePasswordOpen(false);
         setPassword("");
         setNewPassword("");
@@ -140,7 +140,7 @@ export default function UserModal({ selectedUser, ...rest }: ModerationModalProp
             text: "Sim",
             style: "destructive",
             onPress: () => {
-              rest.onClose();
+              closeWithAnimation();
               setChangePasswordOpen(false);
               setPassword("");
               setNewPassword("");
@@ -205,22 +205,12 @@ export default function UserModal({ selectedUser, ...rest }: ModerationModalProp
           </View>
         </View>
       </View>
-
     );
   }
 
-  return (
-    <DefaultModal
-      visible={rest.visible || changePasswordOpen}
-      onClose={handleClose}
-    >
-      {changePasswordOpen ? (
-        <ChangePasswordModal {...rest} />
-      ) : (
-        <UserOptionsModal {...rest} />
-      )}
-    </DefaultModal>
-
+  return(
+    <>
+        {changePasswordOpen ? <ChangePasswordModal/> : <UserOptionsModal />}
+    </>
   );
-
 };

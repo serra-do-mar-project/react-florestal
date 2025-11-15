@@ -6,6 +6,7 @@ import { ScrollView } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
 import UserModal from "@/src/components/moderation/UserModal";
 import AddUserModal from "@/src/components/moderation/AddUserModal";
+import { DefaultModal } from "@/src/components/DefaultModal";
 import { GetUsers } from "@/src/lib/utils";
 import { useUserStore } from "@/src/store/userStore";
 
@@ -70,9 +71,24 @@ export default function ModerationPage() {
         </ScrollView>
       </View>
 
-      <UserModal selectedUser={selectedUser} visible={editModalOpen} onClose={() => setEditModalOpen(false)} />
-      <AddUserModal visible={addModalOpen} onClose={() => setAddModalOpen(false)} />
+      <DefaultModal visible={editModalOpen || addModalOpen} onClose={() =>(setEditModalOpen(false), setAddModalOpen(false))} >
+        {editModalOpen? 
+          <UserModal selectedUser={selectedUser} /> 
+          :
+          <AddUserModal visible={addModalOpen}  onClose={() => setAddModalOpen(false)}/>}
+      </DefaultModal>
 
+
+
+
+       {/* {
+        editModalOpen?
+        <UserModal selectedUser={selectedUser} visible={editModalOpen} onClose={() => setEditModalOpen(false)}/>
+        :
+        <AddUserModal visible={addModalOpen}  onClose={() => setAddModalOpen(false)}/>
+       }                    */}
+      
     </View>
+    
   );
 }

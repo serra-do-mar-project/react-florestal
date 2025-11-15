@@ -15,8 +15,8 @@ export default function Index() {
         <images.logoparque width={200} height={120} />
         <View className="items-center">
           <Text
-            className="w-full text-center font-semibold text-[#45503F] stroke-black leading-7"
-            style={{ fontSize: 26 }}
+            className="w-full text-center font-semibold text-[#45503F] stroke-black leading-8"
+            style={{ fontSize: 28 }}
             numberOfLines={1}
             adjustsFontSizeToFit={true}
             minimumFontScale={0.8}
@@ -25,8 +25,8 @@ export default function Index() {
           </Text>
 
           <Text
-            className="w-full text-center font-semibold text-[#45503F] stroke-black leading-7"
-            style={{ fontSize: 19 }}
+            className="w-full text-center font-semibold text-[#45503F] stroke-black leading-8"
+            style={{ fontSize: 22 }}
             numberOfLines={1}
             adjustsFontSizeToFit={true}
             minimumFontScale={0.8}

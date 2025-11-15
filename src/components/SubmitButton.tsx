@@ -1,5 +1,6 @@
-import { Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Text, Pressable, StyleSheet, PixelRatio, ActivityIndicator } from "react-native";
 import { useState } from "react";
+import { cn } from "../lib/utils";
 
 
 interface ButtonProps {
@@ -32,10 +33,20 @@ export function SubmitButton({ title, onPress, classname, textClass, showLoading
   };
 
   return (
-    <TouchableOpacity
-      onPress={handlePress}
+    <Pressable
       disabled={loading}
-      className={`flex items-center justify-center w-44 h-14 rounded-2xl bg-green-500 ${classname}`}
+      onPress={onPress}
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
+      className={cn(`
+        items-center justify-center w-44 h-14 pb-0.5 rounded-2xl
+        border-b-2 border-stone-700 shadow-xl
+        ${pressed ? "bg-green-900" : "bg-green-500"}
+      `, classname)}
+      style={{
+        borderLeftWidth: StyleSheet.hairlineWidth,
+        borderRightWidth: StyleSheet.hairlineWidth,
+      }}
     >
       {loading ? (
         <ActivityIndicator size="large" color="#ffffff" />
