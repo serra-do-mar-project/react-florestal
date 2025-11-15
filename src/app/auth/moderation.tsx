@@ -7,23 +7,25 @@ import { View, Text, TouchableOpacity } from "react-native";
 import UserModal from "@/src/components/moderation/UserModal";
 import AddUserModal from "@/src/components/moderation/AddUserModal";
 import { DefaultModal } from "@/src/components/DefaultModal";
+import { GetUsers } from "@/src/lib/utils";
+import { useUserStore } from "@/src/store/userStore";
 
 export default function ModerationPage() {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<{ nome: string; cargo: string }>();
+  const [selectedUser, setSelectedUser] = useState<{ id: number; nome: string; tipo: string } | null>(null);
+  const [usuarios, setUsuarios] = useState<{ id: number; nome: string; tipo: string }[]>([]);
+
+  const { token } = useUserStore();
+
+  useEffect(() => {
+    if (token) {
+      GetUsers(token).then(data => setUsuarios(data));
+    }
+  }, [token])
 
 
-  // Exemplo de lista de usuários
-  const usuarios = [
-    { nome: "Nome de usuário", cargo: "Guarda florestal" },
-    { nome: "Gabriel D'Errico Rodrigues", cargo: "Guarda Florestal" },
-   
-    // ...adicione mais usuários se quiser
-  ];
- 
-
-  function handleOpenEditModal(user: { nome: string; cargo: string }) {
+  function handleOpenEditModal(user: { id: number; nome: string; tipo: string }) {
     setEditModalOpen(true);
     setSelectedUser(user);
   }
@@ -40,9 +42,9 @@ export default function ModerationPage() {
       <View className="w-full mt-12 pl-3 pr-2 flex-row items-center justify-between">
         <Text className="text-3xl font-sans">Lista de usuários</Text>
 
-        <TouchableOpacity 
-          className="py-2 px-2.5 w-fit bg-green-500 flex-row items-center justify-center rounded-lg" 
-          onPress={()=> {setAddModalOpen(true)}}
+        <TouchableOpacity
+          className="py-2 px-2.5 w-fit bg-green-500 flex-row items-center justify-center rounded-lg"
+          onPress={() => { setAddModalOpen(true) }}
         >
           <images.addUser width={14} height={14} />
           <Text className="font-semibold text-white text-sm pl-1.5">Adicionar usuário</Text>
@@ -61,7 +63,7 @@ export default function ModerationPage() {
             <CardUser
               key={idx}
               nome={user.nome}
-              cargo={user.cargo}
+              tipo={user.tipo}
               onOptionsPress={() => handleOpenEditModal(user)}
               isFirst={idx === 0}
             />

@@ -1,20 +1,40 @@
-import { Text, Pressable, StyleSheet, PixelRatio } from "react-native";
+import { Text, Pressable, StyleSheet, PixelRatio, ActivityIndicator } from "react-native";
 import { useState } from "react";
 import { cn } from "../lib/utils";
 
 
 interface ButtonProps {
   title: string;
-  onPress: () => void;
+  onPress: () => void | Promise<void>;
   classname?: string;
   textClass?: string;
+  showLoading?: boolean;
 }
 
-export function SubmitButton({ title, onPress, classname, textClass }: ButtonProps) {
-  const [pressed, setPressed] = useState(false);
+export function SubmitButton({ title, onPress, classname, textClass, showLoading = true }: ButtonProps) {
+  const [loading, setLoading] = useState(false);
+
+  const handlePress = async () => {
+    if (loading) return;
+
+    if (!showLoading) {
+      onPress();
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await onPress();
+    } catch (error) {
+      console.error('Error in SubmitButton:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Pressable
+      disabled={loading}
       onPress={onPress}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
@@ -28,16 +48,15 @@ export function SubmitButton({ title, onPress, classname, textClass }: ButtonPro
         borderRightWidth: StyleSheet.hairlineWidth,
       }}
     >
-      <Text
-        className={`w-full text-center text-white text-2xl font-semibold ${textClass}`}
-        style={{
-          textShadowColor: '#45503F',
-          textShadowOffset: { width: 2, height: 2 },
-          textShadowRadius: 2,
-        }}
-      >
-        {title}
-      </Text>
-    </Pressable>
+      {loading ? (
+        <ActivityIndicator size="large" color="#ffffff" />
+      ) : (
+        <Text
+          className={`w-full text-center text-white text-2xl font-semibold ${textClass}`}
+        >
+          {title}
+        </Text>
+      )}
+    </TouchableOpacity>
   );
 }

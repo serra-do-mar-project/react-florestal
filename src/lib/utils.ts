@@ -34,7 +34,7 @@ export const login = async (
         },
         body: JSON.stringify({
           cpf: cpf,
-          senha: senha,
+          senha: senha
         }),
       }
     );
@@ -42,6 +42,7 @@ export const login = async (
     const data = await response.json();
     return data;
   } catch (error: any) {
+    console.log(error);
     throw new Error(error.message);
   }
 };
@@ -97,3 +98,98 @@ export const EnviarRelatorio = async (token: string, formData: any, autos: any):
     throw new Error(error.message);
   }
 }
+
+export const CreateUser = async (
+  token: string,
+  userData: { nome: string; cpf: string; tipo: string; senha: string }
+): Promise<{message: string, status: string}> => {
+  try {
+    const response = await fetch(
+      "https://nest-florestal-fork.onrender.com/auth/signup",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(userData),
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const GetUsers = async (
+  token: string,
+): Promise<{id: number; nome: string; tipo: string}[]> => {
+  try {
+    const response = await fetch(
+      "https://nest-florestal-fork.onrender.com/users/",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const ChangeOtherUserPassword = async (
+  token: string,
+  adminPassword: string,
+  newPassword: string,
+  userId: number
+): Promise<{message: string, status: string}> => {
+  try {
+    const response = await fetch(
+      "https://nest-florestal-fork.onrender.com/auth/resetAny",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id: userId,
+          senhaAdm: adminPassword,
+          novaSenha: newPassword
+        }),
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const DeleteUser = async (
+  token: string,
+  userId: number
+): Promise<{message: string, status: string}> => {
+  try {
+    const response = await fetch(
+      "https://nest-florestal-fork.onrender.com/auth/delete",
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id: userId }),
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};

@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DefaultModal, DefaultModalProps, useModal} from "../DefaultModal";
 import { View, Text, Alert } from "react-native";
 import { PasswordInput } from "../PasswordInput";
@@ -8,52 +7,109 @@ import { CancelButton } from "../CancelButton";
 import { Configinput } from "../ConfigInput";
 import DropdownBox from "../report/DropdownBox";
 import { ScrollView } from "react-native-gesture-handler";
-
-type AddUserModalProps = DefaultModalProps & {
- onCreateUser?: () => void;
-}
+import { CreateUser } from "@/src/lib/utils";
+import { useUserStore } from "@/src/store/userStore";
 
 
-export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)  {
+export default function AddUserModal({ ...rest }: DefaultModalProps) {
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [newName, setNewName] = useState("");
+  const [newCpf, setNewCpf] = useState("");
+  const [newCargo, setNewCargo] = useState("");
+  const [error, setError] = useState("");
 
-   const [newPassword, setNewPassword] = useState(""); 
-    const [confirmPassword, setConfirmPassword] = useState(""); 
-    const [newName, setnNewName] = useState("");
-    const [newCpf, setNewCpf] = useState("");
-    const [newCargo, setNewCargo] = useState("");
+  const { token } = useUserStore();
 
-    const { closeWithAnimation } = useModal();
-    
-    function handleCreateUser() {
-      onCreateUser && onCreateUser(); 
+  useEffect(() => {
+    setError("");
+  }, [newName, newCpf, newCargo, newPassword, confirmPassword]);
+
+  const { closeWithAnimation } = useModal();
+        
+  function formatCPF(text: string) {
+    // Remove tudo que não é número
+    const numbers = text.replace(/\D/g, '');
+
+    // Limita a 11 dígitos
+    const limited = numbers.slice(0, 11);
+
+    // Aplica a formatação XXX.XXX.XXX-XX
+    let formatted = limited;
+    if (limited.length > 3) {
+      formatted = limited.slice(0, 3) + '.' + limited.slice(3);
+    }
+    if (limited.length > 6) {
+      formatted = limited.slice(0, 3) + '.' + limited.slice(3, 6) + '.' + limited.slice(6);
+    }
+    if (limited.length > 9) {
+      formatted = limited.slice(0, 3) + '.' + limited.slice(3, 6) + '.' + limited.slice(6, 9) + '-' + limited.slice(9);
     }
 
-    function handleCancel() {
-      if (!newName && !newCpf && !newCargo && !newPassword && !confirmPassword) {
-        return;
-      }
-      Alert.alert(
-        "Cancelar cadastro",
-        "Tem certeza que deseja cancelar o cadastro do novo usuário?",
-        [
-          { text: "Não", style: "cancel" },
-          {
-            text: "Sim",
-            style: "destructive",
-            onPress: () => {
-              setnNewName("");
-              setNewCpf("");
-              setNewCargo("");
-              setNewPassword("");
-              setConfirmPassword("");
-              rest.onClose();
-              
-            },
+    return formatted;
+  }
+
+  function handleCpfChange(text: string) {
+    const formatted = formatCPF(text);
+    setNewCpf(formatted);
+  }
+
+  async function handleCreateUser() {
+    if (!(newName && newCpf && newCargo && newPassword && confirmPassword)) {
+      setError("Por favor, preencha todos os campos.");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setError("As senhas não coincidem.");
+      return;
+    }
+
+    if (!token) {
+      setError("Token de autenticação não encontrado.");
+      return;
+    }
+
+    setError("");
+    const response = await CreateUser(token, { nome: newName, cpf: newCpf.replace(/\D/g, ''), tipo: newCargo, senha: newPassword });
+    if (response.status === "success") {
+      closeWithAnimation()
+      setNewName("");
+      setNewCpf("");
+      setNewCargo("");
+      setNewPassword("");
+      setConfirmPassword("");
+    } else {
+      setError(response.message);
+    }
+  }
+
+  function handleCancel() {
+    if (!newName && !newCpf && !newCargo && !newPassword && !confirmPassword) {
+      rest.onClose();
+      return;
+    }
+    Alert.alert(
+      "Cancelar cadastro",
+      "Tem certeza que deseja cancelar o cadastro do novo usuário?",
+      [
+        { text: "Não", style: "cancel" },
+        {
+          text: "Sim",
+          style: "destructive",
+          onPress: () => {
+            closeWithAnimation()
+            setNewName("");
+            setNewCpf("");
+            setNewCargo("");
+            setNewPassword("");
+            setConfirmPassword("");
           },
-        ]
-      );
-    }
-
+        },
+      ]
+    );
+  }
+        
     return (
      
       <ScrollView>
@@ -72,8 +128,10 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
 
                       <Configinput
                         value={newCpf}
-                        onChangeText={setNewCpf}
+                        onChangeText={handleCpfChange}
                         label="CPF"
+                        keyboardType="numeric"
+                        maxLength={14}
                       />
 
                       <View className="w-full">
@@ -112,7 +170,7 @@ export default function AddUserModal({onCreateUser, ...rest}: AddUserModalProps)
                         classname="flex-1"
                         textClass="text-xl"
                         title="Salvar"
-                        onPress={() => (closeWithAnimation(), Alert.alert("Senha alterada com sucesso!"))}
+                        onPress={handleCreateUser}
                       />
                   </View>
                 </View>

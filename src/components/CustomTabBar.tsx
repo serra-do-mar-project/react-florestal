@@ -7,7 +7,11 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
   return (
     <View className="flex-row  bg-white border-t border-gray-300 h-[60px] items-center px-2 gap-2">
       {state.routes
-        .filter((r) => ((descriptors[r.key]?.options as any)?.href !== null))
+        .filter((r) => {
+          const options = (descriptors[r.key]?.options as any);
+          // Filtra rotas que têm href null OU que não têm tabBarIcon
+          return options?.href !== null && options?.tabBarIcon;
+        })
         .map((route) => {
           const options = descriptors[route.key].options as any;
           const routeIndex = state.routes.findIndex((r) => r.key === route.key);
