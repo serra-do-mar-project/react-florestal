@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { DefaultModal, DefaultModalProps, useModal} from "../DefaultModal";
+import { DefaultModal, DefaultModalProps, useModal } from "../DefaultModal";
 import { View, Text, Alert } from "react-native";
 import { PasswordInput } from "../PasswordInput";
 import { SubmitButton } from "../SubmitButton";
@@ -26,7 +26,7 @@ export default function AddUserModal({ ...rest }: DefaultModalProps) {
   }, [newName, newCpf, newCargo, newPassword, confirmPassword]);
 
   const { closeWithAnimation } = useModal();
-        
+
   function formatCPF(text: string) {
     // Remove tudo que não é número
     const numbers = text.replace(/\D/g, '');
@@ -109,73 +109,73 @@ export default function AddUserModal({ ...rest }: DefaultModalProps) {
       ]
     );
   }
-        
-    return (
-     
-      <ScrollView>
-            <View className="mb-8">
-            <View className="px-5 mb-10">
-                <Text className="text-3xl font-semibold text-gray-900 px-3" >Adicionar Novo Usuário</Text>
-            </View>
 
-            <View className="flex-1 items-center px-8 gap-4">
+  return (
 
-                      <Configinput
-                        value={newName}
-                        onChangeText={setnNewName}
-                        label="Nome Completo"
-                      />
+    <ScrollView>
+      <View className="mb-8">
+        <View className="px-5 mb-10">
+          <Text className="text-3xl font-semibold text-gray-900 px-3" >Adicionar Novo Usuário</Text>
+        </View>
 
-                      <Configinput
-                        value={newCpf}
-                        onChangeText={handleCpfChange}
-                        label="CPF"
-                        keyboardType="numeric"
-                        maxLength={14}
-                      />
+        <View className="flex-1 items-center px-8 gap-4">
 
-                      <View className="w-full">
-                        <DropdownBox
-                        className="bg-gray-100 border-green-600 overflow-hidden"
-                        optionsClassName="bg-gray-100 border-green-600"
-                        title="Cargo"
-                        options={["Administrador", "Guarda florestal"]}
-                        onSelect={(e) => setNewCargo(e ?? "")}
-                      />
+          <Configinput
+            value={newName}
+            onChangeText={setNewName}
+            label="Nome Completo"
+          />
 
-                      </View>
+          <Configinput
+            value={newCpf}
+            onChangeText={handleCpfChange}
+            label="CPF"
+            keyboardType="numeric"
+            maxLength={14}
+          />
 
-                      <PasswordInput
-                        password={newPassword}
-                        setPassword={setNewPassword}
-                        label="Senha"
-                      />
-              
-                      <PasswordInput
-                        password={confirmPassword}
-                        setPassword={setConfirmPassword}
-                        label="Confirmar senha"
-                      />
-                  
-                      <View className="mt-16 h-14 w-full flex-row justify-around gap-4">
-                  
-                      <CancelButton
-                        classname="flex-1"
-                        textClass="text-xl"
-                        title="Cancelar"
-                        onPress={handleCancel}
-                      />
+          <View className="w-full">
+            <DropdownBox
+              className="bg-gray-100 border-green-600 overflow-hidden"
+              optionsClassName="bg-gray-100 border-green-600"
+              title="Cargo"
+              options={["Admin", "Campo", "Administrativo"]}
+              onSelect={(e) => setNewCargo(e ?? "")}
+            />
 
-                      <SubmitButton
-                        classname="flex-1"
-                        textClass="text-xl"
-                        title="Salvar"
-                        onPress={handleCreateUser}
-                      />
-                  </View>
-                </View>
-                </View>
-        </ScrollView>
-        
-    );
-  }
+          </View>
+
+          <PasswordInput
+            password={newPassword}
+            setPassword={setNewPassword}
+            label="Senha"
+          />
+
+          <PasswordInput
+            password={confirmPassword}
+            setPassword={setConfirmPassword}
+            label="Confirmar senha"
+          />
+
+          <View className="mt-16 h-14 w-full flex-row justify-around gap-4">
+
+            <CancelButton
+              classname="flex-1"
+              textClass="text-xl"
+              title="Cancelar"
+              onPress={handleCancel}
+            />
+
+            <SubmitButton
+              classname="flex-1"
+              textClass="text-xl"
+              title="Salvar"
+              onPress={handleCreateUser}
+            />
+          </View>
+        </View>
+      </View>
+    </ScrollView>
+
+  );
+}

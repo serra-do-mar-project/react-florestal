@@ -1,5 +1,5 @@
-import {useState, useCallback, forwardRef, useImperativeHandle} from "react";
-import { View, FlatList, ActivityIndicator, FlatListProps } from "react-native";
+import { useState, useCallback, forwardRef, useImperativeHandle } from "react";
+import { View, FlatList, ActivityIndicator, FlatListProps, RefreshControl } from "react-native";
 import InfractionCard from "@/src/components/infractions/InfractionCard";
 import OptionsBar from "@/src/components/infractions/OptionsBar";
 import { AutosDeInfracao } from "@/src/db/schema";
@@ -24,12 +24,21 @@ export type InfractionsListHandle = {
 };
 
 export const InfractionsList = forwardRef<InfractionsListHandle, InfractionsListProps>(
-  ({ onSelect, pressedMode, cancelOption = true, deleteOption = true, className, listFooterComponent = <View className="h-10"/>}, ref) => {
-    
+  ({ onSelect, pressedMode, cancelOption = true, deleteOption = true, className, listFooterComponent = <View className="h-10" /> }, ref) => {
+
     const [selectedItems, setSelectedItems] = useState<AutosDeInfracao[]>([]);
     const [isSelectionMode, setIsSelectionMode] = useState(false);
     const [listData, setListData] = useState<AutosDeInfracao[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+      setRefreshing(true);
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
 
     // -------------------------------
     // Funções principais
@@ -40,7 +49,7 @@ export const InfractionsList = forwardRef<InfractionsListHandle, InfractionsList
       setListData(autos);
       setLoading(false);
       return autos;
-    }, []);
+    }, [refreshing]);
 
     const handleDelete = useCallback(
       async (items: AutosDeInfracao[]) => {
@@ -52,7 +61,7 @@ export const InfractionsList = forwardRef<InfractionsListHandle, InfractionsList
       [loadAutos]
     );
 
-     const handleSelectAll = useCallback(
+    const handleSelectAll = useCallback(
       (value: boolean) => {
         if (value && listData.length > 0) {
           setSelectedItems([...listData]);
@@ -78,9 +87,9 @@ export const InfractionsList = forwardRef<InfractionsListHandle, InfractionsList
       () => ({
         refresh: loadAutos,
         refreshAndSelectAll: async () => {
-          const autos = await loadAutos();      
-          setSelectedItems([...autos]);          
-          setIsSelectionMode(autos.length > 0); 
+          const autos = await loadAutos();
+          setSelectedItems([...autos]);
+          setIsSelectionMode(autos.length > 0);
         },
         selectAll: () => handleSelectAll(true),
         clearSelection: resetSelection,
@@ -173,6 +182,7 @@ export const InfractionsList = forwardRef<InfractionsListHandle, InfractionsList
         ItemSeparatorComponent={() => <View className="h-4" />}
         ListFooterComponent={listFooterComponent}
         extraData={selectedItems}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       />
     );
   }

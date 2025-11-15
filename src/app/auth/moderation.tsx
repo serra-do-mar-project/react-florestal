@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import CardUser from "@/src/components/moderation/CardUser";
 import images from "@/src/constants/images";
 import { useState, useEffect } from "react";
-import { ScrollView } from "react-native";
+import { ActivityIndicator, RefreshControl, ScrollView } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
 import UserModal from "@/src/components/moderation/UserModal";
 import AddUserModal from "@/src/components/moderation/AddUserModal";
@@ -15,14 +15,43 @@ export default function ModerationPage() {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<{ id: number; nome: string; tipo: string } | null>(null);
   const [usuarios, setUsuarios] = useState<{ id: number; nome: string; tipo: string }[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [initializing, setInitializing] = useState(true);
 
   const { token } = useUserStore();
 
+  const refreshUsers = async () => {
+    if (token) {
+      try {
+        const data = await GetUsers(token);
+        setUsuarios(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    refreshUsers().finally(() => {
+      setRefreshing(false);
+    });
+  }, [token]);
+
   useEffect(() => {
     if (token) {
-      GetUsers(token).then(data => setUsuarios(data));
+      (async () => {
+        try {
+          const data = await GetUsers(token);
+          setUsuarios(data);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setInitializing(false);
+        }
+      })();
     }
-  }, [token])
+  }, [refreshing])
 
 
   function handleOpenEditModal(user: { id: number; nome: string; tipo: string }) {
@@ -58,37 +87,41 @@ export default function ModerationPage() {
           scrollEnabled={!editModalOpen}
           className="flex-1 mt-6"
           contentContainerStyle={{ paddingBottom: 24 }}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         >
-          {usuarios.map((user, idx) => (
-            <CardUser
-              key={idx}
-              nome={user.nome}
-              tipo={user.tipo}
-              onOptionsPress={() => handleOpenEditModal(user)}
-              isFirst={idx === 0}
-            />
-          ))}
+          {initializing ? (
+            <ActivityIndicator className="mt-20" size="large" color="#0000ff" />
+          ) : (
+            <>
+              {usuarios.map((user, idx) => (
+                <CardUser
+                  key={idx}
+                  nome={user.nome}
+                  tipo={user.tipo}
+                  onOptionsPress={() => handleOpenEditModal(user)}
+                  isFirst={idx === 0}
+                />
+              ))}
+            </>
+          )}
         </ScrollView>
       </View>
 
-      <DefaultModal visible={editModalOpen || addModalOpen} onClose={() =>(setEditModalOpen(false), setAddModalOpen(false))} >
-        {editModalOpen? 
-          <UserModal selectedUser={selectedUser} /> 
+      <DefaultModal
+        visible={editModalOpen || addModalOpen}
+        onClose={() => {
+          setEditModalOpen(false);
+          setAddModalOpen(false);
+          refreshUsers();
+        }}
+      >
+        {editModalOpen ?
+          <UserModal selectedUser={selectedUser} />
           :
-          <AddUserModal visible={addModalOpen}  onClose={() => setAddModalOpen(false)}/>}
+          <AddUserModal visible={addModalOpen} onClose={() => setAddModalOpen(false)} />}
       </DefaultModal>
-
-
-
-
-       {/* {
-        editModalOpen?
-        <UserModal selectedUser={selectedUser} visible={editModalOpen} onClose={() => setEditModalOpen(false)}/>
-        :
-        <AddUserModal visible={addModalOpen}  onClose={() => setAddModalOpen(false)}/>
-       }                    */}
-      
     </View>
-    
   );
 }

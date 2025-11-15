@@ -14,7 +14,7 @@ export default function InfractionModal({ item }: InfractionModalProps) {
     <ScrollView>
       <View className="items-center justify-center px-6 mb-8">
         <Text className="text-2xl text-center font-semibold">{item?.nome_resumo}</Text>
-        <Text className="text-lg text-center font-BaiJamJuree_Medium pt-10">{item?.modelo}</Text>
+        <Text className="text-lg text-center font-BaiJamJuree_Medium pt-10">{item?.descricao}</Text>
         <SubmitButton classname="w-5/6 mt-12" onPress={closeWithAnimation} title="Voltar" />
       </View>
     </ScrollView>
