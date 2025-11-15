@@ -1,5 +1,5 @@
-import { DefaultModal, DefaultModalProps, useModal} from "../DefaultModal";
-import { View, Text,  Pressable, Alert, ScrollView } from "react-native";
+import { DefaultModal, DefaultModalProps, useModal } from "../DefaultModal";
+import { View, Text, Pressable, Alert, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import images from "@/src/constants/images";
 import { PasswordInput } from "../PasswordInput";
@@ -15,20 +15,16 @@ interface User {
   tipo: string;
 }
 
-type ModerationModalProps = DefaultModalProps & {
+type ModerationModalProps = {
   selectedUser: User | null;
 }
 
-export default function UserModal({selectedUser}: ModerationModalProps)  {
+export default function UserModal({ selectedUser }: ModerationModalProps) {
 
   const [changePasswordOpen, setChangePasswordOpen] = useState<boolean>(false);
+  const { closeWithAnimation } = useModal()
 
   const { token } = useUserStore();
-
-  function handleClose() {
-    rest.onClose();
-    setChangePasswordOpen(false);
-  }
 
   function UserOptionsModal() {
     function handleDeleteUser() {
@@ -80,7 +76,7 @@ export default function UserModal({selectedUser}: ModerationModalProps)  {
     )
   };
 
-  function ChangePasswordModal({ ...rest }: DefaultModalProps) {
+  function ChangePasswordModal() {
     const [password, setPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -128,7 +124,7 @@ export default function UserModal({selectedUser}: ModerationModalProps)  {
     function handleCancel() {
       if (!password && !newPassword && !confirmPassword) {
         setChangePasswordOpen(false);
-        rest.onClose();
+        closeWithAnimation();
         return;
       }
       Alert.alert(
@@ -152,7 +148,9 @@ export default function UserModal({selectedUser}: ModerationModalProps)  {
     }
 
     return (
-      <View className="mx-3 items-center mb-16">
+      <ScrollView className="mx-3 mb-16"
+        contentContainerClassName="items-center"
+      >
         <View className="w-full items-center mb-10">
           <Text className="text-xl font-semibold">{selectedUser?.nome}</Text>
           <Text className="text-lg ml-0.5">{selectedUser?.tipo}</Text>
@@ -204,13 +202,13 @@ export default function UserModal({selectedUser}: ModerationModalProps)  {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 
-  return(
+  return (
     <>
-        {changePasswordOpen ? <ChangePasswordModal/> : <UserOptionsModal />}
+      {changePasswordOpen ? <ChangePasswordModal /> : <UserOptionsModal />}
     </>
   );
 };

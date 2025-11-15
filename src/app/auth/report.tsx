@@ -15,8 +15,6 @@ import { AutosDeInfracaoModal } from "@/src/components/report/AutosDeInfracaoMod
 import { EnviarRelatorio } from "@/src/lib/utils";
 import { useUserStore } from "@/src/store/userStore";
 import { AttachModal } from "@/src/components/report/AttachModal";
-import { DefaultModal } from "@/src/components/DefaultModal";
-import SendStatusModal from "@/src/components/report/sendStatusModal";
 
 
 export default function ReportPage() {
@@ -387,7 +385,7 @@ export default function ReportPage() {
           <SubmitButton
             classname="my-10"
             title="enviar"
-            onPress={handleSubmit}
+            onPress={() => { handleSubmit(); }}
           />
         </View>
       </ScrollView>
@@ -398,6 +396,13 @@ export default function ReportPage() {
         setSelected={setAutosSelected}
         resetKey={formKey}
       />
+      {/* <AttachModal
+        visible={autosDeInfracao}
+        onSelect={(selectedItems) => {
+          setAutosSelected(selectedItems);
+          setAutosDeInfracao(false);
+        }}
+      /> */}
     </View>
   );
 }

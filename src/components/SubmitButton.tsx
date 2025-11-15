@@ -13,6 +13,7 @@ interface ButtonProps {
 
 export function SubmitButton({ title, onPress, classname, textClass, showLoading = true }: ButtonProps) {
   const [loading, setLoading] = useState(false);
+  const [pressed, setPressed] = useState(false);
 
   const handlePress = async () => {
     if (loading) return;
@@ -35,13 +36,13 @@ export function SubmitButton({ title, onPress, classname, textClass, showLoading
   return (
     <Pressable
       disabled={loading}
-      onPress={onPress}
+      onPress={handlePress}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
       className={cn(`
         items-center justify-center w-44 h-14 pb-0.5 rounded-2xl
         border-b-2 border-stone-700 shadow-xl
-        ${pressed ? "bg-green-900" : "bg-green-500"}
+        ${loading || pressed ? "bg-green-900" : "bg-green-500"}
       `, classname)}
       style={{
         borderLeftWidth: StyleSheet.hairlineWidth,
@@ -57,6 +58,6 @@ export function SubmitButton({ title, onPress, classname, textClass, showLoading
           {title}
         </Text>
       )}
-    </TouchableOpacity>
+    </Pressable>
   );
 }
