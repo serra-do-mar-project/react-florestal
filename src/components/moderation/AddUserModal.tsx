@@ -86,7 +86,7 @@ export default function AddUserModal({ ...rest }: DefaultModalProps) {
 
   function handleCancel() {
     if (!newName && !newCpf && !newCargo && !newPassword && !confirmPassword) {
-      rest.onClose();
+      closeWithAnimation();
       return;
     }
     Alert.alert(
