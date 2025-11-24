@@ -20,7 +20,6 @@ export default function SearchModal({onClose, ...rest}: searchModalProps) {
     const searchBarRef = useRef<TextInput>(null);
     const [data, setData] = useState<ExemploDeCaso[]>([]);
     const [filteredData, setFilteredData] = useState<ExemploDeCaso[]>([]);
-    const [isTransparent, setIsTransparent] = useState<boolean>(true);
 
     useEffect(() => {
         db.select()
