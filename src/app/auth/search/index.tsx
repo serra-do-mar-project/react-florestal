@@ -4,7 +4,7 @@ import Title from "@/src/components/Title";
 import SearchBar from "@/src/components/SearchBar";
 import { Card } from "@/src/components/search/Card";
 import { useRouter } from "expo-router";
-import SearchModal, {searchModalProps} from "@/src/components/search/SearchModal";
+import SearchModal from "@/src/components/search/SearchModal";
 import { useState } from "react";
 
 export default function SearchPage() {
