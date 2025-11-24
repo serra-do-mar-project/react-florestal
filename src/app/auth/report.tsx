@@ -359,7 +359,7 @@ export default function ReportPage() {
             />
           </FormCard>
 
-          <FormCard title="Autos de Infração" currentPage={7} totalPages={totalPages}>
+          <FormCard title="Autos de Infração" subTitle="Anexe ao menos 1 Auto" currentPage={7} totalPages={totalPages}>
             {autosSelected.length === 0 ? (
               <TouchableOpacity
                 onPress={() => setAutosDeInfracao(true)}
@@ -368,7 +368,7 @@ export default function ReportPage() {
                 <Text className="text-white font-semibold">Selecionar Autos de Infração</Text>
               </TouchableOpacity>
             ) : (
-              <View className="w-full">
+              <View className="w-full -mt-3 -mb-4 ">
                 <TouchableOpacity
                   onPress={() => setAutosDeInfracao(true)}
                   className="bg-white py-3 px-6 rounded-lg items-center mb-2 border border-green-500"
@@ -383,7 +383,7 @@ export default function ReportPage() {
             )}
           </FormCard>
           <SubmitButton
-            classname="my-10"
+            classname="mb-10 mt-7"
             title="enviar"
             onPress={() => { handleSubmit(); }}
           />

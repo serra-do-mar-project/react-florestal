@@ -15,7 +15,6 @@ export type DefaultModalProps = ModalProps & {
   onClose: () => void;
   children?: React.ReactNode;
   beforeClose?: () => void;
-  scrollClassName?: string;
 };
 
 type ModalContextType = {
@@ -100,18 +99,15 @@ export function DefaultModal({
     <Modal
       visible={visible}
       transparent
-      animationType="none"
+      animationType="fade"
       statusBarTranslucent
       onRequestClose={closeWithAnimation}
       {...rest}
     >
       <GestureHandlerRootView style={{ flex: 1 }}>
         <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)" }}>
-          <Pressable
-            style={{ flex: 1, justifyContent: "flex-end" }}
-            onPress={closeWithAnimation}
-            pointerEvents="box-none"
-          />
+          <Pressable className="flex-1" onPress={closeWithAnimation} />
+        
           <Animated.View
             {...panResponder.panHandlers} // 👈 aplica gesto
             style={{
@@ -126,8 +122,7 @@ export function DefaultModal({
             }}
           >
             <Pressable
-              style={{ width: "100%", height: 50 }}
-              onPress={closeWithAnimation}
+              style={{ width: "100%", height: 40 }}
             >
               <View
                 style={{

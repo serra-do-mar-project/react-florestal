@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { FlatList, Modal, Text, TouchableOpacity, View } from "react-native"
 import { fetchAutos } from "@/src/hooks/useAutos";
 import InfractionCard from "../infractions/InfractionCard";
+import { DefaultModal, useModal } from "../DefaultModal";
 
 export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected, resetKey }: { visible: boolean, setVisible: (visible: boolean) => void, setSelected: (selected: AutosDeInfracao[]) => void, resetKey?: number }) => {
   const [cardSelected, setCardSelected] = useState<number[]>([]);
@@ -27,34 +28,27 @@ export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected, resetKe
     }
   }, [resetKey]);
 
-  return (
-    <Modal
-      visible={visible}
-      onRequestClose={() => setVisible(false)}
-      animationType="slide"
-      transparent={false}
-    >
-      <View className="flex-1">
-        <View className="pt-10 pb-5 border-b border-gray-900/10 shadow-sm">
-          <View className="flex-row justify-between items-center px-5">
+  const Modalcontent = () =>{
+     const { closeWithAnimation } = useModal();
+
+    return ( 
+      <View className="w-full">
+        <View className=" pb-3 border-b-2 border-gray-900/10 px-5 ">
+          <View className="flex-row justify-between items-center">
             <Text className="text-gray-900 font-semibold text-2xl">Autos de Infração</Text>
             <TouchableOpacity
-              onPress={() => setVisible(false)}
+              onPress={closeWithAnimation}
               className="px-4 py-2 bg-gray-200 rounded-lg"
             >
               <Text className="text-gray-800 font-semibold">Cancelar</Text>
             </TouchableOpacity>
           </View>
-        </View>
-        <FlatList
-          className="flex-1 px-5"
-          ListHeaderComponent={
-            <View className="my-4">
+             <View className="my-4 pt-2">
               <TouchableOpacity
                 onPress={() => {
                   const selected = listData.filter((item) => cardSelected.includes(item.id))
                   setSelected(selected);
-                  setVisible(false);
+                  closeWithAnimation();
                 }}
                 className="bg-green-500 py-3 px-6 rounded-lg items-center"
               >
@@ -63,7 +57,9 @@ export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected, resetKe
                 </Text>
               </TouchableOpacity>
             </View>
-          }
+        </View>
+        <FlatList
+          className="-max-h-screen-safe-offset-44 px-5 pt-10"
           data={listData}
           keyExtractor={(item) => String((item as any).id)}
           extraData={cardSelected}
@@ -84,9 +80,18 @@ export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected, resetKe
               />
             );
           }}
-          ListFooterComponent={<View className="h-10" />}
+          ListFooterComponent={<View className="h-20" />}
         />
-      </View>
-    </Modal>
+      </View>);
+  }
+
+  return (
+    <DefaultModal
+      visible={visible}
+      onClose={() => setVisible(false)}
+      animationType="fade"
+    >
+     <Modalcontent/>
+    </DefaultModal>
   )
 }

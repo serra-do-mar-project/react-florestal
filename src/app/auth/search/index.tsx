@@ -1,20 +1,25 @@
-import { View, ScrollView } from "react-native";
+import { View, ScrollView, TouchableOpacity } from "react-native";
 import images from "@/src/constants/images";
 import Title from "@/src/components/Title";
 import SearchBar from "@/src/components/SearchBar";
 import { Card } from "@/src/components/search/Card";
 import { useRouter } from "expo-router";
+import SearchModal from "@/src/components/search/SearchModal";
+import { useState } from "react";
 
 export default function SearchPage() {
   const router = useRouter(); // Hook para redirecionamento
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <View className="flex items-center w-full h-full">
       <View className="w-full h-fit mt-11 pt-3 pl-10">
         <Title>Buscar Infração</Title>
       </View>
-
-      <SearchBar />
+      
+      <TouchableOpacity className="w-full px-5" onPress={() => setShowModal(true)} >
+      <SearchBar data={[]} filterKey={''} onFiltered={() => ''} editable={false} />
+      </TouchableOpacity>
 
       <ScrollView
         className="w-full h-full"
@@ -57,6 +62,8 @@ export default function SearchPage() {
           </View>
         </View>
       </ScrollView>
+
+        <SearchModal visible={showModal} onClose={() => setShowModal(false)}/>
     </View>
   );
 }

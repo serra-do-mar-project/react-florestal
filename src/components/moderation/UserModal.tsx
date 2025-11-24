@@ -148,7 +148,7 @@ export default function UserModal({ selectedUser }: ModerationModalProps) {
     }
 
     return (
-      <ScrollView className="mx-3 mb-16"
+      <ScrollView className="mx-3 mb-5"
         contentContainerClassName="items-center"
       >
         <View className="w-full items-center mb-10">
@@ -185,21 +185,22 @@ export default function UserModal({ selectedUser }: ModerationModalProps) {
             <Text className="text-red-500">
               {error}
             </Text>
-            <View className="mt-16 w-full flex-row justify-around px-14">
-              <SubmitButton
-                classname="h-[3rem] w-[7rem] "
-                textClass="text-xl"
-                title="Salvar"
-                onPress={handlePasswordChange}
-              />
+            <View className="mt-16 h-14 w-full flex-row justify-around gap-4">
 
-              <CancelButton
-                classname="h-[3rem] w-[7rem] "
-                textClass="text-xl"
-                title="Cancelar"
-                onPress={handleCancel}
-              />
-            </View>
+            <CancelButton
+              classname="flex-1"
+              textClass="text-xl"
+              title="Cancelar"
+              onPress={handleCancel}
+            />
+
+            <SubmitButton
+              classname="flex-1"
+              textClass="text-xl"
+              title="Salvar"
+              onPress={handlePasswordChange}
+            />
+          </View>
           </View>
         </View>
       </ScrollView>
