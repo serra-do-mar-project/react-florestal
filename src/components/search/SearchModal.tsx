@@ -5,7 +5,6 @@ import Title from "../Title";
 import SearchBar from "../SearchBar";
 import db from "@/src/db/connection";
 import { ExemploDeCaso, ExemploDeCasoTable } from "@/src/db/schema";
-import { eq } from "drizzle-orm";
 import Dropdown from "./Dropdown";
 import { router } from "expo-router";
 
