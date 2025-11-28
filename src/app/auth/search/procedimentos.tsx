@@ -33,29 +33,33 @@ export default function ProcedimentosPage() {
   return (
     <View className="flex-1">
       <View className="bg-[#fffdfd] pt-10 pb-5 border border-gray-900/10 shadow shadow-black ">
-        <View className="w-full flex-row items-center justify-between mb-3 px-5 ">
-          <TouchableOpacity
-            className="flex justify-center items-center rounded-br-lg rounded-lg"
-            onPress={() => router.back()}
-          >
-            <images.leftArrow width={26} height={26} style={{ resizeMode: "contain", opacity: 0.9 }} />
-          </TouchableOpacity>
-          <View className=" bg-green-500/30 flex justify-center items-center rounded-full px-3 pt-1 pb-0.5">
-            <Text className="text-gray-900/100 text-lg font-semibold">{item?.categoria ?? params.categoria}</Text>
+        <View className="w-full px-4">
+          <View className="flex-row items-start mb-3">
+            <TouchableOpacity
+              className="rounded-lg pr-3 pt-1"
+              onPress={() => router.back()}
+            >
+              <images.leftArrow width={26} height={26} style={{ resizeMode: "contain", opacity: 0.9 }} />
+            </TouchableOpacity>
+
+            <Text
+              className={`flex-1 pt-1 text-gray-900 font-semibold ${titleLineCount <= 1 ? 'text-3xl' : 'text-2xl'}`}
+              numberOfLines={2}
+              adjustsFontSizeToFit={true}
+              minimumFontScale={1}
+              onTextLayout={(e) => {
+                const lines = e.nativeEvent.lines?.length ?? 0;
+                setTitleLineCount(lines);
+              }}
+            >
+              {item?.nome_resumo ?? params.nome}
+            </Text>
+          </View>
+          
+          <View className="self-end bg-green-500/30 rounded-full px-3 py-1">
+            <Text className="text-gray-900 text-base font-semibold">{item?.categoria ?? params.categoria}</Text>
           </View>
         </View>
-        <Text
-          className={`text-gray-900 font-semibold ${titleLineCount <= 1 ? 'text-3xl' : 'text-2xl'} mx-6`}
-          numberOfLines={2}
-          adjustsFontSizeToFit={true}
-          minimumFontScale={1}
-          onTextLayout={(e) => {
-            const lines = e.nativeEvent.lines?.length ?? 0;
-            setTitleLineCount(lines);
-          }}
-        >
-          {item?.nome_resumo ?? params.nome}
-        </Text>
       </View>
 
 
