@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import images from "@/src/constants/images";
+import { Image } from "expo-image";
 
 interface CardUserProps {
   nome: string;
@@ -22,7 +23,11 @@ export default function CardUser({ nome, tipo, onOptionsPress, isFirst }: CardUs
         className="h-full px-6 pb-1 justify-center"
         onPress={onOptionsPress}
       >
-        <images.opcoes width={20} height={20} />
+        <Image
+          source={images.opcoes}
+          style={{ width: 20, height: 20 }}
+          contentFit="contain"
+        />
       </TouchableOpacity>
     </View>
   );

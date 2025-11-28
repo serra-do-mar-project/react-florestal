@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Configinput } from "@/src/components/ConfigInput"; // ajuste o caminho se necessário
 import images from "@/src/constants/images";
 import { useState } from "react";
+import { Image } from "expo-image";
 
 interface PasswordInputProps {
   className?: string;
@@ -19,8 +20,8 @@ export function PasswordInput({
   password,
   error,
   setPassword,
-}: PasswordInputProps) {  
-  
+}: PasswordInputProps) {
+
   const [visible, setVisible] = useState(false);
 
   return (
@@ -34,13 +35,21 @@ export function PasswordInput({
         error={error}
         onChangeText={setPassword}
       >
-       {visible ? <TouchableOpacity className="h-full justify-center pl-6 " onPress={() => setVisible(!visible)}>
-        <images.eyeSlash width={24} height={24} />
+        {visible ? <TouchableOpacity className="h-full justify-center pl-6 " onPress={() => setVisible(!visible)}>
+          <Image
+            source={images.eyeSlash}
+            style={{ width: 24, height: 24 }}
+            contentFit="contain"
+          />
         </TouchableOpacity>
-          :  
-       <TouchableOpacity className="h-full justify-center pl-6 " onPress={() => setVisible(!visible)}>
-          <images.eye width={24} height={24} />
-        </TouchableOpacity>}
+          :
+          <TouchableOpacity className="h-full justify-center pl-6 " onPress={() => setVisible(!visible)}>
+            <Image
+              source={images.eye}
+              style={{ width: 24, height: 24 }}
+              contentFit="contain"
+            />
+          </TouchableOpacity>}
 
       </Configinput>
     </View>

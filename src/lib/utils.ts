@@ -82,7 +82,7 @@ export const EnviarRelatorio = async (token: string, formData: any, autos: any):
     );
 
     if (!response.ok) {
-      throw new Error("Erro ao enviar relatório");
+      console.log("Erro ao enviar relatório");
     }
 
     const responseData = await response.json();
@@ -185,6 +185,36 @@ export const DeleteUser = async (
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ id: userId }),
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
+
+export const ChangeOwnPassword = async (
+  token: string,
+  oldPassword: string,
+  newPassword: string,
+  userId: number
+): Promise<{message: string, status: string}> => {
+  try {
+    const response = await fetch(
+      "https://nest-florestal-fork.onrender.com/auth/updatePassword",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id: userId,
+          senhaAntiga: oldPassword,
+          novaSenha: newPassword,
+          confirmaSenha: newPassword
+        }),
       }
     );
     const data = await response.json();

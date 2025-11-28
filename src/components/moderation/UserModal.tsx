@@ -7,6 +7,7 @@ import { SubmitButton } from "../SubmitButton";
 import { CancelButton } from "../CancelButton";
 import { ChangeOtherUserPassword, DeleteUser } from "@/src/lib/utils";
 import { useUserStore } from "@/src/store/userStore";
+import { Image } from "expo-image";
 
 
 interface User {
@@ -59,7 +60,11 @@ export default function UserModal({ selectedUser }: ModerationModalProps) {
         <Pressable className="w-full" onPress={() => (setChangePasswordOpen(true))}>
           {({ pressed }) => (
             <View className={`w-full px-7 py-3 flex-row items-center justify-center ${pressed ? "bg-gray-300" : ""}`}>
-              <images.edit width={16} height={16} />
+              <Image
+                source={images.edit}
+                style={{ width: 16, height: 16 }}
+                contentFit="contain"
+              />
               <Text className="text-xl font-medium pl-2.5">Alterar senha deste usuário</Text>
             </View>
           )}
@@ -67,7 +72,11 @@ export default function UserModal({ selectedUser }: ModerationModalProps) {
         <Pressable className="w-full" onPress={handleDeleteUser}>
           {({ pressed }) => (
             <View className={`w-full px-7 py-3 flex-row items-center justify-center ${pressed ? "bg-gray-300" : ""}`}>
-              <images.trash width={16} height={16} />
+              <Image
+                source={images.trash}
+                style={{ width: 16, height: 16 }}
+                contentFit="contain"
+              />
               <Text className="text-xl font-medium pl-2.5">Excluir este usuário</Text>
             </View>
           )}
@@ -187,20 +196,20 @@ export default function UserModal({ selectedUser }: ModerationModalProps) {
             </Text>
             <View className="mt-16 h-14 w-full flex-row justify-around gap-4">
 
-            <CancelButton
-              classname="flex-1"
-              textClass="text-xl"
-              title="Cancelar"
-              onPress={handleCancel}
-            />
+              <CancelButton
+                classname="flex-1"
+                textClass="text-xl"
+                title="Cancelar"
+                onPress={handleCancel}
+              />
 
-            <SubmitButton
-              classname="flex-1"
-              textClass="text-xl"
-              title="Salvar"
-              onPress={handlePasswordChange}
-            />
-          </View>
+              <SubmitButton
+                classname="flex-1"
+                textClass="text-xl"
+                title="Salvar"
+                onPress={handlePasswordChange}
+              />
+            </View>
           </View>
         </View>
       </ScrollView>

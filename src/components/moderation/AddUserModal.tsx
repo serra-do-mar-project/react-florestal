@@ -55,15 +55,18 @@ export default function AddUserModal({ ...rest }: DefaultModalProps) {
   }
 
   async function handleCreateUser() {
+    console.log('teste')
     if (!(newName && newCpf && newCargo && newPassword && confirmPassword)) {
       setError("Por favor, preencha todos os campos.");
       return;
     }
+    console.log('teste2')
 
     if (newPassword !== confirmPassword) {
       setError("As senhas não coincidem.");
       return;
     }
+    console.log('teste3')
 
     if (!token) {
       setError("Token de autenticação não encontrado.");
@@ -114,7 +117,7 @@ export default function AddUserModal({ ...rest }: DefaultModalProps) {
 
     <ScrollView>
       <View className="mb-8">
-        <View className="px-5 mb-10">
+        <View className="px-5 mb-4">
           <Text className="text-3xl font-semibold text-gray-900 px-3" >Adicionar Novo Usuário</Text>
         </View>
 
@@ -157,21 +160,23 @@ export default function AddUserModal({ ...rest }: DefaultModalProps) {
             label="Confirmar senha"
           />
 
-          <View className="mt-16 h-14 w-full flex-row justify-around gap-4">
+          <View className="items-center">
+            <Text className="text-red-500 font-medium pb-4">{error}</Text>
+            <View className="w-full flex-row justify-around gap-4">
+              <CancelButton
+                classname="flex-1"
+                textClass="text-xl"
+                title="Cancelar"
+                onPress={handleCancel}
+              />
 
-            <CancelButton
-              classname="flex-1"
-              textClass="text-xl"
-              title="Cancelar"
-              onPress={handleCancel}
-            />
-
-            <SubmitButton
-              classname="flex-1"
-              textClass="text-xl"
-              title="Salvar"
-              onPress={handleCreateUser}
-            />
+              <SubmitButton
+                classname="flex-1"
+                textClass="text-xl"
+                title="Salvar"
+                onPress={handleCreateUser}
+              />
+            </View>
           </View>
         </View>
       </View>

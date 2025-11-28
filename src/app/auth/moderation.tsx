@@ -4,6 +4,7 @@ import images from "@/src/constants/images";
 import { useState, useEffect } from "react";
 import { ActivityIndicator, RefreshControl, ScrollView } from "react-native";
 import { View, Text, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import UserModal from "@/src/components/moderation/UserModal";
 import AddUserModal from "@/src/components/moderation/AddUserModal";
 import { DefaultModal } from "@/src/components/DefaultModal";
@@ -50,8 +51,10 @@ export default function ModerationPage() {
           setInitializing(false);
         }
       })();
+    } else {
+      console.log("Token is not available");
     }
-  }, [refreshing])
+  }, [token, refreshing])
 
 
   function handleOpenEditModal(user: { id: number; nome: string; tipo: string }) {
@@ -75,7 +78,7 @@ export default function ModerationPage() {
           className="py-2 px-2.5 w-fit bg-green-500 flex-row items-center justify-center rounded-lg"
           onPress={() => { setAddModalOpen(true) }}
         >
-          <images.addUser width={14} height={14} />
+          <Image source={images.addUser} style={{ width: 14, height: 14 }} contentFit="contain" />
           <Text className="font-semibold text-white text-sm pl-1.5">Adicionar usuário</Text>
         </TouchableOpacity>
 

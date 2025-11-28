@@ -1,7 +1,8 @@
 import images from '@/src/constants/images';
 import { cn } from '@/src/lib/utils';
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
+import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface DropdownOption {
@@ -119,7 +120,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
                                 source={images.arrow}
                                 className="w-4 h-4 mx-3"
                                 style={{ transform: [{ rotate: isOpen ? '180deg' : '0deg' }] }}
-                                resizeMode="contain"
+                                contentFit="contain"
                                 tintColor="black"
                             />
                         </View>

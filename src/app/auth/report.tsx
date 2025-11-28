@@ -46,7 +46,9 @@ export default function ReportPage() {
         data: item.data,
         descricao: item.descricao,
       }));
+      console.log(formData)
       const status = await EnviarRelatorio(token as string, formData, autosSelected);
+      console.log(status)
       if (status.success) {
         // successful submit: reset form state and local UI state
         resetForm();
@@ -58,6 +60,7 @@ export default function ReportPage() {
       }
     },
     onSubmitError: (formData) => {
+      console.log(formData)
       console.log("Erro no envio do formulário");
     }
   });

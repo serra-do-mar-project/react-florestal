@@ -2,6 +2,7 @@ import { SubmitButton } from "@/src/components/SubmitButton";
 import images from "@/src/constants/images";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { Image } from "expo-image";
 import React, { useEffect, useState } from "react";
 import db from "@/src/db/connection";
 import { ExemploDeCasoTable, ExemploDeCaso } from "@/src/db/schema";
@@ -38,7 +39,7 @@ export default function ProcedimentosPage() {
             className="flex justify-center items-center rounded-br-lg rounded-lg"
             onPress={() => router.back()}
           >
-            <images.leftArrow width={26} height={26} style={{ resizeMode: "contain", opacity: 0.9 }} />
+            <Image source={images.leftArrow} style={{ width: 26, height: 26, opacity: 0.9 }} contentFit="contain" />
           </TouchableOpacity>
           <View className=" bg-green-500/30 flex justify-center items-center rounded-full px-3 pt-1 pb-0.5">
             <Text className="text-gray-900/100 text-lg font-semibold">{item?.categoria ?? params.categoria}</Text>

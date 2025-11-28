@@ -1,20 +1,25 @@
 import images from "@/src/constants/images";
 import { router } from "expo-router";
 import { useState } from "react";
-import { View, Text, TouchableOpacity, ImageBackground, Image, Pressable, ScrollView } from "react-native";
-import {PasswordInput }from "@/src/components/PasswordInput"; // ajuste o caminho se necessário
+import { View, Text, TouchableOpacity, ImageBackground, Pressable, ScrollView } from "react-native";
+import { Image } from "expo-image";
+import { PasswordInput } from "@/src/components/PasswordInput"; // ajuste o caminho se necessário
 import { SubmitButton } from "@/src/components/SubmitButton";
 import { LeavePressable } from "@/src/components/configuration/LeavePressable";
+import { useUserStore } from "@/src/store/userStore";
+import { ChangeOwnPassword } from "@/src/lib/utils";
 
 export default function ConfigPage() {
   const [isSelected, setIsSelected] = useState(false);
   const [password, setPassword] = useState("");      // Estado para senha
-  const [newPassword, setNewPassword] = useState(""); 
-  const [confirmPassword, setConfirmPassword] = useState(""); 
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const { nome, tipo, id, token } = useUserStore()
 
 
-  function handleChangePassword() {
-    if((newPassword || password) == ""){
+  async function handleChangePassword() {
+    if ((newPassword || password) == "") {
       alert("os campos devem ser preenchidos");
       return;
     }
@@ -26,8 +31,16 @@ export default function ConfigPage() {
       alert("A nova senha deve ter pelo menos 5 caracteres.");
       return;
     }
-    // Aqui você pode adicionar a lógica para atualizar a senha
-    alert("Senha atualizada com sucesso!");
+
+    if (token && id) {
+      const result = await ChangeOwnPassword(token, password, newPassword, id)
+      if (result.status === "success") {
+        setIsSelected(false)
+        setPassword("")
+        setNewPassword("")
+        setConfirmPassword("")
+      }
+    }
   }
 
   return (
@@ -38,70 +51,70 @@ export default function ConfigPage() {
         <Text className="text-gray-900 font-semibold text-3xl ml-7 ">Configurações</Text>
       </View>
 
-    <View className="w-full mt-6 flex-row border-b border-gray-900/5 shadow shadow-black">
-      <View className="w-32 h-32 justify-center bg-[#57714A]">
-        <images.userConfig  width={110} height={100} style={{ resizeMode: "contain",}}/>
-      </View>
-      <View className="flex-1 h-32 pl-5 pr-3 justify-center items-center bg-white">
+      <View className="w-full mt-6 flex-row border-b border-gray-900/5 shadow shadow-black">
+        <View className="w-32 h-32 justify-center bg-[#57714A]">
+          <Image source={images.userConfig} style={{ width: 110, height: 100 }} contentFit="contain" />
+        </View>
+        <View className="flex-1 h-32 pl-5 pr-3 justify-center items-center bg-white">
           <View className="min-w-60">
-            <Text className="text-2xl font-sans text-gray-900 mb-1">Nome de Usuário</Text>
-            <Text className="text-xl font-sans text-gray-900/80 mb-1">guarda florestal </Text>
+            <Text className="text-2xl font-sans text-gray-900 mb-1">{nome}</Text>
+            <Text className="text-xl font-sans text-gray-900/80 mb-1">{tipo} </Text>
           </View>
-          
-      </View> 
-    </View>
 
-    <ScrollView className="" contentContainerStyle={{ flexGrow: 1 }}>
-    <Pressable className={`w-full items-center justify-between flex-row mt-7 px-5 pb-4 ${isSelected ? "pb-0" : "border-b border-gray-900/20"}`} onPress={() => {
-        setIsSelected(!isSelected)}}>
-    <Text className="text-2xl font-semibold text-gray-900 " >Alterar senha</Text>
-    <Image
-      source={images.arrow}
-      className={`w-6 h-6 transition-transform duration-500 ${isSelected ? "rotate-180 " : ""}`}
-      resizeMode="contain"
-      tintColor="black"
-    />
-    </Pressable>
-      {isSelected && (
-    <View className="px-5 transition-all duration-500 overflow-hidden opacity-100">
-      <Text className="w-full font-sans px-0.5">
-        lembre-se, a nova senha deve ser forte e única.
-      </Text>
-
-      <View className="items-center w-full mt-5 px-3 gap-4">
-        <PasswordInput
-          password={password}
-          setPassword={setPassword}
-          label="Senha atual"
-        />
-
-        <PasswordInput
-          password={newPassword}
-          setPassword={setNewPassword}
-          label="Senha nova"
-        />
-
-        <PasswordInput
-          password={confirmPassword}
-          setPassword={setConfirmPassword}
-          label="Confirmar nova senha"
-        />
-
-        <SubmitButton
-          classname="h-[3rem] w-[7rem] mt-8 mb-10"
-          textClass="text-xl"
-          title="Salvar"
-          onPress={handleChangePassword}
-        />
+        </View>
       </View>
-    </View>
-  )}
 
-      <View className={`${isSelected ? "mt-6" : "mt-[85%]"} mb-5`} >
-      <LeavePressable/>
-      </View>
+      <ScrollView className="" contentContainerStyle={{ flexGrow: 1 }}>
+        <Pressable className={`w-full items-center justify-between flex-row mt-7 px-5 pb-4 ${isSelected ? "pb-0" : "border-b border-gray-900/20"}`} onPress={() => {
+          setIsSelected(!isSelected)
+        }}>
+          <Text className="text-2xl font-semibold text-gray-900 " >Alterar senha</Text>
+          <Image
+            source={images.arrow}
+            className={`w-6 h-6 transition-transform duration-500 ${isSelected ? "rotate-180 " : ""}`}
+            contentFit="contain"
+            tintColor="black"
+          />
+        </Pressable>
+        {isSelected && (
+          <View className="px-5 transition-all duration-500 overflow-hidden opacity-100">
+            <Text className="w-full font-sans px-0.5">
+              lembre-se, a nova senha deve ser forte e única.
+            </Text>
+
+            <View className="items-center w-full mt-5 px-3 gap-4">
+              <PasswordInput
+                password={password}
+                setPassword={setPassword}
+                label="Senha atual"
+              />
+
+              <PasswordInput
+                password={newPassword}
+                setPassword={setNewPassword}
+                label="Senha nova"
+              />
+
+              <PasswordInput
+                password={confirmPassword}
+                setPassword={setConfirmPassword}
+                label="Confirmar nova senha"
+              />
+
+              <SubmitButton
+                classname="h-[3rem] w-[7rem] mt-8 mb-10"
+                textClass="text-xl"
+                title="Salvar"
+                onPress={handleChangePassword}
+              />
+            </View>
+          </View>
+        )}
+
+        <View className={`${isSelected ? "mt-6" : "mt-[85%]"} mb-5`} >
+          <LeavePressable />
+        </View>
       </ScrollView>
-      
     </View>
   );
 }

@@ -1,4 +1,4 @@
-import { View, Image, Keyboard, Text, KeyboardAvoidingView, Platform } from "react-native";
+import { View, Keyboard, Text, KeyboardAvoidingView, Platform } from "react-native";
 import Title from "../components/Title";
 import { SubmitButton } from "../components/SubmitButton";
 import React, { useEffect, useState, useMemo } from "react";
@@ -9,6 +9,7 @@ import { useUserStore } from "../store/userStore";
 import { Configinput } from "../components/ConfigInput";
 import { PasswordInput } from "../components/PasswordInput";
 import allImages from '../constants/images';
+import { Image } from "expo-image";
 
 export default function loginPage() {
   const router = useRouter();
@@ -74,12 +75,19 @@ export default function loginPage() {
           </Title>
         </View>
 
-        <images.logoparque width={200} height={keyboardOpen ? 100 : 160} />
-
+        <Image
+          source={images.logoparque}
+          style={{ width: 200, height: keyboardOpen ? 100 : 160 }}
+          contentFit="contain"
+        />
 
         <View className="flex w-full px-6 items-center mx-4 mt-4">
           <Configinput textHolder="CPF" value={CPF} onChangeText={setCPF} className="h-16 rounded-2xl -mb-4">
-            <images.user width="24px" height="24px" />
+            <Image
+              source={images.user}
+              style={{ width: 24, height: 24 }}
+              contentFit="contain"
+            />
           </Configinput>
           <PasswordInput textHolder="Senha" password={password} setPassword={setPassword} className="h-16 rounded-2xl" error={error} />
         </View>
@@ -95,19 +103,22 @@ export default function loginPage() {
         <View className="items-center justify-center w-24 h-24 bg-transparent">
           <Image
             source={images.ifspLogo}
-            style={{ width: 100, height: 60, resizeMode: "contain" }}
+            style={{ width: 100, height: 60 }}
+            contentFit="contain"
           />
         </View>
         <View className="items-center justify-center w-24 h-24 bg-transparent">
           <Image
             source={images.ffLogo}
-            style={{ width: 100, height: 100, resizeMode: "contain" }}
+            style={{ width: 100, height: 100 }}
+            contentFit="contain"
           />
         </View>
         <View className="items-center justify-center w-24 h-24 bg-transparent">
           <Image
             source={images.semilLogo}
-            style={{ width: 100, height: 95, resizeMode: "contain" }}
+            style={{ width: 100, height: 95 }}
+            contentFit="contain"
           />
         </View>
       </View>

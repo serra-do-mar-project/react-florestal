@@ -4,7 +4,7 @@
     "slug": "react-florestal",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/logo-parque.svg",
+    "icon": "./src/assets/images/logo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/logo-parque.svg",
+        "foregroundImage": "./src/assets/images/logo.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.emanuel_cac.reactflorestal"
@@ -28,7 +28,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./src/assets/images/logo-parque.svg",
+          "image": "./src/assets/images/logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"

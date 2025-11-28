@@ -105,20 +105,22 @@ export function DefaultModal({
       {...rest}
     >
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)" }}>
+        <View className="relative" style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)" }}>
           <Pressable className="flex-1" onPress={closeWithAnimation} />
-        
+
           <Animated.View
             {...panResponder.panHandlers} // 👈 aplica gesto
             style={{
               transform: [{ translateY }],
               borderTopLeftRadius: 24,
               borderTopRightRadius: 24,
-              marginTop: 30,
               backgroundColor: "white",
-              width: "100%",
-              minHeight: "33%",
-              maxHeight: "95%",
+              maxHeight: '85%',
+              width: '100%',
+              position: 'absolute',
+              bottom: 0,
+              right: 0,
+              left: 0
             }}
           >
             <Pressable
@@ -137,9 +139,7 @@ export function DefaultModal({
             </Pressable>
 
             <ModalContext.Provider value={{ closeWithAnimation }}>
-
               {children}
-
             </ModalContext.Provider>
           </Animated.View>
         </View>

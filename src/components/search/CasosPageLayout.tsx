@@ -1,6 +1,7 @@
 // components/ReusablePageLayout.tsx
 
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -84,7 +85,7 @@ export default function ReusablePageLayout({
             className="bg-white/90 h-12 justify-center items-center rounded-br-lg rounded-tr-lg px-4"
             onPress={() => router.push("/auth/search")}
           >
-            <images.leftArrow width={30} height={30} style={{ resizeMode: "contain", opacity: 0.8  }} />
+            <Image source={images.leftArrow} style={{ width: 30, height: 30, opacity: 0.8 }} contentFit="contain" />
           </TouchableOpacity>
           <View className="bg-white/90 h-12 max-w-72 justify-center items-center rounded-bl-lg rounded-tl-lg px-4">
             <Text className="text-gray-900/80 text-2xl font-BaiJamJuree_bold" numberOfLines={1} adjustsFontSizeToFit={true} minimumFontScale={1}>{title}</Text>
@@ -102,7 +103,7 @@ export default function ReusablePageLayout({
           <View>
             <View className="w-full flex-row justify-between mb-3 px-6">
               <TouchableOpacity onPress={() => router.push("/auth/search")}>
-                <images.leftArrow width={30} height={30} style={{ resizeMode: "contain", opacity: 0.9  }} />
+                <Image source={images.leftArrow} style={{ width: 30, height: 30, opacity: 0.9 }} contentFit="contain" />
               </TouchableOpacity>
               <View className="bg-green-500/30 px-3.5 pt-0.5 items-center justify-center rounded-full">
                 <Text className="text-gray-900 text-lg font-semibold">{title}</Text>
