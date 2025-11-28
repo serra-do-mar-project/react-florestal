@@ -4,9 +4,12 @@ import { FlatList, Modal, Text, TouchableOpacity, View } from "react-native"
 import { fetchAutos } from "@/src/hooks/useAutos";
 import InfractionCard from "../infractions/InfractionCard";
 import { DefaultModal, useModal } from "../DefaultModal";
+import HeaderModal, { CancelButton } from "../HeaderModal";
+import { cn } from "@/src/lib/utils";
 
 export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected, resetKey }: { visible: boolean, setVisible: (visible: boolean) => void, setSelected: (selected: AutosDeInfracao[]) => void, resetKey?: number }) => {
   const [cardSelected, setCardSelected] = useState<number[]>([]);
+  const [tempSelected, setTempSelected] = useState<number[]>([]);
   const [listData, setListData] = useState<AutosDeInfracao[]>([]);
 
   const refreshAutos = useCallback(async () => {
@@ -18,6 +21,8 @@ export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected, resetKe
   useEffect(() => {
     if (visible) {
       refreshAutos();
+      // Restaura as seleções confirmadas ao abrir
+      setTempSelected([...cardSelected]);
     }
   }, [visible, refreshAutos]);
 
@@ -25,44 +30,38 @@ export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected, resetKe
   useEffect(() => {
     if (typeof resetKey !== 'undefined') {
       setCardSelected([]);
+      setTempSelected([]);
     }
   }, [resetKey]);
 
   const Modalcontent = () =>{
      const { closeWithAnimation } = useModal();
 
+    const handleCancel = () => {
+      // Volta ao último ponto de partida (descarta mudanças temporárias)
+      setTempSelected([...cardSelected]);
+      closeWithAnimation();
+    };
+
+    const handleConfirm = () => {
+      // Salva as seleções temporárias como definitivas
+      setCardSelected([...tempSelected]);
+      const selected = listData.filter((item) => tempSelected.includes(item.id));
+      setSelected(selected);
+      closeWithAnimation();
+    };
+
     return ( 
       <View className="w-full">
-        <View className=" pb-3 border-b-2 border-gray-900/10 px-5 ">
-          <View className="flex-row justify-between items-center">
+          <HeaderModal onPress={handleCancel}>
             <Text className="text-gray-900 font-semibold text-2xl">Autos de Infração</Text>
-            <TouchableOpacity
-              onPress={closeWithAnimation}
-              className="px-4 py-2 bg-gray-200 rounded-lg"
-            >
-              <Text className="text-gray-800 font-semibold">Cancelar</Text>
-            </TouchableOpacity>
-          </View>
-             <View className="my-4 pt-2">
-              <TouchableOpacity
-                onPress={() => {
-                  const selected = listData.filter((item) => cardSelected.includes(item.id))
-                  setSelected(selected);
-                  closeWithAnimation();
-                }}
-                className="bg-green-500 py-3 px-6 rounded-lg items-center"
-              >
-                <Text className="text-white font-semibold text-lg">
-                  Concluir ({cardSelected.length} selecionados)
-                </Text>
-              </TouchableOpacity>
-            </View>
-        </View>
+            <CancelButton label="Cancelar" onPress={handleCancel}  />
+          </HeaderModal>
         <FlatList
           className="-max-h-screen-safe-offset-44 px-5 pt-10"
           data={listData}
           keyExtractor={(item) => String((item as any).id)}
-          extraData={cardSelected}
+          extraData={tempSelected}
           ItemSeparatorComponent={() => <View className="h-4" />}
           renderItem={({ item }) => {
 
@@ -73,15 +72,27 @@ export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected, resetKe
                 date={item.data}
                 tag={item.tags}
                 onSelect={() => {
-                  setCardSelected((prev) => (prev.includes(item.id) ? prev.filter((x) => x !== item.id) : [...prev, item.id]));
+                  setTempSelected((prev) => (prev.includes(item.id) ? prev.filter((x) => x !== item.id) : [...prev, item.id]));
                 }}
-                isSelected={cardSelected.includes(item.id)}
+                isSelected={tempSelected.includes(item.id)}
                 selectMode={true}
               />
             );
           }}
           ListFooterComponent={<View className="h-20" />}
         />
+
+        <View className="py-4 px-6 border-t-2 border-gray-900/10">
+              <TouchableOpacity
+                disabled={tempSelected.length === 0}
+                onPress={handleConfirm}
+                className={cn("py-3 px-6 rounded-lg items-center", tempSelected.length === 0 ? "bg-white border border-green-600" : "bg-green-800 border border-green-800")}
+              >
+                <Text className={cn(" font-semibold text-lg", tempSelected.length === 0 ? "text-green-600" : "text-white")}>
+                  Concluir ({tempSelected.length} selecionados)
+                </Text>
+              </TouchableOpacity>
+            </View>
       </View>);
   }
 
