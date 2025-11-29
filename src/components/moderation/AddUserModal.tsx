@@ -130,7 +130,7 @@ export default function AddUserModal({ ...rest }: DefaultModalProps) {
             value={newCpf}
             onChangeText={handleCpfChange}
             label="CPF"
-            keyboardType="numeric"
+            keyboardType="number-pad"
             maxLength={14}
           />
 
@@ -156,6 +156,7 @@ export default function AddUserModal({ ...rest }: DefaultModalProps) {
             setPassword={setConfirmPassword}
             label="Confirmar senha"
           />
+          <Text>{error}</Text>
 
           <View className="mt-16 h-14 w-full flex-row justify-around gap-4">
 

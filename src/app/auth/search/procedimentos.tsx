@@ -34,16 +34,24 @@ export default function ProcedimentosPage() {
     <View className="flex-1">
       <View className="bg-[#fffdfd] pt-10 pb-5 border border-gray-900/10 shadow shadow-black ">
         <View className="w-full px-4">
-          <View className="flex-row items-start mb-3">
-            <TouchableOpacity
-              className="rounded-lg pr-3 pt-1"
-              onPress={() => router.back()}
-            >
-              <images.leftArrow width={26} height={26} style={{ resizeMode: "contain", opacity: 0.9 }} />
-            </TouchableOpacity>
 
+          <View className="flex-row w-full px-1 mb-1 justify-between items-end">
+              <TouchableOpacity
+                className="rounded-lg pr-3 pt-1 pb-1"
+                onPress={() => router.back()}
+              >
+                <images.leftArrow width={26} height={26} style={{ resizeMode: "contain", opacity: 0.9 }} />
+              </TouchableOpacity>
+
+              <View className=" bg-green-500/30 rounded-full  mt-1 px-3 py-1">
+                <Text className="text-gray-900 text-base font-semibold">{item?.categoria ?? params.categoria}</Text>
+            </View>
+
+          </View>
+
+          <View className="w-full flex-row justify-center items-center ">
             <Text
-              className={`flex-1 pt-1 text-gray-900 font-semibold ${titleLineCount <= 1 ? 'text-3xl' : 'text-2xl'}`}
+              className={`flex-1 mx-3 pt-1 text-gray-900 font-semibold ${titleLineCount <= 1 ? 'text-3xl' : 'text-2xl'}`}
               numberOfLines={2}
               adjustsFontSizeToFit={true}
               minimumFontScale={1}
@@ -56,9 +64,7 @@ export default function ProcedimentosPage() {
             </Text>
           </View>
           
-          <View className="self-end bg-green-500/30 rounded-full px-3 py-1">
-            <Text className="text-gray-900 text-base font-semibold">{item?.categoria ?? params.categoria}</Text>
-          </View>
+          
         </View>
       </View>
 
@@ -89,13 +95,13 @@ export default function ProcedimentosPage() {
             </FormCard>
 
             <FormCard title="Procedimentos Operacionais" subTitle="" currentPage={3} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0}>
-              <View className="flex-1 gap-5">
+              <View className="flex-1">
                 {(item?.proc_op ?? params.procedimento ?? "")
                   .toString()
                   .split("\n")
                   .map((step, idx) =>
                     step.trim() ? (
-                      <Text key={idx} className="text-xl font-BaiJamJuree_Medium text-stone-800">
+                      <Text key={idx} className="text-xl text-justify font-BaiJamJuree_Medium text-stone-800">
                         {step.trim()}
                       </Text>
                     ) : null

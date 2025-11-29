@@ -16,18 +16,21 @@ export default function InfractionModal({ item }: InfractionModalProps) {
  
     <ScrollView className="w-full">
       <View className="w-full pb-10">
-        <HeaderModal className="pl-7 pr-4 pb-3 items-start" onPress={closeWithAnimation}>
+        <HeaderModal className="px-7 pb-3 items-start" onPress={closeWithAnimation}>
           <View className="flex-1 ">
-            <Text className="text-2xl font-semibold">{item?.nome_resumo}</Text>
-            <View className="flex-row items-center gap-2 pt-2">
-              <Text className="text-base font-medium text-gray-700">{date}</Text>
-              <Text className="text-base font-medium text-gray-700">•</Text>
-              <Text className="text-base font-medium text-gray-700">{time}</Text>
+            <Text className="text-2xl pb-4 font-medium">{item?.nome_resumo}</Text>
+            <View className="w-full flex-row justify-between">
+              <View className="flex-row items-center gap-2">
+                <Text className="text-base font-medium text-gray-700">{date}</Text>
+                <Text className="text-base font-medium text-gray-700">•</Text>
+                <Text className="text-base font-medium text-gray-700">{time}</Text>
+              </View>
+              <CancelButton label="voltar" onPress={closeWithAnimation}/>
             </View>
           </View>
       
         </HeaderModal>
-        <Text className="text-lg pl-8 pr-4 font-BaiJamJuree_Medium pt-10">{item?.descricao}</Text>
+        <Text className="text-lg px-7 text-justify font-BaiJamJuree_Medium pt-10">{item?.descricao}</Text>
       </View>
       
       

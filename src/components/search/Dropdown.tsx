@@ -15,7 +15,7 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia
 
   return (
     <View {...props} className="bg-[#57714A] rounded-md w-full flex flex-col items-center">
-      <Pressable className="pt-3 pb-4 px-5 flex flex-col" onPress={() => {
+      <Pressable className={`pt-3 pb-5 px-5 flex flex-col`} onPress={() => {
         setIsSelected(!isSelected);
       }}>
         <View className="flex flex-row items-start justify-between w-full gap-1">
@@ -27,7 +27,7 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia
           />
         </View>
         {tags[0] && (
-          <View className="bg-[#DFDFDF] rounded-md px-3 pt-1 pb-1.5 mb-0.5 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
+          <View className="bg-[#DFDFDF] rounded-md px-3 pt-1 pb-1.5 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
             {tags.map((tag, index) => (
               <View className="flex-row items-center gap-1" key={index}>
                 <Image
@@ -42,16 +42,18 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia
         )}
       </Pressable>
       {isSelected && (
-        <View className="flex flex-col py-4 px-5 pt-1 w-full">
-          <Text className="text-white font-semibold text-xl">Natureza do Dano (Infração/Crime)</Text>
-          <View className="bg-[#DFDFDF] rounded-md p-3 py-3 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
+        <View className="flex flex-col pb-4 px-5 w-full">
+          
+          <View className="bg-[#DFDFDF] rounded-md pb-3 px-3 pt-2 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
+            <Text className="font-semibold text-lg">Natureza do Dano (Infração/Crime)</Text>
             <Text className="text-black font-BaiJamJuree_Medium text-md">{tipoOcorrencia}</Text>
           </View>
           <TouchableOpacity
-            className="bg-[#DFDFDF] rounded-xl p-1 mb-1 mt-6 mx-7 flex flex-row justify-center border-x-hairline border-b-2 border-gray-900/30"
+            className="bg-[#DFDFDF] rounded-xl p-1 mb-1 mt-6  w-full flex-row justify-center border-x-hairline border-b-2 border-gray-900/30"
             onPress={onPress}
+            activeOpacity={0.7}
           >
-            <Text className="text-black font-BaiJamJuree_Medium text-xl text-center pb-0.5">Selecionar</Text>
+            <Text className="text-black font-BaiJamJuree_Medium text-xl text-center py-0.5">Selecionar</Text>
           </TouchableOpacity>
         </View>
       )}
