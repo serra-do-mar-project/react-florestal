@@ -37,15 +37,10 @@ export default function MainLayout() {
   const { success, error } = useMigrations(db, migrations);
 
   useEffect(() => {
-    console.log("Migrations success:", success);
-  }, [success]);
-
-  useEffect(() => {
     if (error) console.error("Migration error:", error);
   }, [error]);
 
   useEffect(() => {
-    if (!success) return console.log("Aguardando migrações...");
     (async () => {
       try {
 
@@ -71,7 +66,7 @@ export default function MainLayout() {
           ]));
         }
       } catch (error) {
-        console.error("Error during migration:", error);
+        return error;
       }
     })();
   }, [success, error, token]);

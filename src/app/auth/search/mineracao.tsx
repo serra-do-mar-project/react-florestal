@@ -23,7 +23,7 @@ export default function MineracaoPage() {
       imageComponent={
         <Image
           source={images.mineracaoLarge}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%", height: "110%" }}
           resizeMode="cover"
         />
       }

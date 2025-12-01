@@ -24,6 +24,7 @@ export default function ReportPage() {
   const [vtr, setVtr] = useState<boolean>(true);
   const [autosDeInfracao, setAutosDeInfracao] = useState<boolean>(false);
   const [autosSelected, setAutosSelected] = useState<AutosDeInfracao[]>([]);
+  const [autosError, setAutosError] = useState<boolean>(false);
   const [formKey, setFormKey] = useState<number>(0);
 
   const {
@@ -33,6 +34,12 @@ export default function ReportPage() {
     resetForm
   } = useFormManager({
     onSubmitSuccess: async (formData) => {
+
+      if (autosSelected.length === 0) {
+        setAutosError(true);
+        return;
+      }
+
       if (formData?.outros_equipe && formData.outros_equipe.length > 0) {
         formData.equipe_em_atuacao = formData.equipe_em_atuacao + ', ' + formData.outros_equipe;
       }
@@ -53,7 +60,7 @@ export default function ReportPage() {
         setFormKey((k) => k + 1);
       }
     },
-    onSubmitError: (formData) => {
+    onSubmitError: () => {
       console.log("Erro no envio do formulário");
     }
   });
@@ -356,7 +363,8 @@ export default function ReportPage() {
           </FormCard>
 
           <FormCard contentClassName="ml-5" title="Autos de Infração" subTitle="Anexe ao menos 1 Auto" currentPage={7} totalPages={totalPages}>
-            <AttachPressable onPress={() => setAutosDeInfracao(true)} autosSelected={autosSelected}/>
+            <AttachPressable onPress={() => (setAutosDeInfracao(true), setAutosError(false))} autosSelected={autosSelected}/>
+            {autosError&& <Text className="w-full text-red-500 text-sm mt-1 pl-2">Este campo é obrigatório</Text>}
           </FormCard>
           <SubmitButton
             classname="w-full mb-10 mt-7"

@@ -108,11 +108,13 @@ export default function UserModal({ selectedUser }: ModerationModalProps) {
 
       const result = await ChangeOtherUserPassword(token, password, newPassword, selectedUser.id);
       if (result.status === "success") {
+
         closeWithAnimation();
         setChangePasswordOpen(false);
         setPassword("");
         setNewPassword("");
         setConfirmPassword("");
+        Alert.alert("Sucesso", "Senha alterada com sucesso.");
       } else {
         setError(result.message);
       }
