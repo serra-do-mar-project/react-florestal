@@ -7,6 +7,7 @@ import db from "@/src/db/connection";
 import { ExemploDeCaso, ExemploDeCasoTable } from "@/src/db/schema";
 import Dropdown from "./Dropdown";
 import { router } from "expo-router";
+import { asc } from "drizzle-orm";
 
 
 export type searchModalProps = ModalProps & {
@@ -22,12 +23,21 @@ export default function SearchModal({onClose, ...rest}: searchModalProps) {
     const [filteredData, setFilteredData] = useState<ExemploDeCaso[]>([]);
 
     useEffect(() => {
+        if (!rest.visible) return;
+        
         db.select()
       .from(ExemploDeCasoTable)
-      .then((res) => setData(res as ExemploDeCaso[]));
+      .orderBy(asc(ExemploDeCasoTable.nome_resumo))
+      .then((res) => {
+        const casos = res as ExemploDeCaso[];
+        setData(casos);
+        setFilteredData(casos); 
+      })
+      .catch((error) => {
+        console.error('Erro ao carregar dados:', error);
+      });
 
-    }, []);
-
+    }, [rest.visible]);
 
     
     const openAnimation = () => {
@@ -73,7 +83,7 @@ export default function SearchModal({onClose, ...rest}: searchModalProps) {
                                 <Title>Buscar Infração</Title>
                             </View>
                 
-                            <SearchBar ref={searchBarRef} data={data} filterKey={["nome_resumo", "nome_completo", "tipo_ocorrencia" ]} onFiltered={(e) => setFilteredData(e)} />
+                            <SearchBar ref={searchBarRef} data={data} filterKey={["nome_resumo", "nome_completo", "tipo_ocorrencia", "palavra_chave"]} onFiltered={(e) => setFilteredData(e)} />
                     </View>
                 
                     <FlatList

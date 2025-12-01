@@ -84,7 +84,6 @@ export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected, resetKe
 
         <View className="py-4 px-6 border-t-2 border-gray-900/10">
               <TouchableOpacity
-                disabled={tempSelected.length === 0}
                 onPress={handleConfirm}
                 className={cn("py-3 px-6 rounded-lg items-center", tempSelected.length === 0 ? "bg-white border border-green-600" : "bg-green-800 border border-green-800")}
               >

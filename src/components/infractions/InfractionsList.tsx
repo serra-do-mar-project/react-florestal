@@ -1,16 +1,14 @@
-import { useState, useCallback, forwardRef, useImperativeHandle } from "react";
+import { useState, useCallback, useEffect, forwardRef, useImperativeHandle } from "react";
 import { View, FlatList, ActivityIndicator, FlatListProps, RefreshControl } from "react-native";
 import InfractionCard from "@/src/components/infractions/InfractionCard";
-import OptionsBar from "@/src/components/infractions/OptionsBar";
 import { AutosDeInfracao } from "@/src/db/schema";
 import { fetchAutos, deleteAutos } from "@/src/hooks/useAutos";
 import { cn } from "@/src/lib/utils";
 
 export type InfractionsListProps = {
   onSelect?: (item: AutosDeInfracao) => void;
+  onSelectionChange?: () => void;
   pressedMode?: boolean;
-  cancelOption?: boolean;
-  deleteOption?: boolean;
   className?: string;
   listFooterComponent?: FlatListProps<AutosDeInfracao>['ListFooterComponent'];
 };
@@ -21,10 +19,14 @@ export type InfractionsListHandle = {
   clearSelection: () => void;
   getSelected: () => AutosDeInfracao[];
   refreshAndSelectAll: () => Promise<void>;
+  deleteSelected: () => Promise<void>;
+  isAllSelected: () => boolean;
+  getSelectionCount: () => number;
+  isInSelectionMode: () => boolean;
 };
 
 export const InfractionsList = forwardRef<InfractionsListHandle, InfractionsListProps>(
-  ({ onSelect, pressedMode, cancelOption = true, deleteOption = true, className, listFooterComponent = <View className="h-10" /> }, ref) => {
+  ({ onSelect, onSelectionChange, pressedMode, className, listFooterComponent = <View className="h-10" /> }, ref) => {
 
     const [selectedItems, setSelectedItems] = useState<AutosDeInfracao[]>([]);
     const [isSelectionMode, setIsSelectionMode] = useState(false);
@@ -32,6 +34,11 @@ export const InfractionsList = forwardRef<InfractionsListHandle, InfractionsList
     const [loading, setLoading] = useState(true);
 
     const [refreshing, setRefreshing] = useState(false);
+
+    // Notifica pai quando seleção muda
+    useEffect(() => {
+      onSelectionChange?.();
+    }, [selectedItems, isSelectionMode]);
 
     const onRefresh = useCallback(() => {
       setRefreshing(true);
@@ -94,33 +101,13 @@ export const InfractionsList = forwardRef<InfractionsListHandle, InfractionsList
         selectAll: () => handleSelectAll(true),
         clearSelection: resetSelection,
         getSelected: () => selectedItems,
+        deleteSelected: async () => await handleDelete(selectedItems),
+        isAllSelected: () => selectedItems.length > 0 && selectedItems.length === listData.length,
+        getSelectionCount: () => selectedItems.length,
+        isInSelectionMode: () => isSelectionMode || !!pressedMode,
       }),
-      [loadAutos, handleSelectAll, resetSelection, selectedItems]
+      [loadAutos, handleSelectAll, resetSelection, selectedItems, handleDelete, listData, isSelectionMode, pressedMode]
     );
-
-    // -------------------------------
-    // Cabeçalho com barra de opções
-    // -------------------------------
-    const renderHeader = () => {
-      const isAllSelected =
-        selectedItems.length > 0 && selectedItems.length === listData.length;
-
-      if (!(isSelectionMode || pressedMode)) return null;
-
-      return (
-        <View className="mb-2">
-          <OptionsBar
-            deleteOption={deleteOption}
-            cancelOption={cancelOption}
-            onSelectAll={() => handleSelectAll(!isAllSelected)}
-            numberSelected={selectedItems.length}
-            onCancel={resetSelection}
-            isAllSelected={isAllSelected}
-            onDelete={() => handleDelete(selectedItems)}
-          />
-        </View>
-      );
-    };
 
     // -------------------------------
     // Renderiza cada card
@@ -177,7 +164,6 @@ export const InfractionsList = forwardRef<InfractionsListHandle, InfractionsList
         keyExtractor={(item) => String(item.id)}
         showsVerticalScrollIndicator={false}
         className={cn("w-full", className)}
-        ListHeaderComponent={renderHeader}
         renderItem={renderItem}
         ItemSeparatorComponent={() => <View className="h-4" />}
         ListFooterComponent={listFooterComponent}

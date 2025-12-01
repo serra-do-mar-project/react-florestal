@@ -38,6 +38,7 @@ import clock from "@/src/assets/images/clock.svg"
 import folder from "@/src/assets/images/folder.svg"
 import check from "@/src/assets/images/check.svg"
 import succes from "@/src/assets/images/success.png"
+import clip from "@/src/assets/images/clip.svg"
 
 
 
@@ -83,6 +84,7 @@ const images = {
   folder,
   check,
   succes,
+  clip
 };
 
 export default images;

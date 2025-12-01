@@ -14,7 +14,8 @@ import { AutosDeInfracao } from "@/src/db/schema";
 import { AutosDeInfracaoModal } from "@/src/components/report/AutosDeInfracaoModal";
 import { EnviarRelatorio } from "@/src/lib/utils";
 import { useUserStore } from "@/src/store/userStore";
-import { AttachModal } from "@/src/components/report/AttachModal";
+import AttachPressable from "@/src/components/report/AttachPressable";
+
 
 
 export default function ReportPage() {
@@ -23,11 +24,6 @@ export default function ReportPage() {
   const [vtr, setVtr] = useState<boolean>(true);
   const [autosDeInfracao, setAutosDeInfracao] = useState<boolean>(false);
   const [autosSelected, setAutosSelected] = useState<AutosDeInfracao[]>([]);
-  const [openAttachModal, setOpenAttachModal] = useState<boolean>(false);
-  const [openSendStatusModal, setOpenSendStatusModal] = useState<boolean>(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const [sendSuccess, setSendSuccess] = useState<boolean>(false);
-  // key used to force remount of form children so internal component state resets
   const [formKey, setFormKey] = useState<number>(0);
 
   const {
@@ -359,32 +355,12 @@ export default function ReportPage() {
             />
           </FormCard>
 
-          <FormCard title="Autos de Infração" subTitle="Anexe ao menos 1 Auto" currentPage={7} totalPages={totalPages}>
-            {autosSelected.length === 0 ? (
-              <TouchableOpacity
-                onPress={() => setAutosDeInfracao(true)}
-                className="bg-green-500 py-3 px-6 rounded-lg items-center border border-green-500"
-              >
-                <Text className="text-white font-semibold">Selecionar Autos de Infração</Text>
-              </TouchableOpacity>
-            ) : (
-              <View className="w-full -mt-3 -mb-4 ">
-                <TouchableOpacity
-                  onPress={() => setAutosDeInfracao(true)}
-                  className="bg-white py-3 px-6 rounded-lg items-center mb-2 border border-green-500"
-                >
-                  <Text className="text-black font-semibold">Editar Autos de Infração ({autosSelected.length})</Text>
-                </TouchableOpacity>
-
-                <View className="flex-row items-center justify-between px-2">
-                  <Text className="text-sm text-gray-700">{autosSelected.length} selecionado(s)</Text>
-                </View>
-              </View>
-            )}
+          <FormCard contentClassName="ml-5" title="Autos de Infração" subTitle="Anexe ao menos 1 Auto" currentPage={7} totalPages={totalPages}>
+            <AttachPressable onPress={() => setAutosDeInfracao(true)} autosSelected={autosSelected}/>
           </FormCard>
           <SubmitButton
-            classname="mb-10 mt-7"
-            title="enviar"
+            classname="w-full mb-10 mt-7"
+            title="Enviar"
             onPress={() => { handleSubmit(); }}
           />
         </View>
@@ -396,13 +372,7 @@ export default function ReportPage() {
         setSelected={setAutosSelected}
         resetKey={formKey}
       />
-      {/* <AttachModal
-        visible={autosDeInfracao}
-        onSelect={(selectedItems) => {
-          setAutosSelected(selectedItems);
-          setAutosDeInfracao(false);
-        }}
-      /> */}
+     
     </View>
   );
 }
