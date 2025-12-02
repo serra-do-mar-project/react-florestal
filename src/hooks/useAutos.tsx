@@ -34,7 +34,13 @@ export function MountAuto({ item, form }: MountParams) {
     descricao: auto_gerado,
     tags: item.tags ?? undefined,
     categoria: item.categoria,
-    data: new Date().toLocaleString(),
+    data: new Date().toLocaleString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    }),
   };
 
   return newAuto;

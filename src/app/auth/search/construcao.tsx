@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Image } from "react-native";
+import { Image } from "expo-image";
 import ReusablePageLayout from "@/src/components/search/CasosPageLayout";
 import images from "@/src/constants/images";
 import db from "@/src/db/connection";
@@ -27,7 +27,7 @@ export default function ConstrucaoPage() {
         <Image
           source={images.construcaoLarge}
           style={{ width: "100%", height: "100%" }}
-          resizeMode="cover"
+          contentFit="cover"
         />
       }
       title="Construção"

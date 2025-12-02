@@ -44,12 +44,15 @@ export default function ReportPage() {
         formData.equipe_em_atuacao = formData.equipe_em_atuacao + ', ' + formData.outros_equipe;
       }
       delete formData.outros_equipe;
+
       formData.autoinfracao = autosSelected.map((item) => ({
         id_exemplocaso: item.id_exemplocaso,
         data: item.data,
         descricao: item.descricao,
       }));
+      console.log(formData)
       const status = await EnviarRelatorio(token as string, formData, autosSelected);
+      console.log(status)
       if (status.success) {
         // successful submit: reset form state and local UI state
         resetForm();
@@ -60,7 +63,8 @@ export default function ReportPage() {
         setFormKey((k) => k + 1);
       }
     },
-    onSubmitError: () => {
+    onSubmitError: (formData) => {
+      console.log(formData)
       console.log("Erro no envio do formulário");
     }
   });
@@ -179,7 +183,7 @@ export default function ReportPage() {
 
             <RadioButton
               title="Município(s)"
-              multiSelect={false}
+              multiSelect={true}
               options={[
                 { valor: "caraguatatuba", nome: "Caraguatatuba" },
                 { valor: "paraibuna", nome: "Paraibuna" },
@@ -189,29 +193,15 @@ export default function ReportPage() {
               showError={trowError}
             />
 
-            {/* <Forminput
-              title="Rua/Estrada/Trilha"
-              label="Ex: Estrada do Pouso Alto"
-              onChangeText={(res) => setField("rua_estrada_trilha", res)}
+            <Forminput
+              title="Endereços"
+              onChangeText={(res) => setField("enderecos", res)}
               showError={trowError}
             />
-
-            <Forminput
-              title="Número/Quilômetro"
-              label="Ex: Km 04"
-              onChangeText={(res) => setField("numero_km", res)}
-              showError={trowError}
-            />
-
-            <Forminput
-              title="Bairro"
-              label="Ex: Bairro Rio Negro"
-              onChangeText={(res) => setField("bairro", res)}
-              showError={trowError}
-            /> */}
 
             <RadioButton
               title="Setores Fiscalizados"
+              multiSelect={true}
               options={[
                 { valor: "caraguatatuba_norte", nome: "Caraguatatuba Norte" },
                 { valor: "caraguatatuba_sul", nome: "Caraguatatuba Sul" },
@@ -247,18 +237,11 @@ export default function ReportPage() {
             />
 
             <Forminput
-              title="Coordenadas geográficas"
-              label="Ex: -23,70916 / -45,544281"
+              title="Coordenadas geográficas e referência das coordenadas"
+              label="Ex: -23,70916 / -45,544281 perto da cachoeira..."
               onChangeText={(res) => setField("coordenadas", res)}
               showError={trowError}
             />
-
-            {/* <Forminput
-              title="Referência da coordenada"
-              label="Ex: Guarita Base RP"
-              onChangeText={(res) => setField("referencia_coordenada", res)}
-              showError={trowError}
-            /> */}
           </FormCard>
 
           <FormCard title="Dados da VTR" currentPage={5} totalPages={totalPages}>

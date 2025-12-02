@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Text, View, Pressable, Image, TouchableOpacity } from "react-native";
+import { Text, View, Pressable, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import images from "@/src/constants/images";
 
 interface DropdownProps extends React.ComponentPropsWithoutRef<typeof View> {
@@ -19,11 +20,11 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia
         setIsSelected(!isSelected);
       }}>
         <View className="flex flex-row items-start justify-between w-full gap-1">
-          <Text numberOfLines={!isSelected? 1 : 2} adjustsFontSizeToFit={isSelected&& true} className="text-white font-semibold flex-1" style={{ fontSize: 20 }}>{title}</Text>
+          <Text numberOfLines={!isSelected ? 1 : 2} adjustsFontSizeToFit={isSelected && true} className="text-white font-semibold flex-1" style={{ fontSize: 20 }}>{title}</Text>
           <Image
             source={images.arrow}
             className={`w-6 h-6 mt-2 ${isSelected ? "rotate-180 " : ""}`}
-            resizeMode="contain"
+            contentFit="contain"
           />
         </View>
         {tags[0] && (
@@ -33,7 +34,7 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia
                 <Image
                   source={images.pin}
                   className="w-4 h-4"
-                  resizeMode="contain"
+                  contentFit="contain"
                 />
                 <Text key={index} className="text-black font-BaiJamJuree_Medium">{tag}</Text>
               </View>
