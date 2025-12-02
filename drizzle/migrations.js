@@ -5,6 +5,7 @@ import m0000 from './0000_confused_shiver_man.sql';
 import m0001 from './0001_nappy_slyde.sql';
 import m0002 from './0002_optimal_shatterstar.sql';
 import m0003 from './0003_sad_the_stranger.sql';
+import m0004 from './0004_loud_the_professor.sql';
 
   export default {
     journal,
@@ -12,7 +13,8 @@ import m0003 from './0003_sad_the_stranger.sql';
       m0000,
 m0001,
 m0002,
-m0003
+m0003,
+m0004
     }
   }
   

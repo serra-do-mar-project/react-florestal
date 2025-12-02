@@ -49,6 +49,7 @@ export default function ReportPage() {
         id_exemplocaso: item.id_exemplocaso,
         data: item.data,
         descricao: item.descricao,
+        endereco: item.endereco,
       }));
       console.log(formData)
       const status = await EnviarRelatorio(token as string, formData, autosSelected);
@@ -352,7 +353,7 @@ export default function ReportPage() {
           <SubmitButton
             classname="w-full mb-10 mt-7"
             title="Enviar"
-            onPress={() => { handleSubmit(); }}
+            onPress={() => { handleSubmit() }}
           />
         </View>
       </ScrollView>
