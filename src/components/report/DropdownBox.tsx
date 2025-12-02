@@ -26,6 +26,7 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
     const [selected, setSelected] = useState<string | undefined | null>(undefined);
     const [selectedDisplay, setSelectedDisplay] = useState<string | undefined | null>(undefined);
     const [localError, setLocalError] = useState(false);
+    const [dropdownWidth, setDropdownWidth] = useState<number | undefined>(undefined);
 
     // Função auxiliar para obter valor e nome de uma opção
     const getOptionValue = (option: string | DropdownOption): string => {
@@ -90,7 +91,10 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
 
     return (
 
-        <View className="w-64 mb-4">
+        <View 
+            className="self-start min-w-60 max-w-80 mb-4"
+            style={dropdownWidth ? { width: dropdownWidth } : undefined}
+        >
 
             {title &&
                 <View className={` ${disabled ? 'opacity-60' : ''}`}>
@@ -101,13 +105,13 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
 
             {/* Botão de abrir/fechar */}
             <Pressable
-                className={cn(`bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen && "rounded-b-none"} ${disabled ? 'opacity-60' : ''}`, className)}
+                className={cn(`bg-[#EFEFEF] border border-gray-900/30 rounded-md ${isOpen && "rounded-b-none"} ${disabled ? 'opacity-60' : ''} active:opacity-80`, className)}
                 onPress={() => !disabled && setIsOpen(!isOpen)}
                 onLongPress={!disabled && selected ? handleClear : undefined}
             >
-                <View className={`flex-row items-center`}>
+                <View className={`flex-row items-center min-w-fit`}>
                     <Text
-                        className="flex-1 font-sans text-lg py-2 pl-3 pr-1"
+                        className="flex-1 font-sans text-xl py-2 pl-3 pr-1"
                         numberOfLines={1}
                         ellipsizeMode="tail"
                     >
@@ -118,7 +122,9 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
                             <Image
                                 source={images.arrow}
                                 className="w-4 h-4 mx-3"
-                                style={{ transform: [{ rotate: isOpen ? '180deg' : '0deg' }] }}
+                                style={{ 
+                                    transform: [{ rotate: isOpen ? '180deg' : '0deg' }]
+                                }}
                                 resizeMode="contain"
                                 tintColor="black"
                             />
@@ -129,35 +135,38 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
 
             {/* Lista de opções */}
             {isOpen && (
-                <View className={cn("bg-[#EFEFEF] w-64 border border-t-0 border-gray-900/30 rounded-b-md", optionsClassName)}>
+                <View 
+                    className={cn("bg-[#EFEFEF] border border-t-0 border-gray-900/30 rounded-b-md", optionsClassName)}
+                    onLayout={(event) => {
+                        if (!dropdownWidth) {
+                            const { width } = event.nativeEvent.layout;
+                            setDropdownWidth(width);
+                        }
+                    }}
+                >
                     {options.map((option, idx) => (
                         <Pressable
                             key={getOptionValue(option)}
                             onPress={() => handleSelect(option)}
                         >
                             {({ pressed }) => (
-                                <Text
-                                    className={`font-sans text-md py-1 pl-3 
-                                        ${pressed ? "bg-gray-300" : ""}  
-                                        ${idx === options.length - 1 && required ? "rounded-b-md" : ""}
-                                    `}
-                                >
-                                    {getOptionDisplay(option)}
-                                </Text>
+                                <View className={`${pressed ? "bg-gray-300" : ""} ${idx === options.length - 1 && required ? "rounded-b-md" : ""}`}>
+                                    <Text className="font-sans text-lg py-2 px-3">
+                                        {getOptionDisplay(option)}
+                                    </Text>
+                                </View>
                             )}
                         </Pressable>
                     ))}
                     {/* Botão para limpar seleção, se não for required */}
                     {!required && (
-                        <Pressable onPress={handleClear} className="">
+                        <Pressable onPress={handleClear}>
                             {({ pressed }) => (
-                                <Text
-                                    className={`font-sans text-red-500 text-md py-1 pl-3 rounded-b-md
-                                                ${pressed ? "bg-gray-300" : ""}  
-                                              `}
-                                >
-                                    Limpar seleção
-                                </Text>
+                                <View className={`${pressed ? "bg-red-50" : ""} rounded-b-md`}>
+                                    <Text className="font-sans text-red-500 text-md py-2 pl-3">
+                                        Limpar seleção
+                                    </Text>
+                                </View>
                             )}
                         </Pressable>
                     )}

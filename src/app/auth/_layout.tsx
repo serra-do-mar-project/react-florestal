@@ -46,7 +46,6 @@ const TabsLayout = () => {
                   <images.search
                     width={24}
                     height={24}
-                    stroke="green"
                     strokeWidth={0.5}
                   />
                 }
@@ -67,7 +66,6 @@ const TabsLayout = () => {
                   <images.folder
                     width={24}
                     height={24}
-                    stroke="green"
                     strokeWidth={0.5}
                   />
                 }
@@ -89,7 +87,6 @@ const TabsLayout = () => {
                   <images.note
                     width={24}
                     height={22}
-                    stroke="green"
                     strokeWidth={0.5}
                   />
                 }
@@ -110,7 +107,6 @@ const TabsLayout = () => {
                   <images.moderacao
                     width={24}
                     height={24}
-                    color="green"
                     strokeWidth={0.5}
                   />
                 }
@@ -132,7 +128,6 @@ const TabsLayout = () => {
                   <images.settings
                     width={22}
                     height={22}
-                    stroke="green"
                     strokeWidth={0.5}
                   />
                 }

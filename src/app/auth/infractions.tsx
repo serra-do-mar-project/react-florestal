@@ -5,12 +5,14 @@ import { useState, useRef, useCallback } from "react";
 import { AutosDeInfracao } from "@/src/db/schema";
 import { useFocusEffect } from '@react-navigation/native';
 import { DefaultModal } from "@/src/components/DefaultModal";
+import OptionsBar from "@/src/components/infractions/OptionsBar";
 
 
 export default function Infractions() {
   const listRef = useRef<InfractionsListHandle | null>(null);
   const [selectedItem, setSelectedItem] = useState<AutosDeInfracao>();
   const [openModal, setOpenModal] = useState(false);
+  const [updateTrigger, setUpdateTrigger] = useState(0);
 
 
   useFocusEffect(
@@ -24,18 +26,52 @@ export default function Infractions() {
     setOpenModal(true);
   }
 
+  const handleSelectAll = (value: boolean) => {
+    if (value) {
+      listRef.current?.selectAll();
+    } else {
+      listRef.current?.clearSelection();
+    }
+  };
+
+  const resetSelection = () => {
+    listRef.current?.clearSelection();
+  };
+
+  const handleDelete = async () => {
+    await listRef.current?.deleteSelected();
+  };
+
+  // Calculado após cada render/update
+  const selectedCount = listRef.current?.getSelectionCount() || 0;
+  const isAllSelected = listRef.current?.isAllSelected() || false;
+  const isInSelectionMode = listRef.current?.isInSelectionMode() || false;
+
 
   return (
     <View className="w-full h-full">
-      <View className="bg-[#fffdfd] pt-7 pb-5 shadow shadow-black ">
-        <View className="w-full flex-row items-center justify-between mb-3 px-5 ">
-        </View>
+      <View className={`bg-[#fffdfd] pt-10 shadow shadow-black ${isInSelectionMode ? 'pb-2' : 'pb-5'}`}>
+        
         <Text className="text-gray-900 font-semibold text-3xl ml-7 ">Autos de infração</Text>
+        
+        {isInSelectionMode && (
+       
+              <OptionsBar
+              onSelectAll={() => handleSelectAll(!isAllSelected)}
+              numberSelected={selectedCount}
+              onCancel={resetSelection}
+              isAllSelected={isAllSelected}
+              onDelete={handleDelete}
+            />
+          
+        )}
+        
       </View>
       <View className="flex-1 px-5">
         <InfractionsList
           ref={listRef}
           onSelect={handleSelect}
+          onSelectionChange={() => setUpdateTrigger(prev => prev + 1)}
           listFooterComponent={<View className="h-20" />}
           className="pt-10"
         />

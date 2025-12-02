@@ -65,27 +65,39 @@ export default function loginPage() {
         className="flex-1 items-center justify-around"
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <View className={`flex items-center w-full h-20 mt-5 mb-2`} >
-          <Title>
-            <Text >Seja Bem-Vindo(a)</Text>
-          </Title>
-          <Title>
-            <Text >ao MPOA!</Text>
-          </Title>
+        {!keyboardOpen ?
+        
+          <View className={`flex items-center w-full h-20 mt-2`} >
+            <Title>
+              <Text >Seja Bem-Vindo(a)</Text>
+            </Title>
+            <Title>
+              <Text >ao MPOA!</Text>
+            </Title>
+          </View>
+
+          :
+
+          <></>
+        
+        }
+        <View className={`mt-2 ${keyboardOpen ? "" : "mb-8" }`}>
+        <images.logoparque width={200} height={160} />
         </View>
 
-        <images.logoparque width={200} height={keyboardOpen ? 100 : 160} />
 
-
-        <View className="flex w-full px-6 items-center mx-4 mt-4">
+        <View className="flex w-full px-6 items-center mx-4 ">
           <Configinput textHolder="CPF" value={CPF} onChangeText={setCPF} className="h-16 rounded-2xl -mb-4">
             <images.user width="24px" height="24px" />
           </Configinput>
-          <PasswordInput textHolder="Senha" password={password} setPassword={setPassword} className="h-16 rounded-2xl" error={error} />
+          <PasswordInput textHolder="Senha" password={password} setPassword={setPassword} className="h-16 rounded-2xl"/>
+          <Text className="w-full text-red-500 mt-2 pl-4 pb-2">{error}</Text>
         </View>
 
-        <View className={`flex items-center w-full mb-12 ${keyboardOpen ? 'mt-8' : 'mt-10'}`}>
-          <SubmitButton title="Login"
+        <View className={`px-6 flex items-center w-full ${keyboardOpen ? 'mt-8 mb-4' : 'mt-4 mb-20'}`}>
+          <SubmitButton 
+            classname="w-full"
+            title="Login"
             onPress={() => handleLogin()}
           />
         </View>

@@ -53,10 +53,10 @@ export default function InfractionCard({ title = "Abate ilegal de Animais Silves
         onLongPress={() => {handleLongPress()} }
         activeOpacity={0.6}
       >
-        <View className="flex-row justify-between items-end">
+        <View className="flex-row justify-between">
           <Text className="font-semibold text-lg">{title}</Text>
           {longPressed && 
-            <View className={`w-6 h-6 border border-gray-800/80 rounded-sm ${selected ==true && 'bg-green-600 items-center justify-center'}`}>
+            <View className={`w-6 h-6 mt-1 border border-gray-800/80 rounded-sm ${selected ==true && 'bg-green-600 items-center justify-center'}`}>
               { selected && <images.check width={14} height={15} className=""/>}
             </View>}
         </View>

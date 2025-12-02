@@ -7,6 +7,7 @@ import { SubmitButton } from "../SubmitButton";
 import { CancelButton } from "../CancelButton";
 import { ChangeOtherUserPassword, DeleteUser } from "@/src/lib/utils";
 import { useUserStore } from "@/src/store/userStore";
+import React from "react";
 
 
 interface User {
@@ -107,11 +108,13 @@ export default function UserModal({ selectedUser }: ModerationModalProps) {
 
       const result = await ChangeOtherUserPassword(token, password, newPassword, selectedUser.id);
       if (result.status === "success") {
+
         closeWithAnimation();
         setChangePasswordOpen(false);
         setPassword("");
         setNewPassword("");
         setConfirmPassword("");
+        Alert.alert("Sucesso", "Senha alterada com sucesso.");
       } else {
         setError(result.message);
       }
@@ -164,11 +167,7 @@ export default function UserModal({ selectedUser }: ModerationModalProps) {
 
           <View className="mt-6 h-fit justify-between">
             <View className="items-center gap-4">
-              <PasswordInput
-                password={password}
-                setPassword={setPassword}
-                label="Senha de Moderador"
-              />
+              
 
               <PasswordInput
                 password={newPassword}
@@ -179,13 +178,19 @@ export default function UserModal({ selectedUser }: ModerationModalProps) {
               <PasswordInput
                 password={confirmPassword}
                 setPassword={setConfirmPassword}
-                label="Confirmar nova senha"
+                label="Confirmar senha nova"
+              />
+
+              <PasswordInput
+                password={password}
+                setPassword={setPassword}
+                label="Senha de Moderador"
               />
             </View>
-            <Text className="text-red-500">
+            <Text className="pt-2 text-red-500">
               {error}
             </Text>
-            <View className="mt-16 h-14 w-full flex-row justify-around gap-4">
+            <View className="mt-16 h-16 w-full flex-row justify-around gap-4">
 
             <CancelButton
               classname="flex-1"

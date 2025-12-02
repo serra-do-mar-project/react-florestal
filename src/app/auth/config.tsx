@@ -38,6 +38,10 @@ export default function ConfigPage() {
         <Text className="text-gray-900 font-semibold text-3xl ml-7 ">Configurações</Text>
       </View>
 
+    
+
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+
     <View className="w-full mt-6 flex-row border-b border-gray-900/5 shadow shadow-black">
       <View className="w-32 h-32 justify-center bg-[#57714A]">
         <images.userConfig  width={110} height={100} style={{ resizeMode: "contain",}}/>
@@ -51,7 +55,6 @@ export default function ConfigPage() {
       </View> 
     </View>
 
-    <ScrollView className="" contentContainerStyle={{ flexGrow: 1 }}>
     <Pressable className={`w-full items-center justify-between flex-row mt-7 px-5 pb-4 ${isSelected ? "pb-0" : "border-b border-gray-900/20"}`} onPress={() => {
         setIsSelected(!isSelected)}}>
     <Text className="text-2xl font-semibold text-gray-900 " >Alterar senha</Text>
@@ -88,7 +91,7 @@ export default function ConfigPage() {
         />
 
         <SubmitButton
-          classname="h-[3rem] w-[7rem] mt-8 mb-10"
+          classname="h-fit w-3/4 py-2 mt-8 mb-10"
           textClass="text-xl"
           title="Salvar"
           onPress={handleChangePassword}

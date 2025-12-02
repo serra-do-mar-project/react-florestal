@@ -106,7 +106,17 @@ export const useFormManager = ({ onSubmitSuccess, onSubmitError }: UseFormManage
     
     const hasUndefined = validateForm(form);
 
-    if (hasUndefined) {
+    // Validação adicional para dynamicForm
+    let hasDynamicError = false;
+    if (dynamicForm.length > 0) {
+      // Verifica se algum campo dinâmico está vazio ou undefined
+      hasDynamicError = dynamicForm.some(field => {
+        const value = field.value;
+        return value === undefined || value === null || value === "" || (typeof value === "string" && value.trim() === "");
+      });
+    }
+
+    if (hasUndefined || hasDynamicError) {
       setTrowError(true);
       onSubmitError?.(formToSubmit);
       return false;

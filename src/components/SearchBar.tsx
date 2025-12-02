@@ -29,6 +29,12 @@ const SearchBar = forwardRef<TextInput, SearchBarProps>(({data, filterKey, onFil
   const handleSearch = (searchText?: string) => {
   const q = normalize(searchText ?? query);
 
+  // Se a busca estiver vazia, retorna todos os dados
+  if (q === "") {
+    onFiltered?.(data);
+    return;
+  }
+
   const keys = Array.isArray(filterKey) ? filterKey : [filterKey];
 
   const results = data.filter((item) =>
@@ -38,7 +44,7 @@ const SearchBar = forwardRef<TextInput, SearchBarProps>(({data, filterKey, onFil
     })
   );
 
-  onFiltered(results);
+  onFiltered?.(results);
 };
 
   const handleChange = (text: string) => {

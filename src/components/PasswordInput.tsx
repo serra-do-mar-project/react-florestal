@@ -26,7 +26,8 @@ export function PasswordInput({
   return (
     <View className="w-full">
       <Text className="w-full text-xl pb-2 font-semibold">{label}</Text>
-      <Configinput
+      <Configinput 
+        autoCapitalize="none"
         className={className}
         visible={visible}
         textHolder={textHolder}

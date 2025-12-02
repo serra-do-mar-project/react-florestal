@@ -1,9 +1,26 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Keyboard, Platform } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import TabItem from './TabItem';
 
 export default function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
+    const hideEvent = Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide';
+
+    const showListener = Keyboard.addListener(showEvent, () => setKeyboardVisible(true));
+    const hideListener = Keyboard.addListener(hideEvent, () => setKeyboardVisible(false));
+
+    return () => {
+      showListener.remove();
+      hideListener.remove();
+    };
+  }, []);
+
+  if (isKeyboardVisible) return null;
+
   return (
     <View className="flex-row  bg-white border-t border-gray-300 h-[60px] items-center px-2 gap-2">
       {state.routes
