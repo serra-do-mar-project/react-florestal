@@ -120,7 +120,7 @@ export function DurationInput({
           editable={!disabled}
           placeholder={textHolder}
           placeholderTextColor="#A0A0A0"
-          keyboardType="numeric"
+          keyboardType="number-pad"
           maxLength={7}
           className={`flex-1 pt-0.5 px-2 text-center text-xl font-italic ${disabled ? 'text-gray-900/50' : 'text-black'}`}
           style={{ letterSpacing: 2 }}

@@ -12,6 +12,7 @@ interface props {
   error?: string;
   keyboardType?: KeyboardTypeOptions;
   maxLength?: number;
+  autoCapitalize?: "none" | "sentences" | "words" | "characters";
 }
 
 export function Configinput({
@@ -26,6 +27,7 @@ export function Configinput({
   error,
   keyboardType,
   maxLength,
+  autoCapitalize,
 }: props) {
   return (
     <View className="w-full">
@@ -46,6 +48,7 @@ export function Configinput({
           className="flex-1 text-black text-lg font-semibold"
           keyboardType={keyboardType}
           maxLength={maxLength}
+          autoCapitalize={autoCapitalize}
           // estilos inline que garantem centralização do placeholder no Android/iOS
           style={{
             height: 26,

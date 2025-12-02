@@ -13,7 +13,7 @@ export interface OptionsBarProps {
   isAllSelected?: boolean;
 }
 
-export default function OptionsBar({ onSelectAll, numberSelected, onCancel, onDelete, isAllSelected, deleteOption, cancelOption }: OptionsBarProps) {
+export default function OptionsBar({ onSelectAll, numberSelected, onCancel, onDelete ,isAllSelected, deleteOption = true, cancelOption = true}: OptionsBarProps) {
 
   const [selectedAll, setSelectedAll] = useState<boolean>(!!isAllSelected);
 

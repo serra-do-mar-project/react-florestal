@@ -66,14 +66,18 @@ export default function loginPage() {
         className="flex-1 items-center justify-around"
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <View className={`flex items-center w-full h-20 mt-5 mb-2`} >
-          <Title>
-            <Text >Seja Bem-Vindo(a)</Text>
-          </Title>
-          <Title>
-            <Text >ao MPOA!</Text>
-          </Title>
-        </View>
+        {!keyboardOpen ?
+        
+          <View className={`flex items-center w-full h-20 mt-2`} >
+            <Title>
+              <Text >Seja Bem-Vindo(a)</Text>
+            </Title>
+            <Title>
+              <Text >ao MPOA!</Text>
+            </Title>
+          </View>
+
+          :
 
         <Image
           source={images.logoparque}
@@ -81,7 +85,7 @@ export default function loginPage() {
           contentFit="contain"
         />
 
-        <View className="flex w-full px-6 items-center mx-4 mt-4">
+        <View className="flex w-full px-6 items-center mx-4 ">
           <Configinput textHolder="CPF" value={CPF} onChangeText={setCPF} className="h-16 rounded-2xl -mb-4">
             <Image
               source={images.user}
@@ -89,11 +93,14 @@ export default function loginPage() {
               contentFit="contain"
             />
           </Configinput>
-          <PasswordInput textHolder="Senha" password={password} setPassword={setPassword} className="h-16 rounded-2xl" error={error} />
+          <PasswordInput textHolder="Senha" password={password} setPassword={setPassword} className="h-16 rounded-2xl"/>
+          <Text className="w-full text-red-500 mt-2 pl-4 pb-2">{error}</Text>
         </View>
 
-        <View className={`flex items-center w-full mb-12 ${keyboardOpen ? 'mt-8' : 'mt-10'}`}>
-          <SubmitButton title="Login"
+        <View className={`px-6 flex items-center w-full ${keyboardOpen ? 'mt-8 mb-4' : 'mt-4 mb-20'}`}>
+          <SubmitButton 
+            classname="w-full"
+            title="Login"
             onPress={() => handleLogin()}
           />
         </View>

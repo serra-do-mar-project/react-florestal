@@ -44,19 +44,9 @@ export default function ProcedimentosPage() {
           <View className=" bg-green-500/30 flex justify-center items-center rounded-full px-3 pt-1 pb-0.5">
             <Text className="text-gray-900/100 text-lg font-semibold">{item?.categoria ?? params.categoria}</Text>
           </View>
+          
+          
         </View>
-        <Text
-          className={`text-gray-900 font-semibold ${titleLineCount <= 1 ? 'text-3xl' : 'text-2xl'} mx-6`}
-          numberOfLines={2}
-          adjustsFontSizeToFit={true}
-          minimumFontScale={1}
-          onTextLayout={(e) => {
-            const lines = e.nativeEvent.lines?.length ?? 0;
-            setTitleLineCount(lines);
-          }}
-        >
-          {item?.nome_resumo ?? params.nome}
-        </Text>
       </View>
 
 
@@ -86,18 +76,18 @@ export default function ProcedimentosPage() {
             </FormCard>
 
             <FormCard title="Procedimentos Operacionais" subTitle="" currentPage={3} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0}>
-              <View className="flex-1 gap-5">
-                {(item?.proc_op ?? params.procedimento ?? "")
-                  .toString()
-                  .split("\n")
-                  .map((step, idx) =>
+              <View className="flex-1 gap-7">
+                {(() => {
+                  const procedimento = (item?.proc_op ?? params.procedimento ?? "").toString();
+                
+                  return procedimento.split(";").map((step, idx) =>
                     step.trim() ? (
-                      <Text key={idx} className="text-xl font-BaiJamJuree_Medium text-stone-800">
-                        {step.trim()}
+                      <Text key={idx} className="text-xl text-justify font-BaiJamJuree_Medium text-stone-800">
+                        {step.trim()};
                       </Text>
                     ) : null
-                  )
-                }
+                  );
+                })()}
               </View>
 
             </FormCard>
@@ -106,13 +96,14 @@ export default function ProcedimentosPage() {
               <Section currentPage={i + 4} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0} key={i} section={section} setFieldDynamic={setDynamicField} showError={trowError} />
             ))}
           </View>
+          <View className="w-full px-4">
           <SubmitButton
-            classname="my-10"
+            classname=" w-full mt-6 mb-10"
             title="Enviar"
             onPress={async () => {
               const isValid = handleSubmit();
-              console.log("Formulário válido:", isValid);
-              if (!isValid) return;
+              
+              if (!isValid) return console.log("Formulário inválido:", !isValid);;
 
               const newAuto = MountAuto({ item, form: dynamicForm });
               if (!newAuto) return;
@@ -124,6 +115,7 @@ export default function ProcedimentosPage() {
               });
             }}
           />
+          </View>
         </ScrollView>
       </View>
     </View>
