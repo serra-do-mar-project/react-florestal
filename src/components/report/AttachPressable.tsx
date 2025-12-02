@@ -35,7 +35,7 @@ export default function AttachPressable({ autosSelected, onPress }: AttachPressa
       <View className="w-full -mt-3 -mb-2">
         <TouchableOpacity
           onPress={onPress}
-          className="min-w-[60%] self-start  flex-row items-center justify-between bg-white py-1 px-3 rounded-lg mb-2 border border-green-500"
+          className="min-w-[60%] self-start flex-row items-center justify-between bg-white py-1 px-3 rounded-lg mb-1 border border-green-500"
         >
           <Text className="text-black text-lg pt-1 font-semibold">Editar Autos ({autosSelected.length}) </Text>
           <View className='pb-0.5'>

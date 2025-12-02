@@ -68,15 +68,15 @@ export default function InfractionCard({ title = "Abate ilegal de Animais Silves
       </View>
       <Text className="text-gray-900/70">{formattedDate ?? ''}</Text>
       {tags[0] && (
-        <View className="bg-[#EFEFEF] rounded-lg px-2 py-1 mb-1.5 mt-3 flex flex-col border border-gray-900/30">
+        <View className="bg-[#EFEFEF] rounded-lg px-3 py-1.5 mb-1.5 mt-3 flex flex-col border border-gray-900/30">
           {tags.map((tag, index) => (
             <View className="flex flex-row items-center" key={index}>
               <Image
                 source={images.pin}
-                className="w-4 h-4"
+                style={{ width: 16, height: 16 }}
                 contentFit="contain"
               />
-              <Text key={index} className="text-black font-BaiJamJuree_Medium  pl-1.5">{tag}</Text>
+              <Text key={index} className="text-black font-BaiJamJuree_Medium pl-1.5">{tag}</Text>
             </View>
           ))}
         </View>

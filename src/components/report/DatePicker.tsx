@@ -75,12 +75,12 @@ const DatePicker = forwardRef<any, DatePickerProps>(function DatePicker(
         <Text className="font-semibold text-xl ml-0.5 mt-1 mb-4">{title}</Text>
       }
       <Pressable
-        className={`p-2 bg-[#EFEFEF] ${pressed ? "bg-gray-300" : ""} flex-row items-center justify-between border border-gray-900/30 rounded-md gap-2`}
+        className={`${mode === 'date' ? "w-44" : "w-32"} bg-[#EFEFEF] ${pressed ? "bg-gray-300" : ""} flex-row items-center justify-between  border border-gray-900/30 rounded-md`}
         onPressIn={() => setPressed(true)}
         onPressOut={() => setPressed(false)}
         onPress={() => setShow(true)}
       >
-        <Text className="font-sans text-lg">
+        <Text className="font-sans text-lg pb-1 pl-3 pt-2">
           {date
             ? mode === 'date'
               ? date.toLocaleDateString("en-GB")

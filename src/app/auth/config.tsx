@@ -1,7 +1,7 @@
 import images from "@/src/constants/images";
 import { router } from "expo-router";
 import { useState } from "react";
-import { View, Text, TouchableOpacity, ImageBackground, Pressable, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, ImageBackground, Pressable, ScrollView, Alert } from "react-native";
 import { Image } from "expo-image";
 import { PasswordInput } from "@/src/components/PasswordInput"; // ajuste o caminho se necessário
 import { SubmitButton } from "@/src/components/SubmitButton";
@@ -20,15 +20,15 @@ export default function ConfigPage() {
 
   async function handleChangePassword() {
     if ((newPassword || password) == "") {
-      alert("os campos devem ser preenchidos");
+      Alert.alert("Atenção","os campos devem ser preenchidos");
       return;
     }
     if (newPassword !== confirmPassword) {
-      alert("As senhas não coincidem.");
+      Alert.alert("Erro de confirmação","As senhas não coincidem.");
       return;
     }
     if (newPassword.length < 5) {
-      alert("A nova senha deve ter pelo menos 5 caracteres.");
+      Alert.alert("Senha inválida","A nova senha deve ter pelo menos 5 caracteres");
       return;
     }
 
@@ -39,7 +39,12 @@ export default function ConfigPage() {
         setPassword("")
         setNewPassword("")
         setConfirmPassword("")
+        Alert.alert("Sucesso","Senha alterada com sucesso!");
       }
+      else{
+        Alert.alert("Erro", result.message)
+      }
+
     }
   }
 
@@ -50,6 +55,8 @@ export default function ConfigPage() {
         </View>
         <Text className="text-gray-900 font-semibold text-3xl ml-7 ">Configurações</Text>
       </View>
+
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
 
       <View className="w-full mt-6 flex-row border-b border-gray-900/5 shadow shadow-black">
         <View className="w-32 h-32 justify-center bg-[#57714A]">
@@ -64,14 +71,18 @@ export default function ConfigPage() {
         </View>
       </View>
 
-      <ScrollView className="" contentContainerStyle={{ flexGrow: 1 }}>
+      
         <Pressable className={`w-full items-center justify-between flex-row mt-7 px-5 pb-4 ${isSelected ? "pb-0" : "border-b border-gray-900/20"}`} onPress={() => {
           setIsSelected(!isSelected)
         }}>
           <Text className="text-2xl font-semibold text-gray-900 " >Alterar senha</Text>
           <Image
             source={images.arrow}
-            className={`w-6 h-6 transition-transform duration-500 ${isSelected ? "rotate-180 " : ""}`}
+            style={{ 
+              width: 22, 
+              height: 22,
+              transform: [{ rotate: isSelected ? '180deg' : '0deg' }] 
+            }}
             contentFit="contain"
             tintColor="black"
           />
@@ -102,7 +113,7 @@ export default function ConfigPage() {
               />
 
               <SubmitButton
-                classname="h-[3rem] w-[7rem] mt-8 mb-10"
+                classname="h-fit w-3/4 py-2 mt-8 mb-10"
                 textClass="text-xl"
                 title="Salvar"
                 onPress={handleChangePassword}

@@ -23,7 +23,7 @@ export default function OptionsBar({ onSelectAll, numberSelected, onCancel, onDe
 
   return (
 
-    <View className="flex-1 flex-row h-12 items-center justify-between px-2">
+    <View className="w-full flex-row h-12 items-center justify-between px-7">
       <Pressable
         className="flex-row items-center h-full"
         onPress={() => (setSelectedAll(!selectedAll), onSelectAll && onSelectAll(!selectedAll))}

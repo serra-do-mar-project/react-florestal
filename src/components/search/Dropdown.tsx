@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Text, View, Pressable, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import images from "@/src/constants/images";
+import Svg, { Path } from "react-native-svg";
 
 interface DropdownProps extends React.ComponentPropsWithoutRef<typeof View> {
   title: string;
@@ -21,19 +22,30 @@ const Dropdown: React.FC<DropdownProps> = ({ title, onPress, tag, tipoOcorrencia
       }}>
         <View className="flex flex-row items-start justify-between w-full gap-1">
           <Text numberOfLines={!isSelected ? 1 : 2} adjustsFontSizeToFit={isSelected && true} className="text-white font-semibold flex-1" style={{ fontSize: 20 }}>{title}</Text>
-          <Image
-            source={images.arrow}
-            className={`w-6 h-6 mt-2 ${isSelected ? "rotate-180 " : ""}`}
-            contentFit="contain"
-          />
+          <View style={{ 
+            marginTop: 6,
+            marginLeft: 5,
+            transform: [{ rotate: isSelected ? '180deg' : '0deg' }] 
+          }}>
+            <Svg width="24" height="24" viewBox="0 0 25 12">
+              <Path 
+                d="M22.7593 1.28577L12.0225 10.2858L1.28564 1.28577" 
+                stroke="white" 
+                strokeWidth="2.57143" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </Svg>
+          </View>
         </View>
         {tags[0] && (
           <View className="bg-[#DFDFDF] rounded-md px-3 pt-1 pb-1.5 mt-4 flex flex-col border-x-hairline border-b-2 border-gray-900/30">
             {tags.map((tag, index) => (
-              <View className="flex-row items-center gap-1" key={index}>
+              <View className="flex-row items-center gap-1.5" key={index}>
                 <Image
                   source={images.pin}
-                  className="w-4 h-4"
+                  style={{ width: 16, height: 16 }}
                   contentFit="contain"
                 />
                 <Text key={index} className="text-black font-BaiJamJuree_Medium">{tag}</Text>

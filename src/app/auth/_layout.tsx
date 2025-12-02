@@ -44,7 +44,7 @@ const TabsLayout = () => {
               <TabIcon
                 icon={<Image source={images.search} style={{ width: 24, height: 24 }} contentFit="contain" />}
                 iconActive={
-                  <Image source={images.search} style={{ width: 24, height: 24 }} contentFit="contain" tintColor="green" />
+                  <Image source={images.search} style={{ width: 24, height: 24 }} contentFit="contain" tintColor="#1B5E20" />
                 }
                 name="Pesquisar"
                 focused={focused}
@@ -60,7 +60,7 @@ const TabsLayout = () => {
               <TabIcon
                 icon={<Image source={images.folder} style={{ width: 24, height: 24 }} contentFit="contain" />}
                 iconActive={
-                  <Image source={images.folder} style={{ width: 24, height: 24 }} contentFit="contain" tintColor="green" />
+                  <Image source={images.folder} style={{ width: 24, height: 24 }} contentFit="contain" tintColor="#1B5E20" />
                 }
                 name="Autos"
                 focused={focused}
@@ -77,7 +77,7 @@ const TabsLayout = () => {
                 className="pb-0.5 mt-0.5"
                 icon={<Image source={images.note} style={{ width: 24, height: 22 }} contentFit="contain" />}
                 iconActive={
-                  <Image source={images.note} style={{ width: 24, height: 22 }} contentFit="contain" tintColor="green" />
+                  <Image source={images.note} style={{ width: 24, height: 22 }} contentFit="contain" tintColor="#1B5E20" />
                 }
                 name="Relatório"
                 focused={focused}
@@ -93,7 +93,7 @@ const TabsLayout = () => {
               <TabIcon
                 icon={<Image source={images.moderacao} style={{ width: 24, height: 24 }} contentFit="contain" />}
                 iconActive={
-                  <Image source={images.moderacao} style={{ width: 24, height: 24 }} contentFit="contain" tintColor="green" />
+                  <Image source={images.moderacao} style={{ width: 24, height: 24 }} contentFit="contain" tintColor="#1B5E20" />
                 }
                 name="Moderação"
                 focused={focused}
@@ -110,7 +110,7 @@ const TabsLayout = () => {
                 className="mt-1"
                 icon={<Image source={images.settings} style={{ width: 22, height: 22 }} contentFit="contain" />}
                 iconActive={
-                  <Image source={images.settings} style={{ width: 22, height: 22 }} contentFit="contain" tintColor="green" />
+                  <Image source={images.settings} style={{ width: 22, height: 22 }} contentFit="contain" tintColor="#1B5E20" />
                 }
                 name="Configurações"
                 focused={focused}
@@ -136,7 +136,7 @@ const TabsLayout = () => {
             <TabIcon
               icon={<Image source={images.search} style={{ width: 24, height: 24 }} contentFit="contain" />}
               iconActive={
-                <Image source={images.search} style={{ width: 24, height: 24 }} contentFit="contain" tintColor="green" />
+                <Image source={images.search} style={{ width: 24, height: 24 }} contentFit="contain" tintColor="#1B5E20" />
               }
               name="Pesquisar"
               focused={focused}
@@ -152,7 +152,7 @@ const TabsLayout = () => {
             <TabIcon
               icon={<Image source={images.folder} style={{ width: 24, height: 24 }} contentFit="contain" />}
               iconActive={
-                <Image source={images.folder} style={{ width: 24, height: 24 }} contentFit="contain" tintColor="green" />
+                <Image source={images.folder} style={{ width: 24, height: 24 }} contentFit="contain" tintColor="#1B5E20" />
               }
               name="Autos"
               focused={focused}
@@ -169,7 +169,7 @@ const TabsLayout = () => {
               className="pb-0.5 mt-0.5"
               icon={<Image source={images.note} style={{ width: 24, height: 22 }} contentFit="contain" />}
               iconActive={
-                <Image source={images.note} style={{ width: 24, height: 22 }} contentFit="contain" tintColor="green" />
+                <Image source={images.note} style={{ width: 24, height: 22 }} contentFit="contain" tintColor="#1B5E20" />
               }
               name="Relatório"
               focused={focused}
@@ -186,7 +186,7 @@ const TabsLayout = () => {
               className="mt-1"
               icon={<Image source={images.settings} style={{ width: 22, height: 22 }} contentFit="contain" />}
               iconActive={
-                <Image source={images.settings} style={{ width: 22, height: 22 }} contentFit="contain" tintColor="green" />
+                <Image source={images.settings} style={{ width: 22, height: 22 }} contentFit="contain" tintColor="#1B5E20" />
               }
               name="Configurações"
               focused={focused}
