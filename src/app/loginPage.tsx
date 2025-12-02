@@ -8,8 +8,8 @@ import { login } from "../lib/utils";
 import { useUserStore } from "../store/userStore";
 import { Configinput } from "../components/ConfigInput";
 import { PasswordInput } from "../components/PasswordInput";
-import allImages from '../constants/images';
 import { Image } from "expo-image";
+import images from "../constants/images";
 
 export default function loginPage() {
   const router = useRouter();
@@ -20,14 +20,32 @@ export default function loginPage() {
 
   const { login: userLogin, token } = useUserStore()
 
-  // Extrair apenas as imagens usadas nesta página
-  const images = useMemo(() => ({
-    logoparque: allImages.logoparque,
-    user: allImages.user,
-    ifspLogo: allImages.ifspLogo,
-    ffLogo: allImages.ffLogo,
-    semilLogo: allImages.semilLogo
-  }), []);
+  function formatCPF(text: string) {
+    // Remove tudo que não é número
+    const numbers = text.replace(/\D/g, '');
+
+    // Limita a 11 dígitos
+    const limited = numbers.slice(0, 11);
+
+    // Aplica a formatação XXX.XXX.XXX-XX
+    let formatted = limited;
+    if (limited.length > 3) {
+      formatted = limited.slice(0, 3) + '.' + limited.slice(3);
+    }
+    if (limited.length > 6) {
+      formatted = limited.slice(0, 3) + '.' + limited.slice(3, 6) + '.' + limited.slice(6);
+    }
+    if (limited.length > 9) {
+      formatted = limited.slice(0, 3) + '.' + limited.slice(3, 6) + '.' + limited.slice(6, 9) + '-' + limited.slice(9);
+    }
+
+    return formatted;
+  }
+
+  function handleCpfChange(text: string) {
+    const formatted = formatCPF(text);
+    setCPF(formatted);
+  }
 
   useEffect(() => {
     if (error) setError("")
@@ -66,8 +84,7 @@ export default function loginPage() {
         className="flex-1 items-center justify-around"
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        {!keyboardOpen ?
-        
+        {!keyboardOpen ? (
           <View className={`flex items-center w-full h-20 mt-2`} >
             <Title>
               <Text >Seja Bem-Vindo(a)</Text>
@@ -76,8 +93,7 @@ export default function loginPage() {
               <Text >ao MPOA!</Text>
             </Title>
           </View>
-
-          :
+        ) : (<></>)}
 
         <Image
           source={images.logoparque}
@@ -86,19 +102,19 @@ export default function loginPage() {
         />
 
         <View className="flex w-full px-6 items-center mx-4 ">
-          <Configinput textHolder="CPF" value={CPF} onChangeText={setCPF} className="h-16 rounded-2xl -mb-4">
+          <Configinput textHolder="CPF" value={CPF} onChangeText={handleCpfChange} keyboardType="numeric" maxLength={14} className="h-16 rounded-2xl -mb-4">
             <Image
               source={images.user}
               style={{ width: 24, height: 24 }}
               contentFit="contain"
             />
           </Configinput>
-          <PasswordInput textHolder="Senha" password={password} setPassword={setPassword} className="h-16 rounded-2xl"/>
+          <PasswordInput textHolder="Senha" password={password} setPassword={setPassword} className="h-16 rounded-2xl" />
           <Text className="w-full text-red-500 mt-2 pl-4 pb-2">{error}</Text>
         </View>
 
         <View className={`px-6 flex items-center w-full ${keyboardOpen ? 'mt-8 mb-4' : 'mt-4 mb-20'}`}>
-          <SubmitButton 
+          <SubmitButton
             classname="w-full"
             title="Login"
             onPress={() => handleLogin()}
