@@ -40,6 +40,7 @@ import check from "@/src/assets/images/check.svg"
 import success from "@/src/assets/images/success.svg"
 import clip from "@/src/assets/images/clip.svg"
 import error from "@/src/assets/images/error.svg"
+import info from "@/src/assets/images/info.svg"
 
 
 
@@ -89,6 +90,7 @@ const images = {
   success,
   clip,
   error,
+  info
 };
 
 export default images;
