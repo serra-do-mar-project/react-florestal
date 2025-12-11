@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import Title from "./Title";
 import images from "../constants/images";
 
@@ -32,16 +33,15 @@ export function OptionBox({ options, value, onChange, title, placeholder = "Sele
         <Text className={`text-lg pr-4  ${value ? "text-black" : "text-gray-400"}`}>
           {selectedLabel}
         </Text>
-        
+
         <Image
           source={images.arrow}
-          width={10}
-          height={10}
-          className={` h-6 w-6 transition-transform duration-150 ${open ? "rotate-180 " : ""}`}
-          resizeMode="contain"
+          style={{ width: 24, height: 24 }}
+          className={`transition-transform duration-150 ${open ? "rotate-180 " : ""}`}
+          contentFit="contain"
           tintColor="black"
-    />
-          
+        />
+
       </TouchableOpacity>
       {open && (
         <View className=" bg-white border border-green-600 pt-2 rounded-md mt-1 absolute top-20 z-10">

@@ -21,7 +21,7 @@ import ifspLogo from "@/src/assets/images/ifsp-logo.png"
 import ffLogo from "@/src/assets/images/ff-logo.png"
 import semilLogo from "@/src/assets/images/semil-logo.png"
 import logoParque from "@/src/assets/images/logo-parque.svg"
-import arrow from "@/src/assets/images/arrow.png"
+import arrow from "@/src/assets/images/arrow.svg"
 import pin from "@/src/assets/images/pin.png"
 import userConfig from "@/src/assets/images/user-config.svg"
 import eye from "@/src/assets/images/eye.svg"
@@ -37,8 +37,11 @@ import calendar from "@/src/assets/images/calendar.svg"
 import clock from "@/src/assets/images/clock.svg"
 import folder from "@/src/assets/images/folder.svg"
 import check from "@/src/assets/images/check.svg"
-import succes from "@/src/assets/images/success.png"
+import success from "@/src/assets/images/success.svg"
 import clip from "@/src/assets/images/clip.svg"
+import error from "@/src/assets/images/error.svg"
+
+
 
 
 
@@ -83,8 +86,9 @@ const images = {
   clock,
   folder,
   check,
-  succes,
-  clip
+  success,
+  clip,
+  error,
 };
 
 export default images;

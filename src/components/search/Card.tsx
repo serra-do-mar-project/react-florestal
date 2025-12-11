@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 
 interface CardProps {
   text: string;
@@ -16,10 +17,9 @@ export function Card({ text, onPress, src }: CardProps) {
     >
       <View className="h-32">
         <Image
-              source={src}
-              style={{ width: "100%", height: "100%" }}
-              resizeMode="cover"
-            
+          source={src}
+          style={{ width: "100%", height: "100%" }}
+          contentFit="cover"
         />
       </View>
 

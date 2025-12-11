@@ -1,5 +1,6 @@
 import React, { useEffect, useState, forwardRef, useImperativeHandle } from "react";
-import { View, Button, Text, Image } from "react-native";
+import { View, Button, Text } from "react-native";
+import { Image } from "expo-image";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Pressable } from "react-native";
 import images from "@/src/constants/images";
@@ -69,9 +70,9 @@ const DatePicker = forwardRef<any, DatePickerProps>(function DatePicker(
   }), [date]);
 
   return (
-    <View className={`flex-1 mb-4 ${className}`}>
+    <View className={`mb-4 ${className}`}>
       {title &&
-        <Text className={`font-semibold text-xl ml-0.5 mt-1 mb-4`}>{title}</Text>
+        <Text className="font-semibold text-xl ml-0.5 mt-1 mb-4">{title}</Text>
       }
       <Pressable
         className={`${mode === 'date' ? "w-44" : "w-32"} bg-[#EFEFEF] ${pressed ? "bg-gray-300" : ""} flex-row items-center justify-between  border border-gray-900/30 rounded-md`}
@@ -80,23 +81,26 @@ const DatePicker = forwardRef<any, DatePickerProps>(function DatePicker(
         onPress={() => setShow(true)}
       >
         <Text className="font-sans text-lg pb-1 pl-3 pt-2">
-         {date
-          ? mode === 'date'
-            ? date.toLocaleDateString("en-GB")
-            : date.toLocaleTimeString(["en-GB"], { hour: '2-digit', minute: '2-digit' })
-          : mode === 'date'
-            ? "DD/MM/AA"
-            : "HH:MM"}
+          {date
+            ? mode === 'date'
+              ? date.toLocaleDateString("en-GB")
+              : date.toLocaleTimeString(["en-GB"], { hour: '2-digit', minute: '2-digit' })
+            : mode === 'date'
+              ? "DD/MM/AA"
+              : "HH:MM"}
         </Text>
 
         <View className='border-l px-2 flex-col h-full border-gray-900/30'>
           <View className=" flex-1 justify-center">
-            {mode === 'date' ? <images.calendar /> : <images.clock/>}
+            {mode === 'date' ?
+              <Image source={images.calendar} style={{ width: 24, height: 24 }} contentFit="contain" /> :
+              <Image source={images.clock} style={{ width: 24, height: 24 }} contentFit="contain" />
+            }
           </View>
         </View>
       </Pressable>
 
-      {localError && <Text className="text-red-500 font-sans text-sm mb-3 ml-0.5">{mode == "date"?  "Selecione uma data" : "Selecione um horário"}</Text>}
+      {localError && <Text className="text-red-500 font-sans text-sm mb-3 ml-0.5">{mode == "date" ? "Selecione uma data" : "Selecione um horário"}</Text>}
 
       {show && (
         <DateTimePicker

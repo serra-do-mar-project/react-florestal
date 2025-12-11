@@ -7,11 +7,29 @@ type MountParams = {
   form: Record<string, any> | any[] | undefined;
 };
 
+function extractEndereco(form: any[]): string {
+  // IDs fixos: 1 = Estrada, 2 = Bairro, 3 = Setor
+  const enderecoIds = [1, 2, 3];
+  
+  const enderecoData = form
+    .filter((f: any) => enderecoIds.includes(f?.id))
+    .sort((a, b) => a.id - b.id) // Garantir ordem: estrada, bairro, setor
+    .map((f: any) => f.value)
+    .filter(Boolean)
+    .join(', ');
+
+  return enderecoData || '';
+}
 
 export function MountAuto({ item, form }: MountParams) {
   const template = item?.modelo?.toString() ?? "";
   let auto_gerado = template;
   console.log(form);
+  console.log(template);
+
+  // Extrair endereço estruturado
+  const endereco = Array.isArray(form) ? extractEndereco(form) : '';
+  console.log('Endereço extraído:', endereco);
 
   (form || []).forEach((f: any) => {
     const idx = f?.id;
@@ -20,8 +38,6 @@ export function MountAuto({ item, form }: MountParams) {
     auto_gerado = auto_gerado.replace(new RegExp(`\\{\\s*${idx}\\s*\\}`, "g"), val);
   });
   auto_gerado = auto_gerado.replace(/[{}]/g, "");
-
-
 
   if (!item) {
     console.warn("Item não carregado");
@@ -34,12 +50,18 @@ export function MountAuto({ item, form }: MountParams) {
     descricao: auto_gerado,
     tags: item.tags ?? undefined,
     categoria: item.categoria,
-    data: new Date().toLocaleString(),
+    data: new Date().toLocaleString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    }),
+    endereco: endereco
   };
 
   return newAuto;
 }
-
 
 type addAutos = {
   onSuccess?: () => void;

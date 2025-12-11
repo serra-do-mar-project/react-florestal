@@ -16,9 +16,9 @@ export default function SearchPage() {
       <View className="w-full h-fit mt-11 pt-3 pl-10">
         <Title>Buscar Infração</Title>
       </View>
-      
+
       <TouchableOpacity className="w-full px-5" onPress={() => setShowModal(true)} >
-      <SearchBar data={[]} filterKey={''} onFiltered={() => ''} editable={false} />
+        <SearchBar data={[]} filterKey={''} onFiltered={() => ''} editable={false} />
       </TouchableOpacity>
 
       <ScrollView
@@ -62,8 +62,7 @@ export default function SearchPage() {
           </View>
         </View>
       </ScrollView>
-
-        <SearchModal visible={showModal} onClose={() => setShowModal(false)}/>
+      <SearchModal visible={showModal} onClose={() => setShowModal(false)} />
     </View>
   );
 }

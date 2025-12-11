@@ -67,7 +67,7 @@ export default function SearchModal({onClose, ...rest}: searchModalProps) {
  
 
     return(
-        <Modal visible={rest.visible} onShow={openAnimation} transparent onRequestClose={closeAnimation} >
+        <Modal visible={rest.visible} onShow={openAnimation} transparent animationType="fade" onRequestClose={closeAnimation} >
             <View className=" flex-1 bg-black/50" pointerEvents="auto" >
 
            

@@ -12,14 +12,14 @@ interface DateTimePickerProps {
 }
 
 export default function DateTimePicker({ onDateChange, title, mode = 'date', showError = false, required = true }: DateTimePickerProps) {
- 
+
   const [dateValue, setDateValue] = useState<string | undefined>(undefined);
   const [timeValue, setTimeValue] = useState<string | undefined>(undefined);
   const [localError, setLocalError] = useState<boolean>(false);
   const timePickerRef = useRef<any>(null);
-  
 
-  const handle = onDateChange ?? (() => {});
+
+  const handle = onDateChange ?? (() => { });
 
   // update local error state when relevant inputs change
   useEffect(() => {
@@ -31,16 +31,16 @@ export default function DateTimePicker({ onDateChange, title, mode = 'date', sho
   }, [showError, required, handle]);
 
   const handleDateChange = (val: any) => {
-    
+
     setDateValue(val);
     handle([val, timeValue]);
-    if(val != undefined) {
+    if (val != undefined) {
       setTimeout(() => timePickerRef.current.open(), 150);
     }
   };
 
   const handleTimeChange = (val: any) => {
-    
+
     setTimeValue(val);
     handle([dateValue, val]);
   };
@@ -49,17 +49,15 @@ export default function DateTimePicker({ onDateChange, title, mode = 'date', sho
 
     <View className="w-full my-1.5">
       <Text className={`font-semibold text-xl ml-0.5 mt-1`}>{title}</Text>
-      {localError && <Text className="text-red-500 font-sans text-sm ml-0.5">{mode == "date"?  "Selecione uma data" : "Selecione um horário"}</Text>}
-      <View className="h-fit w-full flex-row items-end mt-2">
+      {localError && <Text className="text-red-500 font-sans text-sm ml-0.5">{mode == "date" ? "Selecione uma data" : "Selecione um horário"}</Text>}
+      <View className="h-fit w-full flex-row items-end mt-2 gap-2">
 
         <DatePicker
-          className="w-44 pr-2"
           onDateChange={handleDateChange}
         />
 
         <DatePicker
           ref={timePickerRef}
-          className="w-32"
           mode="time"
           onDateChange={handleTimeChange}
         />

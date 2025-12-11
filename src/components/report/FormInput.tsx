@@ -14,7 +14,7 @@ interface props {
   keyboardType?: KeyboardTypeOptions;
 }
 
-export function Forminput({children, textHolder, visible, onChangeText, label, title, showError = false, required = true, disabled = false, keyboardType}: props){
+export function Forminput({ children, textHolder, visible, onChangeText, label, title, showError = false, required = true, disabled = false, keyboardType }: props) {
   const [localError, setLocalError] = useState(false);
   const [value, setValue] = useState<string | undefined | null>(undefined);
   const prevDisabled = useRef<boolean>(disabled);
@@ -35,13 +35,13 @@ export function Forminput({children, textHolder, visible, onChangeText, label, t
   }, [required, disabled, value]);
 
   const handleChangeText = (text: string) => {
-    if (disabled){
+    if (disabled) {
       onChangeText?.(null)
       return;
     };
-    setLocalError(false); 
-    if(text === ""){
-      if(required){
+    setLocalError(false);
+    if (text === "") {
+      if (required) {
         setValue(undefined);
         onChangeText(undefined);
       } else {
@@ -64,16 +64,16 @@ export function Forminput({children, textHolder, visible, onChangeText, label, t
     } else {
       setLocalError(false);
     }
-  }, [showError, value, required, disabled]); 
+  }, [showError, value, required, disabled]);
 
   return (
     <View className={`w-full`}>
-      <View className={` ${disabled && 'opacity-60' }`}>
-      {title && (
-        <Text className={`w-full text-xl font-semibold mt-3 ${localError || label ? "" : "pb-2"} `}>{title}</Text>
-      )}
-      {localError && <Text className={`${label? "" : "pb-2"} text-red-500 font-sans text-sm mt-0.5`}>Este campo é obrigatório.</Text>}
-      {label && <Text className="font-sans text-gray-900/70 text-md pb-2 ">{label}</Text>}
+      <View className={` ${disabled && 'opacity-30'}`}>
+        {title && (
+          <Text className={`w-full text-xl font-semibold mt-3 ${localError || label ? "" : "pb-2"} `}>{title}</Text>
+        )}
+        {localError && <Text className={`${label ? "" : "pb-2"} text-red-500 font-sans text-sm mt-0.5`}>Este campo é obrigatório.</Text>}
+        {label && <Text className="font-sans text-gray-900/70 text-md pb-2 ">{label}</Text>}
       </View>
       <View className="flex items-center justify-between flex-row w-full h-10 mb-4 bg-[#EFEFEF] border border-gray-900/30 rounded-md shadow-lg">
         <TextInput

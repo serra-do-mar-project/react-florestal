@@ -2,6 +2,7 @@ import { SubmitButton } from "@/src/components/SubmitButton";
 import images from "@/src/constants/images";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { Image } from "expo-image";
 import React, { useEffect, useState } from "react";
 import db from "@/src/db/connection";
 import { ExemploDeCasoTable, ExemploDeCaso } from "@/src/db/schema";
@@ -32,36 +33,16 @@ export default function ProcedimentosPage() {
 
   return (
     <View className="flex-1">
-      <View className="bg-[#fffdfd] pt-8 pb-4 border border-gray-900/10 shadow shadow-black ">
-        <View className="w-full px-2">
-
-          <View className="flex-row w-full px-3 mb-2 justify-between items-end">
-              <TouchableOpacity
-                className="rounded-lg pr-3 pt-1 pb-1"
-                onPress={() => router.back()}
-              >
-                <images.leftArrow width={26} height={26} style={{ resizeMode: "contain", opacity: 0.9 }} />
-              </TouchableOpacity>
-
-              <View className=" bg-green-500/30 rounded-full mt-1 px-3 pt-1 pb-0.5">
-                <Text className="text-gray-900 text-base font-semibold">{item?.categoria ?? params.categoria}</Text>
-            </View>
-
-          </View>
-
-          <View className="w-full flex-row ">
-            <Text
-              className={` text-gray-900 pl-5 font-semibold text-2xl`}
-              numberOfLines={2}
-              adjustsFontSizeToFit={true}
-              minimumFontScale={1}
-              onTextLayout={(e) => {
-                const lines = e.nativeEvent.lines?.length ?? 0;
-                setTitleLineCount(lines);
-              }}
-            >
-              {item?.nome_resumo ?? params.nome}
-            </Text>
+      <View className="bg-[#fffdfd] pt-11 pb-4  border border-gray-900/10 shadow shadow-black ">
+        <View className="w-full flex-row items-center justify-between px-5 ">
+          <TouchableOpacity
+            className="flex justify-center items-center rounded-br-lg rounded-lg"
+            onPress={() => router.back()}
+          >
+            <Image source={images.leftArrow} style={{ width: 26, height: 26, opacity: 0.9 }} contentFit="contain" />
+          </TouchableOpacity>
+          <View className=" bg-green-500/30 flex justify-center items-center rounded-full px-3 pt-1 pb-0.5">
+            <Text className="text-gray-900/100 text-lg font-semibold">{item?.categoria ?? params.categoria}</Text>
           </View>
           
           

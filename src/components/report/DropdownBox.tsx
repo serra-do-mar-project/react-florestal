@@ -1,7 +1,8 @@
 import images from '@/src/constants/images';
 import { cn } from '@/src/lib/utils';
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
+import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface DropdownOption {
@@ -118,14 +119,15 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
                         {selectedDisplay || "Selecione"}
                     </Text>
                     <View className={cn('border-l h-full border-gray-900/30', className)}>
-                        <View className='flex-1 justify-center'>
+                        <View className='flex-1 justify-center p-2'>
                             <Image
                                 source={images.arrow}
-                                className="w-4 h-4 mx-3"
                                 style={{ 
-                                    transform: [{ rotate: isOpen ? '180deg' : '0deg' }]
+                                    width: 18, 
+                                    height: 18,
+                                    transform: [{ rotate: isOpen ? '180deg' : '0deg' }] 
                                 }}
-                                resizeMode="contain"
+                                contentFit="contain"
                                 tintColor="black"
                             />
                         </View>
