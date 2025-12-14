@@ -1,3 +1,4 @@
+import { cn } from "@/src/lib/utils";
 import { useState, useEffect } from "react";
 import { TouchableOpacity, View, Text } from "react-native";
 
@@ -16,9 +17,10 @@ interface SelectableProps {
   showError?: boolean;
   required?: boolean;
   disabled?: boolean;
+  classname?: string;
 }
 
-export default function Selectable({ title, options, multiSelect = true, onSelect, showError = false, required = true, disabled = false }: SelectableProps) {
+export default function Selectable({ title, options, multiSelect = true, onSelect, showError = false, required = true, disabled = false, classname }: SelectableProps) {
   const [selected, setSelected] = useState<(string | boolean)[] | undefined | null>(undefined);
   const [localError, setLocalError] = useState(false); // Estado local para controlar o erro
   const [prevDisabled, setPrevDisabled] = useState<boolean>(false);
@@ -73,7 +75,7 @@ export default function Selectable({ title, options, multiSelect = true, onSelec
     <View className="mt-2 mb-3">
       <Text className="font-semibold text-xl">{title || "Pergunta"}</Text>
       <Text className={` ${localError ? "text-red-500" : "text-gray-900/70"} font-sans text-md`}>{multiSelect ? "Selecione uma ou mais opções." : "Selecione somente uma opção."}</Text>
-      <View className={`mt-2 ${options.length <= 2 && 'flex-row pr-14'}`}>
+      <View className={cn(`mt-2 ${options.length <= 2 && 'flex-row pr-14'}`, classname)}>
         {options.map(option => {
           const value = getOptionValue(option);
           const display = getOptionDisplay(option);

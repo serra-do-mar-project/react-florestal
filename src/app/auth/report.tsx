@@ -90,7 +90,7 @@ export default function ReportPage() {
           {/* Equipe */}
           <FormCard title="Equipe" currentPage={1} totalPages={totalPages}>
             <DropdownBox
-              title="Nome da equipe"
+              title="Nome da equipe *"
               options={[
                 { valor: "charlie_sede_diurno", nome: "Charlie Sede Diurno" },
                 { valor: "charlie_rp_diurno", nome: "Charlie RP Diurno" },
@@ -103,7 +103,7 @@ export default function ReportPage() {
               showError={trowError}
             />
             <RadioButton
-              title="Equipe em Atuação"
+              title="Equipe em Atuação *"
               options={["Miguel Nema Neto", "Alvimar de Melo Amorim", "William Fonseca Celestino da Silva",
                 "Alex Roberto dos Santos", "Paulo Sérgio Farias", "Alexandro dos Santos", "Luciano José da Silva",
                 "Valdenei Esbruzzi", "Alef Irmão de Moura", "Leonardo Sant'Anna Martins", "Genivaldo Duque da Silva",
@@ -123,7 +123,7 @@ export default function ReportPage() {
 
           <FormCard title="Dados da Ação" currentPage={2} totalPages={totalPages}>
             <TextArea
-              title="Órgãos e Instituições envolvidas"
+              title="Órgãos e Instituições envolvidas *"
               label="Preencher com os nomes e pelo menos um documento (RG, CPF, RE, Matrícula, etc...) - PAMB, Bombeiros, Polícia Rodoviária, CETESB, Prefeitura, etc."
               onChangeText={(res) => setField("orgaos_e_instituicoes_envolvadas", res)}
               required={true}
@@ -131,13 +131,13 @@ export default function ReportPage() {
             />
 
             <Forminput
-              title="Responsável pelo preenchimento"
+              title="Responsável pelo preenchimento *"
               label="(Nome e CNV)"
               onChangeText={(res) => setField("responsavel", res)}
               showError={trowError} />
 
             <DateTimePicker
-              title="Data e hora do início da ação"
+              title="Data e hora do início da ação *"
               showError={trowError}
               onDateChange={(res) => {
                 setField("data_hora_inicio_acao", res.join(" "));
@@ -145,7 +145,7 @@ export default function ReportPage() {
             />
 
             <DateTimePicker
-              title="Data e hora do término da ação"
+              title="Data e hora do término da ação *"
               showError={trowError}
               onDateChange={(res) => {
                 setField("data_hora_termino_acao", res.join(" "));
@@ -153,7 +153,7 @@ export default function ReportPage() {
             />
 
             <DropdownBox
-              title="Origem da Ação"
+              title="Origem da Ação *"
               options={[
                 { valor: "rotina", nome: "Rotina" },
                 { valor: "planejamento_SIMUC", nome: "Planejamento SIM-UC" },
@@ -167,7 +167,7 @@ export default function ReportPage() {
             />
 
             <RadioButton
-              title="Registro de ocorrência"
+              title="Registro de ocorrência *"
               multiSelect={false}
               options={[
                 { valor: true, nome: "Sim" },
@@ -180,7 +180,8 @@ export default function ReportPage() {
 
           <FormCard title="Localização" currentPage={3} totalPages={totalPages}>
             <RadioButton
-              title="Área Fiscalizada Na Área Protegida"
+              title="Área Fiscalizada Na Área Protegida*"
+              classname="flex-col pr-0"
               multiSelect={false}
               options={[
                 { valor: true, nome: "Dentro" },
@@ -191,7 +192,7 @@ export default function ReportPage() {
             />
 
             <RadioButton
-              title="Município(s)"
+              title="Município(s) *"
               multiSelect={true}
               options={[
                 { valor: "caraguatatuba", nome: "Caraguatatuba" },
@@ -203,13 +204,13 @@ export default function ReportPage() {
             />
 
             <Forminput
-              title="Endereços"
+              title="Endereços *"
               onChangeText={(res) => setField("enderecos", res)}
               showError={trowError}
             />
 
             <RadioButton
-              title="Setores Fiscalizados"
+              title="Setores Fiscalizados *"
               multiSelect={true}
               options={[
                 { valor: "caraguatatuba_norte", nome: "Caraguatatuba Norte" },
@@ -222,7 +223,7 @@ export default function ReportPage() {
             />
 
             <Forminput
-              title="Especificação do Local"
+              title="Especificação do Local *"
               label="Ex.: Posse abandonada, Trilha em meio à mata, Rodovia Estadual, Estrada que liga Caraguatatuba à Salesópolis, etc."
               onChangeText={(res) => setField("especificacao_local", res)}
               showError={trowError}
@@ -231,7 +232,7 @@ export default function ReportPage() {
 
           <FormCard title="Fizcalização" currentPage={4} totalPages={totalPages}>
             <TextArea
-              title="Relatório de Fiscalização"
+              title="Relatório de Fiscalização *"
               onChangeText={(res) => setField("relatorio", res)}
               showError={trowError}
               textHolder="Descrever de forma bem objetiva todas as atividade de fiscalização realizadas no período. Somente Fiscalização. Inserir relatório por área fiscalizada."
@@ -246,7 +247,7 @@ export default function ReportPage() {
             />
 
             <Forminput
-              title="Coordenadas geográficas e referência das coordenadas"
+              title="Coordenadas geográficas e referência das coordenadas *"
               label="Ex: -23,70916 / -45,544281 perto da cachoeira..."
               onChangeText={(res) => setField("coordenadas", res)}
               showError={trowError}
@@ -255,7 +256,7 @@ export default function ReportPage() {
 
           <FormCard title="Dados da VTR" currentPage={5} totalPages={totalPages}>
             <RadioButton
-              title="Foi feito uso de VTR?"
+              title="Foi feito uso de VTR? *"
               options={[
                 { valor: true, nome: "Sim" },
                 { valor: false, nome: "Não" }
@@ -265,14 +266,14 @@ export default function ReportPage() {
             />
 
             <Forminput
-              title="Placa do veículo"
+              title="Placa do veículo *"
               onChangeText={(res) => setField("placa_vtr", res, vtr)}
               showError={trowError}
               disabled={!vtr}
               required={vtr}
             />
             <Forminput
-              title="KM Inicial"
+              title="KM Inicial *"
               label="Colocar somente números"
               onChangeText={(res) => setField("km_inicio", res, vtr)}
               showError={trowError}
@@ -280,7 +281,7 @@ export default function ReportPage() {
               required={vtr}
             />
             <Forminput
-              title="KM Final"
+              title="KM Final *"
               label="Colocar somente números"
               onChangeText={(res) => setField("km_final", res, vtr)}
               disabled={!vtr}
@@ -300,7 +301,7 @@ export default function ReportPage() {
 
           <FormCard title="Detalhamento da Fiscalização" currentPage={6} totalPages={totalPages}>
             <RadioButton
-              title="Tipos de Ação"
+              title="Tipos de Ação *"
               options={[
                 { valor: "incursao_viatura", nome: "Incursão em Viatura" },
                 { valor: "incursao_pe", nome: "Incursão a Pé" },
@@ -341,14 +342,14 @@ export default function ReportPage() {
             />
 
             <Forminput
-              title="KM Percorridos (Viatura e a pé)"
+              title="KM Percorridos (Viatura e a pé) *"
               label="Ex: 62km"
               onChangeText={(res) => setField("km_percorrido", res)}
               showError={trowError}
             />
 
             <DurationInput
-              title="Horas (em Viatura e a pé)"
+              title="Horas (em Viatura e a pé) *"
               onChangeText={(res) => setField("horas_percorridas", res)}
               showError={trowError}
             />
@@ -363,7 +364,7 @@ export default function ReportPage() {
             title="Enviar"
             onPress={() => { handleSubmit() }}
           />
-          {trowError&& <Text className="w-full text-red-500 text-sm mt-1 pl-2 mb-10">Preencha todos os campos obrigátorios</Text>}
+          <Text className="w-full text-red-500 text-sm mt-1 pl-2 mb-8">{trowError && "Preencha todos os campos obrigátorios"}</Text>
         </View>
       </ScrollView>
 
