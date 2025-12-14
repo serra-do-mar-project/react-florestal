@@ -159,10 +159,8 @@ export default function AddUserModal({ ...rest }: DefaultModalProps) {
             setPassword={setConfirmPassword}
             label="Confirmar senha"
           />
-          <Text>{error}</Text>
+           <Text className="text-red-500 font-medium pb-4">{error}</Text>
 
-          <View className="items-center">
-            <Text className="text-red-500 font-medium pb-4">{error}</Text>
             <View className="w-full flex-row justify-around gap-4">
               <CancelButton
                 classname="flex-1"
@@ -178,7 +176,7 @@ export default function AddUserModal({ ...rest }: DefaultModalProps) {
                 onPress={handleCreateUser}
               />
             </View>
-          </View>
+          
         </View>
       </View>
     </ScrollView>

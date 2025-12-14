@@ -41,6 +41,7 @@ import success from "@/src/assets/images/success.svg"
 import clip from "@/src/assets/images/clip.svg"
 import error from "@/src/assets/images/error.svg"
 import info from "@/src/assets/images/info.svg"
+import linkedin from "@/src/assets/images/linkedin.svg"
 
 
 
@@ -90,7 +91,8 @@ const images = {
   success,
   clip,
   error,
-  info
+  info,
+  linkedin
 };
 
 export default images;

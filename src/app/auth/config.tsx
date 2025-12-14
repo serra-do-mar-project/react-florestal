@@ -1,22 +1,23 @@
 import images from "@/src/constants/images";
 import { router } from "expo-router";
 import { useState } from "react";
-import { View, Text, TouchableOpacity, ImageBackground, Pressable, ScrollView, Alert } from "react-native";
+import { View, Text, ScrollView} from "react-native";
 import { Image } from "expo-image";
-import { PasswordInput } from "@/src/components/PasswordInput"; // ajuste o caminho se necessário
-import { SubmitButton } from "@/src/components/SubmitButton";
 import { LeavePressable } from "@/src/components/configuration/LeavePressable";
 import { useUserStore } from "@/src/store/userStore";
-import { ChangeOwnPassword } from "@/src/lib/utils";
 import ConfigPressable from "@/src/components/configuration/ConfigPressable";
+import { DefaultModal } from "@/src/components/DefaultModal";
+import ChangeOwnPasswordModal from "@/src/components/configuration/ChangePasswordModal";
+import AboutUsModal from "@/src/components/configuration/AboutUsModal";
 
 export default function ConfigPage() {
-  const [isSelected, setIsSelected] = useState(false);
+  const [changePasswordModal, setChangePasswordModal] = useState(false);
+  const [aboutUsModal, setAboutUsModal] = useState(false);
 
   const { nome, tipo, id, token } = useUserStore()
 
   return (
-    <View className="flex w-full h-full">
+    <View className="w-full h-full">
       <View className="bg-[#fffdfd] pt-7 pb-5 shadow shadow-black ">
         <View className="w-full flex-row items-center justify-between mb-3 px-5 ">
         </View>
@@ -43,9 +44,9 @@ export default function ConfigPage() {
       </View>
 
       
-        <ConfigPressable title="Alterar senha" onPress={() => setIsSelected(!isSelected)} icon={images.edit}/>
+        <ConfigPressable title="Alterar senha" onPress={() => setChangePasswordModal(true)} />
        
-        <ConfigPressable title="Sobre" icon={images.info} iconSize={24} onPress={() => router.push("/auth/infractions")} />
+        <ConfigPressable title="Sobre"  onPress={() => setAboutUsModal(true)} />
 
         </View>
 
@@ -55,6 +56,17 @@ export default function ConfigPage() {
 
         </View>
       </ScrollView>
+
+      <DefaultModal visible={changePasswordModal || aboutUsModal} onClose={() => (setChangePasswordModal(false), setAboutUsModal(false))} >
+        {changePasswordModal?
+          <ChangeOwnPasswordModal token={token} id={id}/>
+          :
+          <AboutUsModal/>
+        } 
+      </DefaultModal>
+      
     </View>
+
+
   );
 }

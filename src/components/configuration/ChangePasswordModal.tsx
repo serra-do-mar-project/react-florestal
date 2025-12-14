@@ -4,11 +4,11 @@ import { SubmitButton } from "../SubmitButton";
 import { useState } from "react";
 import { ChangeOwnPassword } from "@/src/lib/utils";
 import { useModal } from "../DefaultModal";
-import { useUserStore } from "@/src/store/userStore";
+import { CancelButton } from "../CancelButton";
 
 interface ChangeOwnPasswordModalProps {
-  token: string;
-  id: number;
+  token: string | null;
+  id: number | null;
 }
 
 const ChangeOwnPasswordModal = ({token, id} : ChangeOwnPasswordModalProps) => {
@@ -18,7 +18,7 @@ const ChangeOwnPasswordModal = ({token, id} : ChangeOwnPasswordModalProps) => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const { closeWithAnimation } = useModal();
-
+  
   
   
 
@@ -52,13 +52,42 @@ const ChangeOwnPasswordModal = ({token, id} : ChangeOwnPasswordModalProps) => {
     }
   }
 
+  function handleCancel() {
+    if (!newPassword && !confirmPassword) {
+      closeWithAnimation();
+      return;
+    }
+    Alert.alert(
+      "Cancelar cadastro",
+      "Tem certeza que deseja cancelar o cadastro do novo usuário?",
+      [
+        { text: "Não", style: "cancel" },
+        {
+          text: "Sim",
+          style: "destructive",
+          onPress: () => {
+            closeWithAnimation()
+            setPassword("")
+            setNewPassword("");
+            setConfirmPassword("");
+          },
+        },
+      ]
+    );
+  }
+
    return(
-          <View className="px-5 transition-all duration-500 overflow-hidden opacity-100">
+          <View className="px-8">
+
+            <Text className="w-full text-2xl font-semibold px-0.5">
+              Alterar senha
+            </Text>
+
             <Text className="w-full font-sans px-0.5">
               lembre-se, a nova senha deve ser forte e única.
             </Text>
 
-            <View className="items-center w-full mt-5 px-3 gap-4">
+            <View className="items-center w-full mt-5 gap-4">
               <PasswordInput
                 password={password}
                 setPassword={setPassword}
@@ -77,12 +106,25 @@ const ChangeOwnPasswordModal = ({token, id} : ChangeOwnPasswordModalProps) => {
                 label="Confirmar nova senha"
               />
 
+              <View className="flex-row gap-4 w-full mb-8 mt-10">
+
+                <CancelButton
+                classname="flex-1"
+                textClass="text-xl"
+                title="Cancelar"
+                onPress={handleCancel}
+              />
+
               <SubmitButton
-                classname="h-fit w-3/4 py-2 mt-8 mb-10"
+                classname="flex-1"
                 textClass="text-xl"
                 title="Salvar"
                 onPress={handleChangePassword}
               />
+
+              </View>
+
+              
             </View>
           </View>
    )

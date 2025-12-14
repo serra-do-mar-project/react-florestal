@@ -10,21 +10,22 @@ export interface ConfigPressableProps {
   iconSize?: number;
 }
 
-const ConfigPressable = ({onPress, title, icon, iconSize = 18} : ConfigPressableProps) => {
+const ConfigPressable = ({onPress, title, icon = images.arrow, iconSize = 20} : ConfigPressableProps) => {
   
   const [isSelected, setIsSelected] = useState(false);
   
   return (
     <Pressable 
       className={`w-full items-center justify-between flex-row pt-5 px-5 pb-5 border-b border-gray-900/20 ${isSelected ? " bg-gray-300" : ""}`} 
-      onPress={() => {onPress}} 
+      onPress={onPress} 
       onPressIn={() => setIsSelected(true)}
       onPressOut={() => setIsSelected(false)}
     >
               <Text className="text-2xl font-semibold text-gray-900 " >{title}</Text>
               <Image
                 source={icon}
-                style={{ 
+                style={{
+                  transform: [{ rotate: '-90deg' }],
                   width: iconSize, 
                   height: iconSize,
                 }}
