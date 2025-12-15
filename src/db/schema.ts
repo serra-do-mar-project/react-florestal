@@ -41,6 +41,7 @@ export interface NewAutosDeInfracao {
   tags?: string | null;
   descricao: string;
   categoria: string;
+  endereco: string;
 }
 
 // Para dados lidos do banco (id sempre existe)
@@ -55,5 +56,6 @@ export const AutosDeInfracaoTable = sqliteTable("autos_de_infracao_table", {
   tags: text(),
   descricao: text().notNull(),
   data: text().notNull(),
-  categoria: text().notNull()
+  categoria: text().notNull(),
+  endereco: text().notNull()
 });

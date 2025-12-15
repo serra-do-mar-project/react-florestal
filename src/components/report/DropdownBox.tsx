@@ -119,11 +119,14 @@ const DropdownBox: React.FC<DropdownBoxProps> = ({ title, options, onSelect, req
                         {selectedDisplay || "Selecione"}
                     </Text>
                     <View className={cn('border-l h-full border-gray-900/30', className)}>
-                        <View className='flex-1 justify-center'>
+                        <View className='flex-1 justify-center p-2'>
                             <Image
                                 source={images.arrow}
-                                className="w-4 h-4 mx-3"
-                                style={{ transform: [{ rotate: isOpen ? '180deg' : '0deg' }] }}
+                                style={{ 
+                                    width: 18, 
+                                    height: 18,
+                                    transform: [{ rotate: isOpen ? '180deg' : '0deg' }] 
+                                }}
                                 contentFit="contain"
                                 tintColor="black"
                             />

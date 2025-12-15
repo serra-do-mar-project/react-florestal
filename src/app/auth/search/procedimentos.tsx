@@ -33,8 +33,8 @@ export default function ProcedimentosPage() {
 
   return (
     <View className="flex-1">
-      <View className="bg-[#fffdfd] pt-10 pb-5 border border-gray-900/10 shadow shadow-black ">
-        <View className="w-full flex-row items-center justify-between mb-3 px-5 ">
+      <View className="bg-[#fffdfd] pt-11 pb-4  border border-gray-900/10 shadow shadow-black ">
+        <View className="w-full flex-row items-center justify-between px-5 ">
           <TouchableOpacity
             className="flex justify-center items-center rounded-br-lg rounded-lg"
             onPress={() => router.back()}

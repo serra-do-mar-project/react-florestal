@@ -97,12 +97,12 @@ export default function loginPage() {
 
         <Image
           source={images.logoparque}
-          style={{ width: 200, height: keyboardOpen ? 100 : 160 }}
+          style={{ width: 200, height: 160 }}
           contentFit="contain"
         />
 
         <View className="flex w-full px-6 items-center mx-4 ">
-          <Configinput textHolder="CPF" value={CPF} onChangeText={handleCpfChange} keyboardType="numeric" maxLength={14} className="h-16 rounded-2xl -mb-4">
+          <Configinput textHolder="CPF" value={CPF} onChangeText={handleCpfChange} keyboardType="number-pad" maxLength={14} className="h-16 rounded-2xl -mb-4">
             <Image
               source={images.user}
               style={{ width: 24, height: 24 }}
