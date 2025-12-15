@@ -163,7 +163,7 @@ export default function UserModal({ selectedUser }: ModerationModalProps) {
       <ScrollView className="mx-3 mb-5"
         contentContainerClassName="items-center"
       >
-        <View className="w-full items-center mb-10">
+        <View className="w-full items-center mb-9">
           <Text className="text-xl font-semibold">{selectedUser?.nome}</Text>
           <Text className="text-lg ml-0.5">{selectedUser?.tipo}</Text>
         </View>
@@ -199,7 +199,7 @@ export default function UserModal({ selectedUser }: ModerationModalProps) {
             <Text className="pt-2 text-red-500">
               {error}
             </Text>
-            <View className="mt-16 h-16 w-full flex-row justify-around gap-4">
+            <View className="mt-10 h-16 w-full flex-row justify-around gap-4">
 
               <CancelButton
                 classname="flex-1"

@@ -36,6 +36,12 @@ const SearchBar = forwardRef<TextInput, SearchBarProps>(({ data, filterKey, onFi
     return;
   }
 
+  // Se a busca estiver vazia, retorna todos os dados
+  if (q === "") {
+    onFiltered?.(data);
+    return;
+  }
+
   const keys = Array.isArray(filterKey) ? filterKey : [filterKey];
 
     const results = data.filter((item) =>

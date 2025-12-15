@@ -37,8 +37,13 @@ import calendar from "@/src/assets/images/calendar.svg"
 import clock from "@/src/assets/images/clock.svg"
 import folder from "@/src/assets/images/folder.svg"
 import check from "@/src/assets/images/check.svg"
-import succes from "@/src/assets/images/success.png"
+import success from "@/src/assets/images/success.svg"
 import clip from "@/src/assets/images/clip.svg"
+import error from "@/src/assets/images/error.svg"
+import info from "@/src/assets/images/info.svg"
+import linkedin from "@/src/assets/images/linkedin.svg"
+
+
 
 
 
@@ -83,8 +88,11 @@ const images = {
   clock,
   folder,
   check,
-  succes,
-  clip
+  success,
+  clip,
+  error,
+  info,
+  linkedin
 };
 
 export default images;

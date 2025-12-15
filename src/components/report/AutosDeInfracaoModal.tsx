@@ -80,6 +80,7 @@ export const AutosDeInfracaoModal = ({ visible, setVisible, setSelected, resetKe
             );
           }}
           ListFooterComponent={<View className="h-20" />}
+          ListEmptyComponent={<View className="w-full items-center justify-center mt-10 "><Text className="text-xl font-BaiJamJuree_Medium">Você não registrou nenhum auto</Text></View>}
         />
 
         <View className="py-4 px-6 border-t-2 border-gray-900/10">
