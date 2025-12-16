@@ -4,17 +4,17 @@ Aplicativo mobile para **Manual de Procedimentos Operacionais e Administrativos*
 
 ## 📋 Índice
 
-- [📖 Sobre o Projeto](#sobre-o-projeto)
-- [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
-- [Configuração do Banco de Dados](#configuração-do-banco-de-dados)
-- [Executando o Projeto](#executando-o-projeto)
-- [Build e Deploy](#build-e-deploy)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Funcionalidades](#funcionalidades)
-- [Variáveis de Ambiente](#variáveis-de-ambiente)
-- [Troubleshooting](#troubleshooting)
+- [Sobre o Projeto](#-sobre-o-projeto)
+- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [Pré-requisitos](#-pré-requisitos)
+- [Instalação](#-instalação)
+- [Configuração do Banco de Dados](#-configuração-do-banco-de-dados)
+- [Executando o Projeto](#-executando-o-projeto)
+- [Build e Deploy](#-build-e-deploy)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Funcionalidades](#-funcionalidades)
+- [Variáveis de Ambiente](#-variáveis-de-ambiente)
+- [Troubleshooting](#-troubleshooting)
 
 ## 📖 Sobre o Projeto
 
