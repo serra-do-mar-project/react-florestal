@@ -4,7 +4,7 @@ Aplicativo mobile para **Manual de Procedimentos Operacionais e Administrativos*
 
 ## 📋 Índice
 
-- [Sobre o Projeto](#sobre-o-projeto)
+- [📖 Sobre o Projeto](#sobre-o-projeto)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Pré-requisitos](#pré-requisitos)
 - [Instalação](#instalação)
