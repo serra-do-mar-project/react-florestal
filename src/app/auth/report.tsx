@@ -28,7 +28,7 @@ export default function ReportPage() {
   const [autosSelected, setAutosSelected] = useState<AutosDeInfracao[]>([]);
   const [autosError, setAutosError] = useState<boolean>(false);
   const [formKey, setFormKey] = useState<number>(0);
-  const [sendStatus, setSendStatus] = useState<{visible: boolean, success: boolean | undefined}>( {visible: false, success: undefined} );
+  const [sendStatus, setSendStatus] = useState<{ visible: boolean, success: boolean | undefined }>({ visible: false, success: undefined });
 
   const {
     setField,
@@ -55,12 +55,12 @@ export default function ReportPage() {
         endereco: item.endereco,
       }));
       console.log(formData)
-      setSendStatus({visible: true, success: undefined});
+      setSendStatus({ visible: true, success: undefined });
       const status = await EnviarRelatorio(token as string, formData, autosSelected);
       console.log(status)
       if (status.success) {
         // successful submit: reset form state and local UI state
-        setSendStatus({visible: true, success: true});
+        setSendStatus({ visible: true, success: true });
         resetForm();
         setAutosSelected([]);
         setVtr(true);
@@ -68,9 +68,9 @@ export default function ReportPage() {
         // bump key to remount children (clears internal component state like DropdownBox)
         setFormKey((k) => k + 1);
       }
-      else { 
-        setSendStatus({visible: true, success: false});
-       }
+      else {
+        setSendStatus({ visible: true, success: false });
+      }
     },
     onSubmitError: (formData) => {
       console.log(formData)
@@ -83,7 +83,7 @@ export default function ReportPage() {
   return (
     <View className="flex w-full h-full">
       <View className="bg-[#fffdfd] pt-10 pb-5 shadow shadow-black">
-        <Text className="text-gray-900 font-semibold text-3xl ml-7">Relátorio diário</Text>
+        <Text className="text-gray-900 font-semibold text-3xl ml-7">RVA - Relatório de Vistoria Ambiental</Text>
       </View>
       <ScrollView className="flex-1">
         <View key={formKey} className="pt-10 items-center px-4">
@@ -92,12 +92,10 @@ export default function ReportPage() {
             <DropdownBox
               title="Nome da equipe *"
               options={[
-                { valor: "charlie_sede_diurno", nome: "Charlie Sede Diurno" },
-                { valor: "charlie_rp_diurno", nome: "Charlie RP Diurno" },
-                { valor: "charlie_rp_noturno", nome: "Charlie RP Noturno" },
-                { valor: "delta_sede_diurno", nome: "Delta Sede Diurno" },
-                { valor: "delta_rp_diurno", nome: "Delta RP Diurno" },
-                { valor: "delta_rp_noturno", nome: "Delta RP Noturno" }
+                { valor: "Charlie Sede Diurno", nome: "Charlie Sede Diurno" },
+                { valor: "Charlie RP Diurno", nome: "Charlie RP Diurno" },
+                { valor: "Delta Sede Diurno", nome: "Delta Sede Diurno" },
+                { valor: "Delta RP Diurno", nome: "Delta RP Diurno" },
               ]}
               onSelect={(option) => setField("equipe", option, true)}
               showError={trowError}
@@ -155,12 +153,11 @@ export default function ReportPage() {
             <DropdownBox
               title="Origem da Ação *"
               options={[
-                { valor: "rotina", nome: "Rotina" },
-                { valor: "planejamento_SIMUC", nome: "Planejamento SIM-UC" },
-                { valor: "dejem_SIMUC", nome: "DEJEM SIM-UC" },
-                { valor: "denuncia", nome: "Denúncia" },
-                { valor: "atendimento_orgaos_externos", nome: "Atendimento a Órgãos Externos" },
-                { valor: "demanda_solicitacao_interna", nome: "Demanda Solicitação Interna" }
+                { valor: "Rotina", nome: "Rotina" },
+                { valor: "Integrada", nome: "Integrada" },
+                { valor: "Denúncia", nome: "Denúncia" },
+                { valor: "Atendimento a Órgãos Externos", nome: "Atendimento a Órgãos Externos" },
+                { valor: "Demanda Solicitação Interna", nome: "Demanda Solicitação Interna" }
               ]}
               onSelect={(res) => setField("origem", res)}
               showError={trowError}
@@ -195,9 +192,9 @@ export default function ReportPage() {
               title="Município(s) *"
               multiSelect={true}
               options={[
-                { valor: "caraguatatuba", nome: "Caraguatatuba" },
-                { valor: "paraibuna", nome: "Paraibuna" },
-                { valor: "natividade_da_serra", nome: "Natividade da Serra" }
+                { valor: "Caraguatatuba", nome: "Caraguatatuba" },
+                { valor: "Paraibuna", nome: "Paraibuna" },
+                { valor: "Natividade da Serra", nome: "Natividade da Serra" }
               ]}
               onSelect={(res) => setField("municipios", res)}
               showError={trowError}
@@ -213,10 +210,10 @@ export default function ReportPage() {
               title="Setores Fiscalizados *"
               multiSelect={true}
               options={[
-                { valor: "caraguatatuba_norte", nome: "Caraguatatuba Norte" },
-                { valor: "caraguatatuba_sul", nome: "Caraguatatuba Sul" },
-                { valor: "alto_da_serra_norte", nome: "Alto da Serra Norte" },
-                { valor: "alto_da_serra_sul", nome: "Alto da Serra Sul" }
+                { valor: "Caraguatatuba Norte", nome: "Caraguatatuba Norte" },
+                { valor: "Caraguatatuba Sul", nome: "Caraguatatuba Sul" },
+                { valor: "Alto da Serra Norte", nome: "Alto da Serra Norte" },
+                { valor: "Alto da Serra Sul", nome: "Alto da Serra Sul" }
               ]}
               onSelect={(res) => setField("setores", res)}
               showError={trowError}
@@ -226,6 +223,20 @@ export default function ReportPage() {
               title="Especificação do Local *"
               label="Ex.: Posse abandonada, Trilha em meio à mata, Rodovia Estadual, Estrada que liga Caraguatatuba à Salesópolis, etc."
               onChangeText={(res) => setField("especificacao_local", res)}
+              showError={trowError}
+            />
+
+            <Forminput
+              title="Latitude *"
+              label="Ex.: -xx,xxxxxx"
+              onChangeText={(res) => setField("latitude", res)}
+              showError={trowError}
+            />
+
+            <Forminput
+              title="Longitude *"
+              label="Ex.: -xx,xxxxxx"
+              onChangeText={(res) => setField("longitude", res)}
               showError={trowError}
             />
           </FormCard>
@@ -356,8 +367,8 @@ export default function ReportPage() {
           </FormCard>
 
           <FormCard contentClassName="ml-5" title="Autos de Infração" subTitle="Anexe ao menos 1 Auto" currentPage={7} totalPages={totalPages}>
-            <AttachPressable onPress={() => (setAutosDeInfracao(true), setAutosError(false))} autosSelected={autosSelected}/>
-            {autosError&& <Text className="w-full text-red-500 text-sm mt-1 pl-2">Este campo é obrigatório</Text>}
+            <AttachPressable onPress={() => (setAutosDeInfracao(true), setAutosError(false))} autosSelected={autosSelected} />
+            {autosError && <Text className="w-full text-red-500 text-sm mt-1 pl-2">Este campo é obrigatório</Text>}
           </FormCard>
           <SubmitButton
             classname="w-full mt-7"
@@ -374,10 +385,10 @@ export default function ReportPage() {
         setSelected={setAutosSelected}
         resetKey={formKey}
       />
-      <DefaultModal visible={sendStatus.visible} onClose={() => setSendStatus({visible: false, success: undefined})} >
-      <SendStatusModal success={sendStatus.success}/>
+      <DefaultModal visible={sendStatus.visible} onClose={() => setSendStatus({ visible: false, success: undefined })} >
+        <SendStatusModal success={sendStatus.success} />
       </DefaultModal>
-     
+
     </View>
   );
 }

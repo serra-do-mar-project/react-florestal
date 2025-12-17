@@ -51,21 +51,21 @@ export default function Infractions() {
   return (
     <View className="w-full h-full">
       <View className={`bg-[#fffdfd] pt-10 shadow shadow-black ${isInSelectionMode ? 'pb-2' : 'pb-5'}`}>
-        
-        <Text className="text-gray-900 font-semibold text-3xl ml-7 ">Autos de infração</Text>
-        
+
+        <Text className="text-gray-900 font-semibold text-3xl ml-7 ">ACIA - Auto de Constatação de Infração Ambiental</Text>
+
         {isInSelectionMode && (
-       
-              <OptionsBar
-              onSelectAll={() => handleSelectAll(!isAllSelected)}
-              numberSelected={selectedCount}
-              onCancel={resetSelection}
-              isAllSelected={isAllSelected}
-              onDelete={handleDelete}
-            />
-          
+
+          <OptionsBar
+            onSelectAll={() => handleSelectAll(!isAllSelected)}
+            numberSelected={selectedCount}
+            onCancel={resetSelection}
+            isAllSelected={isAllSelected}
+            onDelete={handleDelete}
+          />
+
         )}
-        
+
       </View>
       <View className="flex-1 px-5">
         <InfractionsList
