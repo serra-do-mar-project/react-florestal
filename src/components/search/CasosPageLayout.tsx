@@ -38,25 +38,25 @@ export default function ReusablePageLayout({
   const scrollY = useSharedValue(0);
   const [buttonsVisible, setButtonsVisible] = useState(true);
   const buttonsOpacity = useSharedValue(1);
-  
+
   const buttonsAnimatedStyle = useAnimatedStyle(() => ({
     opacity: buttonsOpacity.value,
     transform: [
       { translateY: interpolate(buttonsOpacity.value, [1, 0], [0, -20], Extrapolation.CLAMP) }
     ]
   }));
-  
+
   return (
     <View className="flex-1 bg-gray-200">
       {/* Imagem fixa no fundo */}
       <View className="absolute top-0 left-0 right-0 h-72 overflow-hidden" pointerEvents="none">
         {imageComponent}
       </View>
-      
+
       {/* Botões com animação */}
       {buttonsVisible && (
-        <Animated.View 
-          style={buttonsAnimatedStyle} 
+        <Animated.View
+          style={buttonsAnimatedStyle}
           className="absolute top-9 w-full flex-row items-center justify-between z-20"
         >
           <TouchableOpacity
@@ -84,12 +84,12 @@ export default function ReusablePageLayout({
         scrollEventThrottle={16}
         className="flex-1"
         contentContainerStyle={{ paddingTop: 220, paddingBottom: 20 }}
-        
+
         ListHeaderComponent={
           <View className="w-full bg-gray-200 rounded-t-3xl pb-10 pt-6">
             <View className="h-1.5 w-16 bg-gray-400/50 rounded-full mx-auto mb-5" />
             <View className="ml-8 ">
-              <Title>Exemplos de casos</Title>
+              <Title>Cenários de Ocorrência</Title>
             </View>
           </View>
         }

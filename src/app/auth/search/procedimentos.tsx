@@ -44,8 +44,8 @@ export default function ProcedimentosPage() {
           <View className=" bg-green-500/30 flex justify-center items-center rounded-full px-3 pt-1 pb-0.5">
             <Text className="text-gray-900/100 text-lg font-semibold">{item?.categoria ?? params.categoria}</Text>
           </View>
-          
-          
+
+
         </View>
       </View>
 
@@ -58,7 +58,7 @@ export default function ProcedimentosPage() {
         >
           <View className="w-full pt-10 items-center px-4">
 
-            <FormCard title="Nome completo" subTitle="" currentPage={1} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0}>
+            <FormCard title="Cenário da Ocorrência" subTitle="" currentPage={1} totalPages={item?.campos && JSON.parse(item?.campos).length + 3 || 0}>
               <View className="flex-1">
                 <Text className="text-xl font-BaiJamJuree_Medium text-stone-900 -mt-4">
                   {item?.nome_completo}
@@ -79,7 +79,7 @@ export default function ProcedimentosPage() {
               <View className="flex-1 gap-7">
                 {(() => {
                   const procedimento = (item?.proc_op ?? params.procedimento ?? "").toString();
-                
+
                   return procedimento.split(";").map((step, idx) =>
                     step.trim() ? (
                       <Text key={idx} className="text-xl text-justify font-BaiJamJuree_Medium text-stone-800">
@@ -97,24 +97,24 @@ export default function ProcedimentosPage() {
             ))}
           </View>
           <View className="w-full px-4">
-          <SubmitButton
-            classname=" w-full mt-6 mb-10"
-            title="Enviar"
-            onPress={async () => {
-              const isValid = handleSubmit();
-              
-              if (!isValid) return console.log("Formulário inválido:", !isValid);;
+            <SubmitButton
+              classname=" w-full mt-6 mb-10"
+              title="Enviar"
+              onPress={async () => {
+                const isValid = handleSubmit();
 
-              const newAuto = MountAuto({ item, form: dynamicForm });
-              if (!newAuto) return;
+                if (!isValid) return console.log("Formulário inválido:", !isValid);;
 
-              await addAuto({
-                newAuto, onSuccess: () => {
-                  router.replace("/auth/search");
-                }
-              });
-            }}
-          />
+                const newAuto = MountAuto({ item, form: dynamicForm });
+                if (!newAuto) return;
+
+                await addAuto({
+                  newAuto, onSuccess: () => {
+                    router.replace("/auth/search");
+                  }
+                });
+              }}
+            />
           </View>
         </ScrollView>
       </View>
